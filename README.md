@@ -4,7 +4,7 @@ Shall We Talk is a web application to help a user start talking with the other u
 
 ## Contributer
 
-Ayumu and Chinmay
+Ayumu and Chinmay.
 
 ## License
 
