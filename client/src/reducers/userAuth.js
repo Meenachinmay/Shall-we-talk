@@ -2,11 +2,13 @@ import {
     REGISTER_FAILED,
     REGISTER_SUCCESS,
     LOGIN_FAILED,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    ACCOUNT_ACTIVATION_FAILED,
+    ACCOUNT_ACTIVATION_SUCCESS
 } from '../actions/types'
 
 const initialState = {
-    token: localStorage.getItem('token'),
+    token: null,
     isAuth: null,
     loading: true,
     user: null,
@@ -21,32 +23,41 @@ export default function (state = initialState, action) {
         case LOGIN_SUCCESS:
             localStorage.setItem('token', payload.token)
             return {
-                ...state,
-                ...payload,
+                ...state = initialState,
+                token: localStorage.getItem('token'),
                 isAuth: true,
-                loading: true
+                loading: false,
+                user: payload.user
             }
         case LOGIN_FAILED:
             localStorage.removeItem('token')
             return {
-                ...state,
-                ...payload,
-                error: payload.error,
-                isAuth: false,
+                ...state = initialState,
+                error: payload.error.error,
                 loading: false,
             }
         case REGISTER_SUCCESS:
             return {
-                ...state,
-                ...payload,
+                ...state = initialState,
                 loading: false,
                 message: payload.message
             }
         case REGISTER_FAILED:
             return {
-                ...state,
-                ...payload,
+                ...state = initialState,
                 loading: false,
+                error: payload.error.error
+            }
+        case ACCOUNT_ACTIVATION_SUCCESS:
+            return {
+                ...state = initialState,
+                loading: false,
+                message: payload.message
+            }
+        case ACCOUNT_ACTIVATION_FAILED:
+            return {
+                ...state = initialState,
+                isloading: false,
                 error: payload.error
             }
         default:

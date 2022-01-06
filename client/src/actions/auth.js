@@ -3,7 +3,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     REGISTER_FAILED,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    ACCOUNT_ACTIVATION_SUCCESS,
+    ACCOUNT_ACTIVATION_FAILED
 } from './types'
 
 // Login action - login a user
@@ -15,15 +17,21 @@ export const login = ({ email, password }) => async dispatch => {
         data: { email, password }
     })
     .then(response => {
+        console.log(response.data.user)
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: response.data.token
+            payload: {
+                token: response.data.token,
+                user: response.data.user
+            }
         })
     })
     .catch(error => {
         dispatch({
             type: LOGIN_FAILED,
-            payload: error.response.data
+            payload: {
+                error: error.response.data
+            }
         })
     })
 }
@@ -36,15 +44,46 @@ export const register = ({username, email, password }) => async dispatch => {
         data: { username, email, password }
     })
     .then(response => {
+        console.log("response -> ", response.data.message)
         dispatch({
             type: REGISTER_SUCCESS,
-            payload: response.data.message
+            payload: {
+                message: response.data.message
+            }
         })
     })
     .catch(error => {
         dispatch({
             type: REGISTER_FAILED,
-            payload: error.response.data
+            payload: {
+                error: error.response.data
+            }
         })
     })
+}
+
+
+// an action which will fire a request to backend with access token got from the URL in order to save your details to backend
+export const accountActivation = ({ token }) => async dispatch => {
+    axios({
+            method: 'POST',
+            url: `http://localhost:8000/apiV1/account-activation`,
+            data: { token }
+        })
+        .then(response => {
+            dispatch({
+                type: ACCOUNT_ACTIVATION_SUCCESS,
+                payload: {
+                    message: response.data.message
+                }
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: ACCOUNT_ACTIVATION_FAILED,
+                payload: {
+                    error: error.response.data
+                }
+            })
+        })
 }
