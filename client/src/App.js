@@ -9,13 +9,16 @@ import Register from './core/Register';
 import Home from './core/Home'
 import Activation from './core/Activation';
 
+import { PersistGate } from 'redux-persist/integration/react'
+
 //redux implementation
 import { Provider } from 'react-redux'
-import store from './store'
+import { store, persistor } from './store'
 
 const App = () => {
   return (
       <Provider store={store}>
+        <PersistGate loading="null" persistor={persistor}>
         <>
         <Navbar />
         </>
@@ -26,6 +29,7 @@ const App = () => {
           <Route path="/login" element={ <Login /> } />
           <Route path="/auth/activate/:token" element={<Activation />}/>
         </Routes>
+        </PersistGate>
     </Provider>
   )
 }

@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import cookie from 'js-cookie'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/auth'
+import { useNavigate } from 'react-router-dom'
 
 import { LockClosedIcon } from '@heroicons/react/solid'
 
@@ -14,7 +12,9 @@ const Login = () => {
         password:'',
     })
 
+    const isAuth = useSelector(userAuth => userAuth)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { email, password } = values
 
@@ -24,22 +24,19 @@ const Login = () => {
 
     const handleSubmit = event => {
         event.preventDefault()
-        dispatch(login({ email, password } ))
-        // axios({
-        //     method: 'POST',
-        //     url: `http://localhost:8000/apiV1/login-user`,
-        //     data: { email, password }
-        // })
-        // .then(response => {
-        //     localStorage.setItem('token', response.data.token)
-        //     cookie.set('user', response.data)
-        //     console.log(localStorage.getItem('token'))
-        //     console.log(cookie.get('user'))
-        // })
-        // .catch(error => {
-        //     console.log(error.response.data)
-        // })
+        dispatch(login({ email, password }))
+        console.log(isAuth.userAuth.isAuth)
+        if (isAuth.userAuth.isAuth === true){
+          navigate('/')
+        }
     }
+
+    // useEffect hook to call navigate method to redirect user to home page if they are logged in already
+    useEffect (() => {
+      if (isAuth.userAuth.isAuth === true){
+        navigate('/')
+      }
+    },[isAuth.userAuth.isAuth])
 
   return (
     <>

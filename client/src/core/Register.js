@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { register } from '../actions/auth'
 
@@ -12,8 +12,12 @@ const Register = () => {
         password:'',
     })
 
+    // useSelector hook from redux to get the state from redux store
+    const isAuth = useSelector(userAuth => userAuth)
     //initialize useDispatch hook - this will help to dipatch an action to reducers
     const dispatch = useDispatch()
+    //navigate from react-router-dom to navigate the user
+    const navigate = useNavigate()
 
     const { username, email, password } = values
 
@@ -24,18 +28,14 @@ const Register = () => {
     const handleSubmit = event => {
         event.preventDefault()
         dispatch(register({username, email, password}))
-        // axios({
-        //     method: 'POST',
-        //     url: `http://localhost:8000/apiV1/create-new-user`,
-        //     data: { username, email, password }
-        // })
-        // .then(response => {
-        //     console.log("We have sent an email to you, please activate account via email", response.data)
-        // })
-        // .catch(error => {
-        //     console.log(error.response.data)
-        // })
     }
+
+    // useEffect hook to call navigate method to redirect user to home page if they are logged in already
+    useEffect (() => {
+      if (isAuth.userAuth.isAuth === true){
+        navigate('/')
+      }
+    },[isAuth.userAuth.isAuth])
 
   return (
     <>
