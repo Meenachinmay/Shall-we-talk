@@ -25,7 +25,6 @@ const Login = () => {
     const handleSubmit = event => {
         event.preventDefault()
         dispatch(login({ email, password }))
-        console.log(isAuth.userAuth.isAuth)
         if (isAuth.userAuth.isAuth === true){
           navigate('/')
         }

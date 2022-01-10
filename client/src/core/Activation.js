@@ -22,19 +22,6 @@ const Activation = () => {
     const handleSubmit = event => {
         event.preventDefault()
         dispatch(accountActivation({token}))
-
-        // axios({
-        //     method: 'POST',
-        //     url: `http://localhost:8000/apiV1/account-activation`,
-        //     data: { token }
-        // })
-        // .then(response => {
-        //     console.log("Acount activation", response.data)
-        //     setValues({...values, show: false})
-        // })
-        // .catch(error => {
-        //     console.log(error.response.data)
-        // })
     }
 
   return (

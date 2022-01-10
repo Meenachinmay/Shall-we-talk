@@ -5,7 +5,8 @@ import {
     REGISTER_FAILED,
     REGISTER_SUCCESS,
     ACCOUNT_ACTIVATION_SUCCESS,
-    ACCOUNT_ACTIVATION_FAILED
+    ACCOUNT_ACTIVATION_FAILED,
+    USER_LOGGING_OUT
 } from './types'
 
 // Login action - login a user
@@ -86,4 +87,12 @@ export const accountActivation = ({ token }) => async dispatch => {
                 }
             })
         })
+}
+
+
+// an action to logout the user and delete the token from localStorage and user from the redux state, this will also reset the redux auth state to initial state
+export const logout = () => async dispatch => {
+    dispatch({
+        type: USER_LOGGING_OUT
+    })
 }
