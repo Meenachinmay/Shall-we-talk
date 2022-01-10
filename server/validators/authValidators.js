@@ -1,5 +1,6 @@
 const Joi = require('joi')
 
+// validate the registration input
 const registerValidation = (data) => {
     const schema = Joi.object({
         username: Joi.string()
@@ -21,6 +22,7 @@ const registerValidation = (data) => {
     return error;
 }
 
+// validate the login input
 const loginValidation = (data) => {
     const schema = Joi.object({
         email: Joi.string()
@@ -36,4 +38,30 @@ const loginValidation = (data) => {
     return error;
 }
 
-module.exports = { registerValidation, loginValidation }
+// validate the user profile input
+const profileValidator = (data) => {
+    const schema = Joi.object({
+        user: Joi.string()
+            .required(),
+        gender: Joi.string()
+            .required(),
+        profile_image: Joi.string()
+            .required(),
+        company_name: Joi.string()
+            .required(),
+        company_profile: Joi.string()
+            .required(),
+        skills: Joi.required(),
+        introduction: Joi.string()
+            .required(),
+        user_status: Joi.string()
+            .required()
+        
+    })
+
+    const { error } = schema.validate(data)
+
+    return error
+}
+
+module.exports = { registerValidation, loginValidation, profileValidator }

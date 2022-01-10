@@ -1,4 +1,6 @@
 const  User = require('../../models/user.model')
+const UserProfile = require('../../models/UserProfile.model')
+
 const jwt = require ('jsonwebtoken')
 const sendgrid = require ('@sendgrid/mail')
 
@@ -6,6 +8,7 @@ const nodemailer = require ('nodemailer')
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
+//register a user
 exports.register = async (req, res) => {
     const { username, email, password } = req.body
 
@@ -143,4 +146,42 @@ exports.loginUser = async (req, res) => {
             error: 'User does not exist with this email, please regsiter first!!!'
         })
     }
+}
+
+
+// create a user profile
+exports.createUserProfile = async (req, res) => {
+    const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
+
+    const skills_turned_into_array = skills.split(',').map( skill => skill.trim() )
+
+    // check if user already created a profile
+    try {
+        const profile = await UserProfile.findOne({ user: user})
+        if (profile) {
+            return res.status(400).json({
+                message: "User profile already created",
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: error
+        })
+    }
+
+    // create new user profile
+    const newlyCreateUserProfile = new UserProfile({user, gender, profile_image, company_name, company_profile, skills: skills_turned_into_array, introduction, user_status})
+
+    try {
+        await newlyCreateUserProfile.save()
+        return res.status(200).json({
+            message: 'User profile created.',
+            userProfile: newlyCreateUserProfile
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: error
+        })
+    }
+
 }
