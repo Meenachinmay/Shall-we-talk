@@ -15,6 +15,8 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
 import { store, persistor } from './store'
 
+import ProtectedRoutes from './ProtectedRoutes';
+  
 const App = () => {
   return (
       <Provider store={store}>
@@ -23,11 +25,13 @@ const App = () => {
         <Navbar />
         </>
         <Routes>
-          <Route path="/" element={ <Home /> } />
-          <Route path="/profile" element={ <Profile /> } />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/" element={ <Home /> } />
+            <Route path="/profile" element={ <Profile /> } />
+            <Route path="/auth/activate/:token" element={<Activation />}/>
+          </Route>
           <Route path="/register" element={ <Register /> } />
           <Route path="/login" element={ <Login /> } />
-          <Route path="/auth/activate/:token" element={<Activation />}/>
         </Routes>
         </PersistGate>
     </Provider>
