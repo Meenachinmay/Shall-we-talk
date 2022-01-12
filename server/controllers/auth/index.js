@@ -2,11 +2,7 @@ const  User = require('../../models/user.model')
 const UserProfile = require('../../models/UserProfile.model')
 
 const jwt = require ('jsonwebtoken')
-const sendgrid = require ('@sendgrid/mail')
-
 const nodemailer = require ('nodemailer')
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 //register a user
 exports.register = async (req, res) => {
@@ -36,6 +32,7 @@ exports.register = async (req, res) => {
     }
     
 }
+
 
 // send email to user to activate then save the data to the database
 exports.regsiterUsingEmailActivation = async (req, res) => {
@@ -83,6 +80,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
 }
 
+
 //activate the account
 exports.accountActivation = async (req, res) => {
     const {token} = req.body
@@ -114,6 +112,7 @@ exports.accountActivation = async (req, res) => {
 
     }
 }
+
 
 //login a user
 exports.loginUser = async (req, res) => {
@@ -150,7 +149,7 @@ exports.loginUser = async (req, res) => {
 
 
 // create a user profile
-exports.createUserProfile = async (req, res) => {
+exports.updateUserProfile = async (req, res) => {
     const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
 
     const skills_turned_into_array = skills.split(',').map( skill => skill.trim())
@@ -184,6 +183,12 @@ exports.createUserProfile = async (req, res) => {
             message: "Opration failed"
         })
     }
+}
+
+
+//create a new user profile
+exports.createUserProfile = async (req, res) => {
+    const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
 
     // create new user profile
     const newlyCreateUserProfile = new UserProfile({ user, gender, profile_image, company_name, company_profile, skills, introduction, user_status })
@@ -199,14 +204,12 @@ exports.createUserProfile = async (req, res) => {
             error: error
         })
     }
-
 }
 
 
 //get a user profile to show on the screen
 exports.getUserProfile = async (req, res) => {
     const userID = req.body.user
-    console.log(userID)
 
     if (userID) {
         try {
@@ -217,6 +220,25 @@ exports.getUserProfile = async (req, res) => {
             })
         } catch (error) {
             
+        }
+    }
+}
+
+
+// delete a user profile
+exports.deleteUserProfile = async (req, res) => {
+    const userID = req.body.user
+
+    if (userID) {
+        try {
+            await UserProfile.findOneAndDelete({ user: userID})
+            return res.status(200).json({
+                message: 'User profile deleted'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                error: error
+            })
         }
     }
 }
