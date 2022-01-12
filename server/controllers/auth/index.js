@@ -201,3 +201,22 @@ exports.createUserProfile = async (req, res) => {
     }
 
 }
+
+
+//get a user profile to show on the screen
+exports.getUserProfile = async (req, res) => {
+    const userID = req.body.user
+    console.log(userID)
+
+    if (userID) {
+        try {
+            const profile = await UserProfile.findOne({ user: userID})
+            return res.status(200).json({
+                profile,
+                message: 'User profile received'
+            })
+        } catch (error) {
+            
+        }
+    }
+}
