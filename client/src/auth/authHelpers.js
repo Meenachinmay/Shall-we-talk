@@ -48,16 +48,16 @@ export const authenticate = (response, next) => {
 }
 
 //access user infor from localstorage
-export const isAuth = () => {
-    if (window !== 'undefined') {
-        const cookieChecked = getCookie('token')
+// export const isAuth = () => {
+//     if (window !== 'undefined') {
+//         const cookieChecked = getCookie('token')
 
-        if (cookieChecked) {
-            if (localStorage.getItem('user')) {
-                return JSON.parse(localStorage.getItem('user'))
-            } else {
-                return false
-            }
-        }
-    }
-}
+//         if (cookieChecked) {
+//             if (localStorage.getItem('user')) {
+//                 return JSON.parse(localStorage.getItem('user'))
+//             } else {
+//                 return false
+//             }
+//         }
+//     }
+// }

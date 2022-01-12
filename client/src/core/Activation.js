@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import axios from 'axios'
+import { accountActivation } from '../actions/auth'
+
 import { LockClosedIcon } from '@heroicons/react/solid'
 
 const Activation = () => {
@@ -13,24 +16,12 @@ const Activation = () => {
         show: true
     })
 
+    // useDispatch to call the action REGISTER_SUCCESS
+    const dispatch = useDispatch()
 
     const handleSubmit = event => {
         event.preventDefault()
-
-        console.log(token)
-
-        axios({
-            method: 'POST',
-            url: `http://localhost:8000/apiV1/account-activation`,
-            data: { token }
-        })
-        .then(response => {
-            console.log("Acount activation", response.data)
-            setValues({...values, show: false})
-        })
-        .catch(error => {
-            console.log(error.response.data)
-        })
+        dispatch(accountActivation({token}))
     }
 
   return (
