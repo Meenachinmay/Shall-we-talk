@@ -153,24 +153,40 @@ exports.loginUser = async (req, res) => {
 exports.createUserProfile = async (req, res) => {
     const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
 
-    const skills_turned_into_array = skills.split(',').map( skill => skill.trim() )
+    const skills_turned_into_array = skills.split(',').map( skill => skill.trim())
 
+    const profileData = {}
+
+    profileData.user = user
+    profileData.gender = gender
+    profileData.profile_image = profile_image
+    profileData.company_name = company_name
+    profileData.company_profile = company_profile
+    profileData.skills = skills_turned_into_array
+    profileData.introduction = introduction
+    profileData.user_status = user_status
+    
     // check if user already created a profile
     try {
-        const profile = await UserProfile.findOne({ user: user})
+        const profile = await UserProfile.findOne({ user: profileData.user})
+        console.log(profile.user)
         if (profile) {
-            return res.status(400).json({
-                message: "User profile already created",
-            })
+            const updatedProfile = await UserProfile.findByIdAndUpdate(profile._id, {"$set": {"gender": profileData.gender, "company_name": profileData.company_name, 
+            "company_profile": profileData.company_profile, "skills":profileData.skills, "introduction": profileData.introduction, "user_status": profileData.user_status}}, {new: true})
+            return res.status(200).json({
+                message: 'User profile updated.',
+                profile: updatedProfile
+            }) 
         }
     } catch (error) {
         return res.status(500).json({
-            error: error
+            error: error,
+            message: "Opration failed"
         })
     }
 
     // create new user profile
-    const newlyCreateUserProfile = new UserProfile({user, gender, profile_image, company_name, company_profile, skills: skills_turned_into_array, introduction, user_status})
+    const newlyCreateUserProfile = new UserProfile({ user, gender, profile_image, company_name, company_profile, skills, introduction, user_status })
 
     try {
         await newlyCreateUserProfile.save()
