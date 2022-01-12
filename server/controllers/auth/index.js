@@ -168,7 +168,6 @@ exports.updateUserProfile = async (req, res) => {
     // check if user already created a profile
     try {
         const profile = await UserProfile.findOne({ user: profileData.user})
-        console.log(profile.user)
         if (profile) {
             const updatedProfile = await UserProfile.findByIdAndUpdate(profile._id, {"$set": {"gender": profileData.gender, "company_name": profileData.company_name, 
             "company_profile": profileData.company_profile, "skills":profileData.skills, "introduction": profileData.introduction, "user_status": profileData.user_status}}, {new: true})
@@ -190,6 +189,21 @@ exports.updateUserProfile = async (req, res) => {
 exports.createUserProfile = async (req, res) => {
     const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
 
+    // check if user already created a profile
+    try {
+        const profile = await UserProfile.findOne({ user: user})
+        if (profile) {
+            return res.status(200).json({
+                message: 'User profile already exists.',
+                userProfile: profile
+            }) 
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: error,
+        })
+    }
+
     // create new user profile
     const newlyCreateUserProfile = new UserProfile({ user, gender, profile_image, company_name, company_profile, skills, introduction, user_status })
 
@@ -201,7 +215,7 @@ exports.createUserProfile = async (req, res) => {
         })
     } catch (error) {
         return res.status(500).json({
-            error: error
+            error: error,
         })
     }
 }
@@ -209,17 +223,18 @@ exports.createUserProfile = async (req, res) => {
 
 //get a user profile to show on the screen
 exports.getUserProfile = async (req, res) => {
-    const userID = req.body.user
-
-    if (userID) {
+    const { user } = req.body
+    if (user) {
         try {
-            const profile = await UserProfile.findOne({ user: userID})
+            const profile = await UserProfile.findOne({ user: user})
             return res.status(200).json({
-                profile,
+                userProfile: profile,
                 message: 'User profile received'
             })
         } catch (error) {
-            
+            return res.status(500).json({
+                error: error
+            })
         }
     }
 }

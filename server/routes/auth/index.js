@@ -16,7 +16,7 @@ router.post('/account-activation', accountActivation)
 router.post('/login-user', loginValidator, loginUser)
 router.post('/create-user-profile', userProfileDataValidator, createUserProfile)
 router.post('/update-user-profile', userProfileDataValidator, updateUserProfile)
-router.get('/get-user-profile', getUserProfile)
+router.post('/get-user-profile', getUserProfile)
 router.delete('/delete-user-profile', deleteUserProfile)
 
 
