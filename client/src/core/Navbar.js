@@ -14,7 +14,7 @@ const Navbar = () => {
 
     if (isAuth.userAuth.isAuth === true) {
         return (
-            <div className="flex items-center justify-between p-7 text-white"　style={{background: '#4f46e5'}}>
+            <div className="flex items-center justify-between p-7 text-white bg-blue-600">
                 <Link to="/">リアルコネクト</Link>
                 <div className="flex items-center">
                     <button onClick={handleLogout} className="mx-2 cursor-pointer">Logout</button>
