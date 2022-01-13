@@ -223,10 +223,10 @@ exports.createUserProfile = async (req, res) => {
 
 //get a user profile to show on the screen
 exports.getUserProfile = async (req, res) => {
-    const { user } = req.body
-    if (user) {
+    const { userid } = req.body
+    if (userid) {
         try {
-            const profile = await UserProfile.findOne({ user: user})
+            const profile = await UserProfile.findOne({ user: userid})
             return res.status(200).json({
                 userProfile: profile,
                 message: 'User profile received'
@@ -257,3 +257,5 @@ exports.deleteUserProfile = async (req, res) => {
         }
     }
 }
+
+//get all the user profile

@@ -8,6 +8,7 @@ import Login from './core/Login';
 import Register from './core/Register';
 import Home from './core/Home'
 import Activation from './core/Activation';
+import UserProfile from './core/UserProfile';
 
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -16,6 +17,7 @@ import { Provider } from 'react-redux'
 import { store, persistor } from './store'
 
 import ProtectedRoutes from './ProtectedRoutes';
+import ViewSelfProfile from './core/ViewSelfProfile';
   
 const App = () => {
   return (
@@ -29,6 +31,8 @@ const App = () => {
             <Route path="/" element={ <Home /> } />
             <Route path="/profile" element={ <Profile /> } />
             <Route path="/auth/activate/:token" element={<Activation />}/>
+            <Route path="/user/:userid" element={<UserProfile />}/>
+            <Route path="/view-self-profile" element={<ViewSelfProfile />}/>
           </Route>
           <Route path="/register" element={ <Register /> } />
           <Route path="/login" element={ <Login /> } />

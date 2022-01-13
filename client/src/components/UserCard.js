@@ -1,8 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const UserCard = ({ name, Companyname, skills}) => {
+const UserCard = ({ id, name, Companyname, skills}) => {
+    
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+        navigate(`user/${id}`)
+    }
+
     return (
-        <div className='bg-white p-3 m-5 rounded shadow-lg text-gray-900'>
+        <button className='flex bg-white p-3 m-5 rounded shadow-lg text-gray-900　 hover:bg-slate-100 border-1 border border-gray-200' 
+            onClick={handleClick}>
             <div className='flex items-center'>
                 <div className='mr-2'>
                     <img className='w-20 h-20 border border-2 border-gray-300 rounded-full' src='https://avatars.githubusercontent.com/u/16211217?v=4'/>
@@ -19,7 +28,7 @@ const UserCard = ({ name, Companyname, skills}) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </button>
     )
 }
 

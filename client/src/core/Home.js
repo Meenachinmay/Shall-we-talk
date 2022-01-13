@@ -7,8 +7,8 @@ import axios from 'axios'
 
 const Home = () => {
     
-    // const authState = useSelector(userAuth => userAuth)
-    // const user = authState.userAuth.user._id
+    // here we will feetch all the logged in users and then pass them one by one to the UserCard
+
     // const handleSubmit = () => {
     //     axios({
     //         method: 'POST',
@@ -22,19 +22,28 @@ const Home = () => {
     //           console.error(error)
     //       })
     // }
+    
     const name = 'Chinmay anand'
     const Companyname = 'Real connect'
     const skills = 'javascript, java, c++'
+    const id = '121212112121212121121'
+    const id2 = '232323232323323232323'
     return (
         <div>
-            <div className='min-h-screen flex items-center justify-center'>
-                <div className='bg-gray-500 p-5 rounded shadow-xl w-1/4'>
-                    <div className='text-center text-2xl text-white font-semibold'>All users</div>
+            <div className='flex min-h-screen items-center justify-center'>
+                <div className='flex-shrink-0 bg-white p-5 rounded shadow-xl w-auto overflow-scroll' style={{ maxHeight: '500px'}}>
+                    <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
+                    <UserCard id={id} name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard id={id2} name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard name={name} Companyname={Companyname} skills={skills}/>
+                    <UserCard name={name} Companyname={Companyname} skills={skills}/>
                     <UserCard name={name} Companyname={Companyname} skills={skills}/>
                 </div>
             </div>
         </div>
     )
 }
-
 export default Home
