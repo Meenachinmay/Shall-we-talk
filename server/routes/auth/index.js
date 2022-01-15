@@ -11,13 +11,13 @@ const { runvalidator, loginValidator, userProfileDataValidator } = require('../.
 // import middleware
 const { ifUserAuth } = require ('../../Authorization/authMiddleware')
 
-router.post('/create-new-user', runvalidator, regsiterUsingEmailActivation)
+router.post('/create-new-user', ifUserAuth, runvalidator, regsiterUsingEmailActivation)
 router.post('/account-activation', accountActivation)
 router.post('/login-user', loginValidator, loginUser)
-router.post('/create-user-profile', userProfileDataValidator, createUserProfile)
-router.post('/update-user-profile', userProfileDataValidator, updateUserProfile)
-router.post('/get-user-profile', getUserProfile)
-router.delete('/delete-user-profile', deleteUserProfile)
+router.post('/create-user-profile', ifUserAuth, userProfileDataValidator, createUserProfile)
+router.post('/update-user-profile', ifUserAuth, userProfileDataValidator, updateUserProfile)
+router.post('/get-user-profile', ifUserAuth, getUserProfile)
+router.delete('/delete-user-profile', ifUserAuth, deleteUserProfile)
 
 
 
