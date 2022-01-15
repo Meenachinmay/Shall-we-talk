@@ -9,6 +9,8 @@ import axios from 'axios'
 const UserProfile = () => {
     const { userid } = useParams()
     const [user, setUser] = useState({
+        username:'',
+        email:'',
         gender:'',
         profile_image:'',
         company_name:'',
@@ -18,15 +20,19 @@ const UserProfile = () => {
         user_status:''
     })
 
+    const token = localStorage.getItem('token')
+
     useEffect(() => {
         axios({
             method: 'POST',
             url: `http://localhost:8000/apiV1/get-user-profile`,
-            data: { userid }
+            data: { token, userid }
           })
           .then(response => {
               const data = response.data.userProfile
               setUser({
+                  username: data.user.username,
+                  email: data.user.email,
                   gender: data.gender,
                   profile_image: data.profile_image,
                   company_name: data.company_name,
@@ -55,10 +61,10 @@ const UserProfile = () => {
                         </div>
                             <div>
                                 <div>
-                                <small className='font-semibold'>Name: {' '} {name}</small>
+                                <small className='font-semibold'>Name: {' '} {user.username}</small>
                                 </div>
                                 <div>
-                                <small className='font-semibold'>email: {' '} {email}</small>
+                                <small className='font-semibold'>email: {' '} {user.email}</small>
                                 </div>
                                 <div>
                                 <small className='font-semibold'>Gender: {' '} {user.gender}</small>

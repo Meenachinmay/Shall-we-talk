@@ -18,7 +18,6 @@ export const login = ({ email, password }) => async dispatch => {
         data: { email, password }
     })
     .then(response => {
-        console.log(response.data.user)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: {
