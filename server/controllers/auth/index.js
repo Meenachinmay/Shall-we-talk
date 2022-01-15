@@ -226,7 +226,7 @@ exports.getUserProfile = async (req, res) => {
     const { userid } = req.body
     if (userid) {
         try {
-            const profile = await UserProfile.findOne({ user: userid})
+            const profile = await UserProfile.findOne({ user: userid}).populate('user', ['email', 'username'])
             return res.status(200).json({
                 userProfile: profile,
                 message: 'User profile received'
