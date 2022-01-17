@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import UserCard from '../components/UserCard'
-
 import axios from 'axios'
 
 const UserProfile = () => {
@@ -46,9 +44,6 @@ const UserProfile = () => {
               console.error(error)
           })
     }, [userid])
-
-    const name = 'Chinmay anand'
-    const email = 'chinmay@real-cnt.com'
 
     return (
         <div>

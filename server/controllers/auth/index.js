@@ -95,21 +95,29 @@ exports.accountActivation = async (req, res) => {
         }) 
 
         const newuser = jwt.decode(token)
+
         const { username, email, password } = newuser;
 
-        const newlyCreated = new User ({username, email, password})
-
-        try {
-            await newlyCreated.save()
-            return res.status(200).json({
-                message: "Sign up done, sign in now"
-            })
-        } catch (error) {
+        // check if account is already activated
+        const checkuser = await User.findOne({email})
+        if (checkuser){
             return res.status(400).json({
-                error: error
+                error: 'Token is already used'
             })
-        }
+        } else {
+            const newlyCreated = new User ({username, email, password})
 
+            try {
+                await newlyCreated.save()
+                return res.status(200).json({
+                    message: "Sign up done, sign in now"
+                })
+            } catch (error) {
+                return res.status(400).json({
+                    error: error
+                })
+            }
+        }
     }
 }
 
@@ -259,3 +267,11 @@ exports.deleteUserProfile = async (req, res) => {
 }
 
 //get all the user profile
+exports.getAllProfiles = async (req, res) => {
+    const alluser = await UserProfile.find().populate('user')
+
+    return res.status(200).json({
+        profiles: alluser,
+        message: 'All the user profiles'
+    })
+}

@@ -71,6 +71,7 @@ export const accountActivation = ({ token }) => async dispatch => {
             data: { token }
         })
         .then(response => {
+            console.log(response.data.message)
             dispatch({
                 type: ACCOUNT_ACTIVATION_SUCCESS,
                 payload: {
