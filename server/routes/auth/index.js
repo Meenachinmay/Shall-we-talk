@@ -10,7 +10,7 @@ const { regsiterUsingEmailActivation,
         updateUserProfile, 
         getUserProfile, 
         deleteUserProfile, 
-        getAllProfiles, 
+        getAllLoggedInUsers, 
         logoutUser
  } = require ('../../controllers/auth/index')
 
@@ -26,7 +26,7 @@ router.post('/login-user', loginValidator, loginUser)
 router.post('/create-user-profile', userProfileDataValidator, createUserProfile)
 router.post('/update-user-profile', ifUserAuth, userProfileDataValidator, updateUserProfile)
 router.post('/get-user-profile', ifUserAuth, getUserProfile)
-router.get('/get-all-profiles', getAllProfiles)
+router.get('/get-all-logged-in-users', getAllLoggedInUsers)
 router.delete('/delete-user-profile', ifUserAuth, deleteUserProfile)
 router.delete('/logout-user', ifUserAuth, logoutUser)
 

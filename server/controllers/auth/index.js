@@ -161,7 +161,7 @@ exports.loginUser = async (req, res) => {
 
 // create a user profile
 exports.updateUserProfile = async (req, res) => {
-    const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
+    const {user, gender, profile_image, company_name, company_profile, skills, introduction } = req.body
 
     const skills_turned_into_array = skills.split(',').map( skill => skill.trim())
 
@@ -174,14 +174,13 @@ exports.updateUserProfile = async (req, res) => {
     profileData.company_profile = company_profile
     profileData.skills = skills_turned_into_array
     profileData.introduction = introduction
-    profileData.user_status = user_status
     
     // check if user already created a profile
     try {
         const profile = await UserProfile.findOne({ user: profileData.user})
         if (profile) {
             const updatedProfile = await UserProfile.findByIdAndUpdate(profile._id, {"$set": {"gender": profileData.gender, "company_name": profileData.company_name, 
-            "company_profile": profileData.company_profile, "skills":profileData.skills, "introduction": profileData.introduction, "user_status": profileData.user_status}}, {new: true})
+            "company_profile": profileData.company_profile, "skills":profileData.skills, "introduction": profileData.introduction }}, {new: true})
             return res.status(200).json({
                 message: 'User profile updated.',
                 profile: updatedProfile
@@ -198,7 +197,7 @@ exports.updateUserProfile = async (req, res) => {
 
 //create a new user profile
 exports.createUserProfile = async (req, res) => {
-    const {user, gender, profile_image, company_name, company_profile, skills, introduction, user_status} = req.body
+    const {user, gender, profile_image, company_name, company_profile, skills, introduction } = req.body
 
     // check if user already created a profile
     try {
@@ -216,7 +215,7 @@ exports.createUserProfile = async (req, res) => {
     }
 
     // create new user profile
-    const newlyCreateUserProfile = new UserProfile({ user, gender, profile_image, company_name, company_profile, skills, introduction, user_status })
+    const newlyCreateUserProfile = new UserProfile({ user, gender, profile_image, company_name, company_profile, skills, introduction  })
 
     try {
         await newlyCreateUserProfile.save()
@@ -237,7 +236,7 @@ exports.getUserProfile = async (req, res) => {
     const { userid } = req.body
     if (userid) {
         try {
-            const profile = await UserProfile.findOne({ user: userid}).populate('user', ['email', 'username'])
+            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'username'])
             return res.status(200).json({
                 userProfile: profile,
                 message: 'User profile received'
@@ -275,11 +274,17 @@ exports.deleteUserProfile = async (req, res) => {
 
 
 //get all the user profile
-exports.getAllProfiles = async (req, res) => {
-    const alluser = await UserProfile.find().populate('user')
+exports.getAllLoggedInUsers = async (req, res) => {
+    const alluser = await LoggedInUser.find()
+    const users = []
+
+    for ( let i = 0; i < alluser.length; i ++ ) {
+        const res = await User.findById({_id: alluser[i].user})
+        users.push(res)
+    }
 
     return res.status(200).json({
-        profiles: alluser,
+        users: users,
         message: 'All the user profiles'
     })
 }

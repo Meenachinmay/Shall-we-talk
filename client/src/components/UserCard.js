@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const UserCard = ({ key, id, name, Companyname, skills }) => {
+const UserCard = ({ id, name, email, status }) => {
     
     const navigate = useNavigate()
 
@@ -18,13 +18,13 @@ const UserCard = ({ key, id, name, Companyname, skills }) => {
                 </div>
                 <div>
                     <div>
-                    <small>名前: {' '} {name}</small>
+                    <small>Name: {' '} {name}</small>
                     </div>
                     <div>
-                    <small>会社名: {' '} {Companyname}</small>
+                    <small>Email: {' '} {email}</small>
                     </div>
                     <div>
-                    <small>スキル: {' '} {skills}</small>
+                        <small className={status == 0 ? 'text-red-900' : status == 1 ? 'text-blue-900' : status == 2 ? 'text-green-900' : null }>Status: {' '} {status}</small>
                     </div>
                 </div>
             </div>
