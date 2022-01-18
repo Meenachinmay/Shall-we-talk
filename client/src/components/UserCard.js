@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const UserCard = ({ id, name, Companyname, skills}) => {
+const UserCard = ({ id, name, email, status }) => {
     
     const navigate = useNavigate()
 
@@ -11,20 +11,20 @@ const UserCard = ({ id, name, Companyname, skills}) => {
 
     return (
         <button className='flex bg-white p-3 m-5 rounded shadow-lg text-gray-900　 hover:bg-slate-100 border-1 border border-gray-200' 
-            onClick={handleClick}>
+            onClick={handleClick} style={{minWidth: '300px'}}>
             <div className='flex items-center'>
                 <div className='mr-2'>
                     <img className='w-20 h-20 border border-2 border-gray-300 rounded-full' src='https://avatars.githubusercontent.com/u/16211217?v=4'/>
                 </div>
                 <div>
                     <div>
-                    <small>名前: {' '} {name}</small>
+                    <small>Name: {' '} {name}</small>
                     </div>
                     <div>
-                    <small>会社名: {' '} {Companyname}</small>
+                    <small>Email: {' '} {email}</small>
                     </div>
                     <div>
-                    <small>スキル: {' '} {skills}</small>
+                        <small className={status == 0 ? 'text-red-900' : status == 1 ? 'text-blue-900' : status == 2 ? 'text-green-900' : null }>Status: {' '} {status}</small>
                     </div>
                 </div>
             </div>

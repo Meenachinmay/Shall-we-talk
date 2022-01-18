@@ -30,11 +30,11 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={ <Home /> } />
             <Route path="/profile" element={ <Profile /> } />
-            <Route path="/auth/activate/:token" element={<Activation />}/>
             <Route path="/user/:userid" element={<UserProfile />}/>
             <Route path="/view-self-profile" element={<ViewSelfProfile />}/>
           </Route>
           <Route path="/register" element={ <Register /> } />
+          <Route path="/auth/activate/:token" element={<Activation />}/>
           <Route path="/login" element={ <Login /> } />
         </Routes>
         </PersistGate>

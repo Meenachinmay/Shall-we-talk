@@ -33,11 +33,6 @@ const userprofileSchema = new mongoose.Schema({
         type: String,
         required: true,
         max: 500
-    },
-    user_status: {
-        type: String,
-        required: true,
-        max: 10
     }
 }, {timestamps: true})
 

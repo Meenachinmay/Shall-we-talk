@@ -54,8 +54,6 @@ const profileValidator = (data) => {
         skills: Joi.required(),
         introduction: Joi.string()
             .required(),
-        user_status: Joi.string()
-            .required()
         
     })
 

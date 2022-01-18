@@ -6,7 +6,8 @@ import {
     REGISTER_SUCCESS,
     ACCOUNT_ACTIVATION_SUCCESS,
     ACCOUNT_ACTIVATION_FAILED,
-    USER_LOGGING_OUT
+    USER_LOGGING_OUT,
+    USER_LOGGING_OUT_FAILED
 } from './types'
 
 // Login action - login a user
@@ -18,7 +19,6 @@ export const login = ({ email, password }) => async dispatch => {
         data: { email, password }
     })
     .then(response => {
-        console.log(response.data.user)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: {
@@ -91,8 +91,27 @@ export const accountActivation = ({ token }) => async dispatch => {
 
 
 // an action to logout the user and delete the token from localStorage and user from the redux state, this will also reset the redux auth state to initial state
-export const logout = () => async dispatch => {
-    dispatch({
-        type: USER_LOGGING_OUT
+export const logout = ({user}) => async dispatch => {
+    const token = localStorage.getItem('token')
+    axios({
+        method: 'DELETE',
+        url: `http://localhost:8000/apiV1/logout-user`,
+        data: { user, token }
+    })
+    .then(response => {
+        dispatch({
+            type: USER_LOGGING_OUT,
+            payload: {
+                message: response.data.message
+            }
+        })
+    })
+    .catch(error => {
+        dispatch({
+            type: USER_LOGGING_OUT_FAILED,
+            payload: {
+                error: error.response.data
+            }
+        })
     })
 }
