@@ -35,19 +35,30 @@ const Home = () => {
     const name = 'Chinmay anand'
     const Companyname = 'Real connect'
     const skills = 'javascript, java, c++'
-    const id = '121212112121212121121'
-    const id2 = '232323232323323232323'
+    const id = '61e5f07c90a4724783295d7a'
+    const id2 = '61e5f05990a4724783295d77'
 
+    // return (
+    //     <div>
+    //         <div className='flex min-h-screen items-center justify-center'>
+    //             <div className='flex-shrink-0 bg-white p-5 rounded shadow-xl w-auto overflow-scroll' style={{ maxHeight: '500px'}}>
+    //                 <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
+    //                 {
+    //                     test.map((item, index) => (
+    //                         <UserCard key={item._id} id={item._id} name={item.user.username} Companyname={item.company_name} skills={item.skills}/>
+    //                     ))
+    //                 }
+    //             </div>
+    //         </div>
+    //     </div>
+    // )
     return (
         <div>
             <div className='flex min-h-screen items-center justify-center'>
-                <div className='flex-shrink-0 bg-white p-5 rounded shadow-xl w-auto overflow-scroll' style={{ maxHeight: '500px'}}>
-                    <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
-                    {
-                        test.map((item, index) => (
-                            <UserCard key={item._id} id={item._id} name={item.user.username} Companyname={item.company_name} skills={item.skills}/>
-                        ))
-                    }
+                <div className='flex-shrink-0 bg-white p-5 rounded shadow-xl overflow-scroll' style={{ maxHeight: '500px', minWidth: '500px'}}>
+                <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
+                     <UserCard id={id} name={name} Companyname={Companyname} skills={skills}/>
+                     <UserCard id={id2} name={'Ayumu oshiro'} Companyname={'real connect'} skills={'a, b, c'}/>
                 </div>
             </div>
         </div>
