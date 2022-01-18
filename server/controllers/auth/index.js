@@ -1,5 +1,6 @@
 const  User = require('../../models/user.model')
 const UserProfile = require('../../models/UserProfile.model')
+const LoggedInUser = require ('../../models/loggedinuser.model')
 
 const jwt = require ('jsonwebtoken')
 const nodemailer = require ('nodemailer')
@@ -135,15 +136,17 @@ exports.loginUser = async (req, res) => {
                 error: 'Incorrect passoword, please try again'
             })
         } else {
+            const newlogin = new LoggedInUser({user: user._id})
+            await newlogin.save()
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
             
-            const { _id, username, email, role } = user
+            const { _id, username, email } = user
 
             return res.status(200).json({
                 token,
                 user: {
-                    _id, username, email, role
+                    _id, username, email
                 }
             })
 
@@ -263,8 +266,13 @@ exports.deleteUserProfile = async (req, res) => {
                 error: error
             })
         }
+    } else {
+        return res.status(400).json({
+            error: "NO user ID is provided"
+        })
     }
 }
+
 
 //get all the user profile
 exports.getAllProfiles = async (req, res) => {
@@ -274,4 +282,27 @@ exports.getAllProfiles = async (req, res) => {
         profiles: alluser,
         message: 'All the user profiles'
     })
+}
+
+
+//update loggedinuser table 
+exports.logoutUser = async (req, res) => {
+    const { user } = req.body
+
+    if (user) {
+        try {
+            await LoggedInUser.findOneAndDelete({user: user})
+            return res.status(200).json({
+                message: 'User logged out'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                error: error
+            })
+        }
+    } else {
+        return res.status(400).json({
+            error: "NO user ID is provided"
+        })
+    }
 }

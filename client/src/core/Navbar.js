@@ -2,14 +2,20 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../actions/auth';
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
 
     const dispatch = useDispatch()
     const isAuth = useSelector(userAuth => userAuth)
+    const navigate = useNavigate()
 
     const handleLogout = () => {
-        dispatch(logout())
+        const user = isAuth.userAuth.user._id
+        dispatch(logout({ user }))
+        if (isAuth.userAuth.isAuth === null) {
+            navigate('/login')
+        }
     } 
 
     if (isAuth.userAuth.isAuth === true) {

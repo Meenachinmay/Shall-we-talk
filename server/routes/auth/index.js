@@ -3,7 +3,16 @@ const express = require ('express')
 const router = express.Router()
 
 // import methods from controller
-const { regsiterUsingEmailActivation, accountActivation, loginUser, createUserProfile,updateUserProfile, getUserProfile, deleteUserProfile, getAllProfiles } = require ('../../controllers/auth/index')
+const { regsiterUsingEmailActivation, 
+        accountActivation, 
+        loginUser, 
+        createUserProfile, 
+        updateUserProfile, 
+        getUserProfile, 
+        deleteUserProfile, 
+        getAllProfiles, 
+        logoutUser
+ } = require ('../../controllers/auth/index')
 
 // import validator
 const { runvalidator, loginValidator, userProfileDataValidator } = require('../../validators/index')
@@ -19,6 +28,7 @@ router.post('/update-user-profile', ifUserAuth, userProfileDataValidator, update
 router.post('/get-user-profile', ifUserAuth, getUserProfile)
 router.get('/get-all-profiles', getAllProfiles)
 router.delete('/delete-user-profile', ifUserAuth, deleteUserProfile)
+router.delete('/logout-user', ifUserAuth, logoutUser)
 
 
 

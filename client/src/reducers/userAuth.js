@@ -5,7 +5,8 @@ import {
     LOGIN_SUCCESS,
     ACCOUNT_ACTIVATION_FAILED,
     ACCOUNT_ACTIVATION_SUCCESS,
-    USER_LOGGING_OUT
+    USER_LOGGING_OUT,
+    USER_LOGGING_OUT_FAILED
 } from '../actions/types'
 
 const initialState = {
@@ -41,6 +42,11 @@ export default function (state = initialState, action) {
             localStorage.removeItem('token')
             return {
                 ...state = initialState,
+            }
+        case USER_LOGGING_OUT_FAILED:
+            return {
+                ...state = initialState,
+                error: payload.error.error
             }
         case REGISTER_SUCCESS:
             return {
