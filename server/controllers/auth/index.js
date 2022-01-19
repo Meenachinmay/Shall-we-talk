@@ -141,12 +141,12 @@ exports.loginUser = async (req, res) => {
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
             
-            const { _id, username, email } = user
+            const { _id, username, email, status } = user
 
             return res.status(200).json({
                 token,
                 user: {
-                    _id, username, email
+                    _id, username, email, status
                 }
             })
 
@@ -308,6 +308,28 @@ exports.logoutUser = async (req, res) => {
     } else {
         return res.status(400).json({
             error: "NO user ID is provided"
+        })
+    }
+}
+
+
+// change status of user
+exports.changeStatus = async (req, res) => {
+    const { user, status } = req.body
+
+    try {
+        const finduser = await User.findOne({ user: user})
+        if (finduser) {
+            const updatestatus = await User.findByIdAndUpdate(user, {"$set": {"status": status }}, {new: true})
+            return res.status(200).json({
+                message: 'status updated.',
+                status: updatestatus.status
+            }) 
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: error,
+            message: "Cannot update status"
         })
     }
 }

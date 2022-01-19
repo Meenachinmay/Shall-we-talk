@@ -11,7 +11,8 @@ const { regsiterUsingEmailActivation,
         getUserProfile, 
         deleteUserProfile, 
         getAllLoggedInUsers, 
-        logoutUser
+        logoutUser,
+        changeStatus
  } = require ('../../controllers/auth/index')
 
 // import validator
@@ -29,6 +30,7 @@ router.post('/get-user-profile', ifUserAuth, getUserProfile)
 router.get('/get-all-logged-in-users', getAllLoggedInUsers)
 router.delete('/delete-user-profile', ifUserAuth, deleteUserProfile)
 router.delete('/logout-user', ifUserAuth, logoutUser)
+router.post('/change-status', ifUserAuth, changeStatus)
 
 
 
