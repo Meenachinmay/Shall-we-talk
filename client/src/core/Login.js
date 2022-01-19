@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../actions/auth'
+import { login, setUserStatus } from '../actions/auth'
 import { useNavigate } from 'react-router-dom'
 
 import { LockClosedIcon } from '@heroicons/react/solid'
@@ -12,7 +12,9 @@ const Login = () => {
         password:'',
     })
 
+    // getting auth states from redux store
     const isAuth = useSelector(userAuth => userAuth)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -22,8 +24,10 @@ const Login = () => {
         setValues({...values, [name]: event.target.value})
     }
 
+    // handle login submit and dispatch the login action to login the user
     const handleSubmit = event => {
         event.preventDefault()
+
         dispatch(login({ email, password }))
         if (isAuth.userAuth.isAuth === true){
           navigate('/')

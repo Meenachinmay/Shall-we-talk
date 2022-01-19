@@ -18,6 +18,7 @@ import { store, persistor } from './store'
 
 import ProtectedRoutes from './ProtectedRoutes';
 import ViewSelfProfile from './core/ViewSelfProfile';
+import FlashMessage from './components/FlashMessage';
   
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/register" element={ <Register /> } />
           <Route path="/auth/activate/:token" element={<Activation />}/>
           <Route path="/login" element={ <Login /> } />
+          <Route path="/flash-message" element={<FlashMessage />} />
         </Routes>
         </PersistGate>
     </Provider>

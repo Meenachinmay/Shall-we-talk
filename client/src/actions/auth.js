@@ -7,7 +7,10 @@ import {
     ACCOUNT_ACTIVATION_SUCCESS,
     ACCOUNT_ACTIVATION_FAILED,
     USER_LOGGING_OUT,
-    USER_LOGGING_OUT_FAILED
+    USER_LOGGING_OUT_FAILED,
+    CHANGING_USER_STATUS,
+    CHANGING_USER_STATUS_FAILED,
+    SET_USER_STATUS
 } from './types'
 
 // Login action - login a user
@@ -113,5 +116,41 @@ export const logout = ({user}) => async dispatch => {
                 error: error.response.data
             }
         })
+    })
+}
+
+
+
+// changing user status in redux store
+export const changeUserStatus = ({user, status, token}) => async dispatch => {
+    axios({
+        method: 'POST',
+        url: `http://localhost:8000/apiV1/change-status`,
+        data: { token, user, status }
+      })
+      .then(response => {
+          dispatch({
+              type: CHANGING_USER_STATUS,
+              payload: {
+                  status: response.data.status
+              }
+          })
+      })
+      .catch(error => {
+        dispatch({
+            type: CHANGING_USER_STATUS_FAILED,
+            payload: {
+                error: error.response.data
+            }
+        })
+      })
+}
+
+
+// set current user status when a use logged in
+export const setUserStatus = (status) => async dispatch => {
+    dispatch({
+        type: SET_USER_STATUS,
+        payload: status
     })
 }
