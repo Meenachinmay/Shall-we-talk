@@ -1,8 +1,13 @@
+// importing all the models
 const User = require('../../models/User.model')
 const UserProfile = require('../../models/UserProfile.model')
+const Request = require ('../../models/Request.model')
 const LoggedInUser = require ('../../models/loggedinuser.model')
 
+// importing JWT for jsonwebtoken related work
 const jwt = require ('jsonwebtoken')
+
+// nodemailer is for sending emails for account activation
 const nodemailer = require ('nodemailer')
 
 //register a user
@@ -333,3 +338,50 @@ exports.changeStatus = async (req, res) => {
         })
     }
 }
+
+
+//send request 
+exports.sendRequest = async (req, res) => {
+    const { message, sender, receiver } = req.body
+
+    //send update to receiver with request
+    // build request
+    const request = {message:'', sender:'', receiver:''}
+
+    request.message = message
+    request.sender = sender
+    request.receiver = receiver
+
+    try {
+        // create a new request
+        const newlyCreatedRequest = new Request({ receiver: request.receiver, sender: request.sender, message: request.message })
+
+        // get new request id
+        const newlyCreatedRequestID = newlyCreatedRequest._id
+        // find receiver to save the request id in pendling request list
+        const findReceiver = await User.findOne({_id: request.receiver})
+
+        // update and save the uesr model
+        findReceiver.pendingRequests.push(newlyCreatedRequestID)
+
+        // save the newlycreated request and receiver also
+        await newlyCreatedRequest.save()
+        await findReceiver.save()
+
+        return res.status(200).json({
+            message: "Talk request has been sent successfully"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            error: error
+        })
+    }
+
+}
+
+
+// resolve request
+// exports.resolveRequest = async (req, res) => {
+//     const { }
+// }
