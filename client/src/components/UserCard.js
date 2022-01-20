@@ -10,9 +10,8 @@ const UserCard = ({ id, name, email, status }) => {
     }
 
     return (
-        <button className='flex bg-white p-3 m-5 w-auto rounded shadow-lg text-gray-900　 hover:bg-slate-100 border-1 border border-gray-200' 
-            onClick={handleClick} >
-            <div className='flex items-center'>
+        <div className=' bg-white p-3 m-5 w-auto rounded shadow-lg text-gray-900　border-1 border border-gray-200'>
+            <div className='flex items-center border border-1 border-gray-300 p-1'>
                 <div className='mr-2'>
                     <img className='w-20 h-20 border border-2 border-gray-300 rounded-full' src='https://avatars.githubusercontent.com/u/16211217?v=4'/>
                 </div>
@@ -28,7 +27,11 @@ const UserCard = ({ id, name, email, status }) => {
                     </div>
                 </div>
             </div>
-        </button>
+            <div className='flex items-center justify-between border border-1 border-gray-300 mt-3 p-1'>
+                <button className='bg-blue-600 text-white rounded text-sm p-1 hover:bg-blue-300'>Send talk request</button>
+                <button className='bg-blue-600 text-white rounded text-sm p-1 hover:bg-blue-300' onClick={handleClick}>View profile</button>
+            </div>
+        </div>
     )
 }
 

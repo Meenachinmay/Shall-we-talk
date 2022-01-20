@@ -1,4 +1,4 @@
-const  User = require('../../models/user.model')
+const User = require('../../models/User.model')
 const UserProfile = require('../../models/UserProfile.model')
 const LoggedInUser = require ('../../models/loggedinuser.model')
 

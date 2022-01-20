@@ -15,16 +15,21 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
+    status: {
+        type: String,
+        default: '0'
+    },
+    requests: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Request',
+        required: true
+    },
     hashed_password: {
         type: String,
         required: true,
     },
     salt: {
         type: String
-    },
-    status: {
-        type: String,
-        default: '0'
     },
     resetPasswordLink: {
         data: String,
