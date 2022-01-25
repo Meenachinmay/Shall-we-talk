@@ -6,10 +6,14 @@ import { setUserStatus } from '../actions/auth'
 import UserCard from '../components/UserCard'
 
 import axios from 'axios'
+import io from 'socket.io-client'
+import EVENTS from '../config/default'
+
+const socket = io('http://localhost:8000')
 
 const Home = () => {
-
     const [users, setUsers] = useState([])
+    const [msg, setMsg] = useState()
     const dispatch = useDispatch()
     const status = useSelector(userStatus => userStatus.status)
     const loggedinuser = useSelector(userAuth => userAuth)
@@ -17,6 +21,13 @@ const Home = () => {
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
     useEffect(() => {
+        console.log ('useeffect rendered')
+    
+        socket.on('status_change', ({ message, current_status }) => {
+            setMsg(current_status)
+            console.log(message + ' ' + current_status)
+        })
+        
         dispatch(setUserStatus(loggedInUserStatus))
         
         // write flash here
@@ -38,7 +49,9 @@ const Home = () => {
           .catch(error => {
               console.error(error)
           })
-    },[status])
+          console.log('just before return')
+          return () => socket.off()
+    },[msg])
 
     // remove current user from logged in users list, we do not want to render current logged in user in the list
     const filteredUsers = users.filter(item => item._id !== loggedinuser.userAuth.user._id)

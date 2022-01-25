@@ -320,12 +320,23 @@ exports.logoutUser = async (req, res) => {
 
 // change status of user
 exports.changeStatus = async (req, res) => {
+
+    // get socket io
+    const io = req.app.get('socket')
+
     const { user, status } = req.body
 
     try {
         const finduser = await User.findOne({ user: user})
         if (finduser) {
             const updatestatus = await User.findByIdAndUpdate(user, {"$set": {"status": status }}, {new: true})
+            
+            // emit the event for client here
+            let time = new Date()
+            time = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
+            time = time + updatestatus.status
+            io.emit('status_change', { message: `${finduser.username} has changed status just now`, current_status: time })
+
             return res.status(200).json({
                 message: 'status updated.',
                 status: updatestatus.status
@@ -381,7 +392,3 @@ exports.sendRequest = async (req, res) => {
 }
 
 
-// resolve request
-// exports.resolveRequest = async (req, res) => {
-//     const { }
-// }
