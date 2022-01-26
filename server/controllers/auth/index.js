@@ -94,7 +94,7 @@ exports.accountActivation = async (req, res) => {
     if (token) {
         jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded){
             if (err) {
-                return res.json({
+                return res.status(400).json({
                     error: err
                 })
             }
@@ -124,6 +124,10 @@ exports.accountActivation = async (req, res) => {
                 })
             }
         }
+    } else {
+        return res.status(400).json({
+            error: "Token is invalide"
+        })
     }
 }
 
@@ -354,6 +358,7 @@ exports.changeStatus = async (req, res) => {
 //send request 
 exports.sendRequest = async (req, res) => {
     const { message, sender, receiver } = req.body
+    const io = req.app.get('socket')
 
     //send update to receiver with request
     // build request
@@ -364,24 +369,36 @@ exports.sendRequest = async (req, res) => {
     request.receiver = receiver
 
     try {
-        // create a new request
-        const newlyCreatedRequest = new Request({ receiver: request.receiver, sender: request.sender, message: request.message })
+         // check if the same request is already exist in receiver's 'pending' or 'accepted'
+         // save new request in receiver's pending list by default
+         // first fine receiver
+         const findReceiver = await User.findOne({ _id: request.receiver })
 
-        // get new request id
-        const newlyCreatedRequestID = newlyCreatedRequest._id
-        // find receiver to save the request id in pendling request list
-        const findReceiver = await User.findOne({_id: request.receiver})
+         if ( findReceiver.pendingRequests.includes(request.sender) || findReceiver.acceptedRequests.includes(request.sender)) {
+             return res.status(200).json({
+                 message: "You have already sent an request, please wait"
+             })
+         }
 
-        // update and save the uesr model
-        findReceiver.pendingRequests.push(newlyCreatedRequestID)
+         // find sender
+         const findSender = await User.findOne({ _id: request.sender })
 
-        // save the newlycreated request and receiver also
-        await newlyCreatedRequest.save()
-        await findReceiver.save()
+         // update and save receiver with request
+         findReceiver.pendingRequests.push(request.sender)
 
-        return res.status(200).json({
-            message: "Talk request has been sent successfully"
-        })
+         // save the newlycreated request
+         await findReceiver.save()
+
+         // fire the new request event here for client
+         // preparing data for event
+         const new_request_notification = `${findSender.username} has sent a new talk request to ${findReceiver.username}`
+
+         // fire the event
+         io.emit('new_request', { new_request_notification })
+
+         return res.status(200).json({
+             message: new_request_notification
+         })
 
     } catch (error) {
         return res.status(500).json({
@@ -392,3 +409,11 @@ exports.sendRequest = async (req, res) => {
 }
 
 
+/*
+when ever a requet come from user to a user (sender to receiver)
+save it to receiver in request field (pending feild)
+on accept request move it from 'pending' to 'accepted'
+
+every time when a request arrives at SendRequest method check if its already there in receiver's pending or accepted list. if yes the refuse
+the request otherwise pass it
+*/

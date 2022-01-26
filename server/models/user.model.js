@@ -19,19 +19,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '0'
     },
+
     acceptedRequests:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Request',
+        ref: 'User',
         required: true
     }],
     pendingRequests:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Request',
+        ref: 'User',
         required: true
     }],
     rejectedRequested:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Request',
+        ref: 'User',
         required: true
     }],
     hashed_password: {

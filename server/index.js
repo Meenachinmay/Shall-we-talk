@@ -4,6 +4,7 @@ const { Server } = require('socket.io')
 const cors = require('cors')
 const morgan = require ('morgan')
 const connectDB = require ('./db.connect')
+const EVENTS = require ('./config/default')
 
 const socket = require('./socket')
 
@@ -11,21 +12,6 @@ require('dotenv').config()
 
 // import route
 const authRouter = require('./routes/auth/index')
-
-// const port = config.get<number>("port")
-// const host = config.get<string>("host")
-// const corsOrigin = config.get<string>("corsOrigin")
-
-const EVENTS = {
-    connection: "connection",
-    CLIENT: {
-        CREATE_ROOM: 'CREATE_ROOM',
-        JOIN_ROOM: 'JOIN_ROOM',
-    },
-    SERVER: {
-        ROOM_CREATED: 'ROOM_CREATED'
-    }
-}
 
 const app = express()
 app.use(cors({

@@ -1,12 +1,35 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { setTalkRequestNotification } from '../actions/auth'
 
 const UserCard = ({ id, name, email, status }) => {
-    
+
+    const dispatch = useDispatch()
+    const getStateFromStore = useSelector(userAuth => userAuth)
+    const sender = getStateFromStore.userAuth.user._id
+    const receiver = id
+    const message = "Hello world from here!!!"
     const navigate = useNavigate()
 
     const handleClick = () => {
         navigate(`user/${id}`)
+    }
+
+    const sendTalkRequest = () => {
+        axios({
+            method: 'POST',
+            url: 'http://localhost:8000/apiV1/send-request',
+            data: { sender, receiver, message }
+          })
+          .then(response => {
+              console.log(response.data.message)
+              dispatch(setTalkRequestNotification(response.data.message))
+          })
+          .catch(error => {
+              console.error(error)
+          })
     }
 
     return (
@@ -28,7 +51,7 @@ const UserCard = ({ id, name, email, status }) => {
                 </div>
             </div>
             <div className='flex items-center justify-between border border-1 border-gray-300 mt-3 p-1'>
-                <button className='bg-blue-600 text-white rounded text-sm p-1 hover:bg-blue-300'>Send talk request</button>
+                <button className='bg-blue-600 text-white rounded text-sm p-1 hover:bg-blue-300' onClick={sendTalkRequest}>Send talk request</button>
                 <button className='bg-blue-600 text-white rounded text-sm p-1 hover:bg-blue-300' onClick={handleClick}>View profile</button>
             </div>
         </div>

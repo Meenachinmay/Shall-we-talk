@@ -15,17 +15,22 @@ const Home = () => {
     const [users, setUsers] = useState([])
     const [msg, setMsg] = useState()
     const dispatch = useDispatch()
-    const status = useSelector(userStatus => userStatus.status)
     const loggedinuser = useSelector(userAuth => userAuth)
+    const getTalkRequestFeed = useSelector(talkRequestNotification => talkRequestNotification)
     const loggedInUserStatus = loggedinuser.userAuth.user.status
+    
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
-    useEffect(() => {
+    useEffect( async () => {
         console.log ('useeffect rendered')
     
         socket.on('status_change', ({ message, current_status }) => {
             setMsg(current_status)
             console.log(message + ' ' + current_status)
+        })
+
+        socket.on('new_request', ({new_request_notification}) => {
+            
         })
         
         dispatch(setUserStatus(loggedInUserStatus))
@@ -59,14 +64,31 @@ const Home = () => {
     return (
         <div>
             <div className='flex min-h-screen items-center justify-center'>
-                <div className='flex-shrink-0 bg-white p-5 rounded shadow-xl overflow-scroll' style={{ maxHeight: '500px', minWidth: '500px'}}>
-                <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
-                {
-                    filteredUsers.map((item, index) => (
-                        <UserCard key={item._id} id={item._id} name={item.username} email={item.email} status={item.status}/>
-                    ))
-                }
-                </div>
+                <div className='bg-white p-5 rounded shadow-xl overflow-scroll' style={{ maxHeight: '500px', minWidth: '500px'}}>
+                    <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
+                    {
+                        filteredUsers.map((item, index) => (
+                            <UserCard key={item._id} id={item._id} name={item.username} email={item.email} status={item.status}/>
+                        ))
+                    }
+                    </div>
+                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
+                        <div className='border-b-2 p-1 text-center mb-2 font-semibold'>User activity feed</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>
+                            {getTalkRequestFeed.talkRequestNotification.talk_request_notification}
+                        </div>
+                        {/* <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
+                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>     */}
+                    </div>
             </div>
         </div>
     )
