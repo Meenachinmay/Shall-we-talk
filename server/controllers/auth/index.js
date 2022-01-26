@@ -1,8 +1,13 @@
-const  User = require('../../models/user.model')
+// importing all the models
+const User = require('../../models/User.model')
 const UserProfile = require('../../models/UserProfile.model')
+const Request = require ('../../models/Request.model')
 const LoggedInUser = require ('../../models/loggedinuser.model')
 
+// importing JWT for jsonwebtoken related work
 const jwt = require ('jsonwebtoken')
+
+// nodemailer is for sending emails for account activation
 const nodemailer = require ('nodemailer')
 
 //register a user
@@ -89,7 +94,7 @@ exports.accountActivation = async (req, res) => {
     if (token) {
         jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded){
             if (err) {
-                return res.json({
+                return res.status(400).json({
                     error: err
                 })
             }
@@ -119,6 +124,10 @@ exports.accountActivation = async (req, res) => {
                 })
             }
         }
+    } else {
+        return res.status(400).json({
+            error: "Token is invalide"
+        })
     }
 }
 
@@ -315,12 +324,23 @@ exports.logoutUser = async (req, res) => {
 
 // change status of user
 exports.changeStatus = async (req, res) => {
+
+    // get socket io
+    const io = req.app.get('socket')
+
     const { user, status } = req.body
 
     try {
         const finduser = await User.findOne({ user: user})
         if (finduser) {
             const updatestatus = await User.findByIdAndUpdate(user, {"$set": {"status": status }}, {new: true})
+            
+            // emit the event for client here
+            let time = new Date()
+            time = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
+            time = time + updatestatus.status
+            io.emit('status_change', { message: `${finduser.username} has changed status just now`, current_status: time })
+
             return res.status(200).json({
                 message: 'status updated.',
                 status: updatestatus.status
@@ -333,3 +353,67 @@ exports.changeStatus = async (req, res) => {
         })
     }
 }
+
+
+//send request 
+exports.sendRequest = async (req, res) => {
+    const { message, sender, receiver } = req.body
+    const io = req.app.get('socket')
+
+    //send update to receiver with request
+    // build request
+    const request = {message:'', sender:'', receiver:''}
+
+    request.message = message
+    request.sender = sender
+    request.receiver = receiver
+
+    try {
+         // check if the same request is already exist in receiver's 'pending' or 'accepted'
+         // save new request in receiver's pending list by default
+         // first fine receiver
+         const findReceiver = await User.findOne({ _id: request.receiver })
+
+         if ( findReceiver.pendingRequests.includes(request.sender) || findReceiver.acceptedRequests.includes(request.sender)) {
+             return res.status(200).json({
+                 message: "You have already sent an request, please wait"
+             })
+         }
+
+         // find sender
+         const findSender = await User.findOne({ _id: request.sender })
+
+         // update and save receiver with request
+         findReceiver.pendingRequests.push(request.sender)
+
+         // save the newlycreated request
+         await findReceiver.save()
+
+         // fire the new request event here for client
+         // preparing data for event
+         const new_request_notification = `${findSender.username} has sent a new talk request to ${findReceiver.username}`
+
+         // fire the event
+         io.emit('new_request', { new_request_notification })
+
+         return res.status(200).json({
+             message: new_request_notification
+         })
+
+    } catch (error) {
+        return res.status(500).json({
+            error: error
+        })
+    }
+
+}
+
+
+/*
+when ever a requet come from user to a user (sender to receiver)
+save it to receiver in request field (pending feild)
+on accept request move it from 'pending' to 'accepted'
+
+every time when a request arrives at SendRequest method check if its already there in receiver's pending or accepted list. if yes the refuse
+the request otherwise pass it
+*/

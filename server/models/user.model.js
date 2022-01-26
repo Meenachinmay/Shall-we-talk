@@ -15,16 +15,32 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
+    status: {
+        type: String,
+        default: '0'
+    },
+
+    acceptedRequests:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }],
+    pendingRequests:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }],
+    rejectedRequested:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }],
     hashed_password: {
         type: String,
         required: true,
     },
     salt: {
         type: String
-    },
-    status: {
-        type: String,
-        default: '0'
     },
     resetPasswordLink: {
         data: String,

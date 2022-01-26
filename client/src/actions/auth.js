@@ -10,7 +10,8 @@ import {
     USER_LOGGING_OUT_FAILED,
     CHANGING_USER_STATUS,
     CHANGING_USER_STATUS_FAILED,
-    SET_USER_STATUS
+    SET_USER_STATUS,
+    SET_TALK_REQUEST_NOTIFICATION
 } from './types'
 
 // Login action - login a user
@@ -152,5 +153,16 @@ export const setUserStatus = (status) => async dispatch => {
     dispatch({
         type: SET_USER_STATUS,
         payload: status
+    })
+}
+
+
+// set talk request notification
+export const setTalkRequestNotification = (notification) => async dispatch => {
+    dispatch({
+        type: SET_TALK_REQUEST_NOTIFICATION,
+        payload: {
+            notification: notification
+        }
     })
 }
