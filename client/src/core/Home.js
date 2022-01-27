@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setUserStatus } from '../actions/auth'
+import { setTalkRequestNotification } from '../actions/auth'
 
 import UserCard from '../components/UserCard'
 
@@ -13,6 +14,9 @@ const socket = io('http://localhost:8000')
 
 const Home = () => {
     const [users, setUsers] = useState([])
+    const [requestnotification,setRequestNotification] = useState(null)
+    const [dataA, setDataA] = useState('')
+    const [dataB, setDataB] = useState('')
     const [msg, setMsg] = useState()
     const dispatch = useDispatch()
     const loggedinuser = useSelector(userAuth => userAuth)
@@ -29,8 +33,13 @@ const Home = () => {
             console.log(message + ' ' + current_status)
         })
 
-        socket.on('new_request', ({new_request_notification}) => {
-            
+        // get this event from server and update the user activity feed
+        socket.on('new_request', (new_request_data) => {
+            dispatch(setTalkRequestNotification(new_request_data.new_request_notification))
+            console.log('request_sender', loggedinuser.userAuth.user._id)
+            console.log('request_sender', new_request_data.request_sender)
+            setDataA(new_request_data.new_request_notification)
+            setDataB(new_request_data.request_sender)
         })
         
         dispatch(setUserStatus(loggedInUserStatus))
@@ -75,7 +84,8 @@ const Home = () => {
                     <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
                         <div className='border-b-2 p-1 text-center mb-2 font-semibold'>User activity feed</div>
                         <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>
-                            {getTalkRequestFeed.talkRequestNotification.talk_request_notification}
+                            {dataB === loggedinuser.userAuth.user._id ? 
+                                <p>{dataA}</p> : ''}
                         </div>
                         {/* <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
                         <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>

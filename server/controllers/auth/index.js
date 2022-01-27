@@ -391,13 +391,16 @@ exports.sendRequest = async (req, res) => {
 
          // fire the new request event here for client
          // preparing data for event
-         const new_request_notification = `${findSender.username} has sent a new talk request to ${findReceiver.username}`
+         const new_request_data = {
+            new_request_notification: `You sent a new talk request to ${findReceiver.username}`,
+            request_sender: request.sender
+         }
 
          // fire the event
-         io.emit('new_request', { new_request_notification })
+         io.emit('new_request', new_request_data)
 
          return res.status(200).json({
-             message: new_request_notification
+             message: 'Request sending success'
          })
 
     } catch (error) {
