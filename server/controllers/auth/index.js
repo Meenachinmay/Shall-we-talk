@@ -420,3 +420,32 @@ on accept request move it from 'pending' to 'accepted'
 every time when a request arrives at SendRequest method check if its already there in receiver's pending or accepted list. if yes the refuse
 the request otherwise pass it
 */
+
+// load a single user
+exports.loadSingleUser = async (req, res) => {
+    const { user } = req.body
+
+    if ( user ) {
+        try {
+            const _user = await User.findOne({ _id: user })
+            if ( _user ) {
+                return res.status(200).json({
+                    message: 'User found, success',
+                    user: _user
+                })
+            } else {
+                return res.status(500).json({
+                    error: 'User not found with this ID, please try again!'
+                })
+            }
+        } catch (error) {
+            return res.status(400).json({
+                error: error
+            })
+        }
+    } else {
+        return res.status(400).json({
+            error: 'NO user ID provided'
+        })
+    }
+}

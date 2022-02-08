@@ -11,7 +11,9 @@ import {
     CHANGING_USER_STATUS,
     CHANGING_USER_STATUS_FAILED,
     SET_USER_STATUS,
-    SET_TALK_REQUEST_NOTIFICATION
+    SET_TALK_REQUEST_NOTIFICATION,
+    LOADING_A_SINGLE_USER,
+    LOADING_A_SINGLE_USER_FAILED
 } from './types'
 
 // Login action - login a user
@@ -41,7 +43,8 @@ export const login = ({ email, password }) => async dispatch => {
     })
 }
 
-//Register action - register a user and send an email for activation, this action will get launched when user will complete the register process via email
+//Register action - register a user and send an email for activation, 
+//this action will get launched when user will complete the register process via email
 export const register = ({username, email, password }) => async dispatch => {
     axios({
         method: 'POST',
@@ -94,7 +97,8 @@ export const accountActivation = ({ token }) => async dispatch => {
 }
 
 
-// an action to logout the user and delete the token from localStorage and user from the redux state, this will also reset the redux auth state to initial state
+// an action to logout the user and delete the token from localStorage and user from the redux state, 
+//this will also reset the redux auth state to initial state
 export const logout = ({user}) => async dispatch => {
     const token = localStorage.getItem('token')
     axios({
@@ -165,4 +169,30 @@ export const setTalkRequestNotification = (notification) => async dispatch => {
             notification: notification
         }
     })
+}
+
+
+// load user from server and save it to redux store
+export const loadUser = (user) => async dispatch => {
+    axios({
+        method: 'POST',
+        url: `http://localhost:8000/apiV1/load-user`,
+        data: { user }
+      })
+      .then(response => {
+          dispatch({
+              type: LOADING_A_SINGLE_USER,
+              payload: {
+                  user: response.data.user
+              }
+          })
+      })
+      .catch(error => {
+        dispatch({
+            type: LOADING_A_SINGLE_USER_FAILED,
+            payload: {
+                error: error.response.data
+            }
+        })
+      })
 }

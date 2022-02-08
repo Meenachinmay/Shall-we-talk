@@ -6,7 +6,9 @@ import {
     ACCOUNT_ACTIVATION_FAILED,
     ACCOUNT_ACTIVATION_SUCCESS,
     USER_LOGGING_OUT,
-    USER_LOGGING_OUT_FAILED
+    USER_LOGGING_OUT_FAILED,
+    LOADING_A_SINGLE_USER,
+    LOADING_A_SINGLE_USER_FAILED
 } from '../actions/types'
 
 const initialState = {
@@ -71,6 +73,15 @@ export default function (state = initialState, action) {
                 ...state = initialState,
                 isloading: false,
                 error: payload.error
+            }
+        case LOADING_A_SINGLE_USER:
+            return {
+                ...state = initialState,
+                user: payload.user
+            }
+        case LOADING_A_SINGLE_USER_FAILED:
+            return {
+
             }
         default:
             return state
