@@ -30,7 +30,7 @@ const Home = () => {
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
     useEffect( async () => {
         console.log ('useeffect rendered')
-    
+        
         // all the socket events
         socket.on('status_change', ({ message, current_status }) => {
             setMsg(current_status)
@@ -92,9 +92,9 @@ const Home = () => {
                     </div>
                     <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
                         <div className='border-b-2 p-1 text-center mb-2 font-semibold'>Request manager</div>
-                        <TalkRequest name={'Ayumu oshiro'}/>
-                        <TalkRequest name={'Chinmay'}/>
-
+                        { loggedInUserPendingRequests.map((request, index) => (
+                            <TalkRequest key={request} name={request}/>
+                        )) }
                     </div>
             </div>
         </div>
