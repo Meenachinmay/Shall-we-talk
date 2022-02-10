@@ -149,14 +149,10 @@ exports.loginUser = async (req, res) => {
             await newlogin.save()
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
-            
-            const { _id, username, email, status } = user
 
             return res.status(200).json({
                 token,
-                user: {
-                    _id, username, email, status
-                }
+                user: user
             })
 
         }
@@ -448,4 +444,10 @@ exports.loadSingleUser = async (req, res) => {
             error: 'NO user ID provided'
         })
     }
+}
+
+
+// reject request feature ( this feature will handle the request from user and the reject it )
+exports.rejectRequest = async (req, res) => {
+
 }

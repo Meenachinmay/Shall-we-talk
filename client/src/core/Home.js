@@ -5,6 +5,7 @@ import { loadUser, setUserStatus } from '../actions/auth'
 import { setTalkRequestNotification } from '../actions/auth'
 
 import UserCard from '../components/UserCard'
+import TalkRequest from '../components/TalkRequest'
 
 import axios from 'axios'
 import io from 'socket.io-client'
@@ -21,12 +22,16 @@ const Home = () => {
     const loggedinuser = useSelector(userAuth => userAuth)
     const getTalkRequestFeed = useSelector(talkRequestNotification => talkRequestNotification)
     const loggedInUserStatus = loggedinuser.userAuth.user.status
+    const loggedInUserPendingRequests = loggedinuser.userAuth.user.pendingRequests
+    const loggedInUserAcceptedRequests = loggedinuser.userAuth.user.acceptedRequests
+    const loggedInUserRejectedRequests  = loggedinuser.userAuth.user.rejectedRequested
     
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
     useEffect( async () => {
         console.log ('useeffect rendered')
     
+        // all the socket events
         socket.on('status_change', ({ message, current_status }) => {
             setMsg(current_status)
             console.log(message + ' ' + current_status)
@@ -84,17 +89,12 @@ const Home = () => {
                             {new_request_sender === loggedinuser.userAuth.user._id ? 
                                 <p>{new_request_notification}</p> : 'no recent updates for you'}
                         </div>
-                        {/* <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Chinmay anand accepted your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Rohan anand rejected your talk request</div>
-                        <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>Ayumu oshiro rejected your talk request</div>     */}
+                    </div>
+                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
+                        <div className='border-b-2 p-1 text-center mb-2 font-semibold'>Request manager</div>
+                        <TalkRequest name={'Ayumu oshiro'}/>
+                        <TalkRequest name={'Chinmay'}/>
+
                     </div>
             </div>
         </div>
