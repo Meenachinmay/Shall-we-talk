@@ -435,7 +435,7 @@ exports.loadSingleUser = async (req, res) => {
                 })
             }
         } catch (error) {
-            return res.status(400).json({
+            return res.status(500).json({
                 error: error
             })
         }
@@ -446,6 +446,40 @@ exports.loadSingleUser = async (req, res) => {
     }
 }
 
+// this method will accept an array of user IDs and the form a new array with data associated with those user IDs
+exports.sendUserDataForRequests = async (req, res) => {
+    const { PendingRequests } = req.body
+
+    if ( PendingRequests ) {
+        const newUserArray = []
+        try {
+            for (let i = 0; i < PendingRequests.length; i ++) {
+                const _user = await User.findOne({ _id: PendingRequests[i]})
+                const tempUser = {
+                    id: '',
+                    name: ''
+                }
+                tempUser.id = _user._id
+                tempUser.name = _user.username
+
+                newUserArray.push(tempUser)
+            }
+            return res.status(200).json({
+                message: 'success',
+                dataForPendingRequests: newUserArray
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message:'most probably you have provided invalide user id',
+                error: error
+            })
+        }
+    } else {
+        return res.status(400).json({
+            error: 'NO user ID array provided'
+        })
+    }
+}
 
 // reject request feature ( this feature will handle the request from user and the reject it )
 exports.rejectRequest = async (req, res) => {

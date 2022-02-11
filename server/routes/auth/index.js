@@ -14,7 +14,8 @@ const { regsiterUsingEmailActivation,
         logoutUser,
         changeStatus,
         sendRequest,
-        loadSingleUser
+        loadSingleUser,
+        sendUserDataForRequests
  } = require ('../../controllers/auth/index')
 
 // import validator
@@ -35,6 +36,7 @@ router.delete('/logout-user', logoutUser)
 router.post('/change-status', changeStatus)
 router.post('/send-request', sendRequest)
 router.post('/load-user', loadSingleUser)
+router.post('/pending-request-user-data', sendUserDataForRequests)      
 
 
 

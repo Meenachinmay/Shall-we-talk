@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { loadUser, setUserStatus } from '../actions/auth'
+import { setUserStatus } from '../actions/auth'
 import { setTalkRequestNotification } from '../actions/auth'
 
 import UserCard from '../components/UserCard'
@@ -9,7 +9,6 @@ import TalkRequest from '../components/TalkRequest'
 
 import axios from 'axios'
 import io from 'socket.io-client'
-import EVENTS from '../config/default'
 
 const socket = io('http://localhost:8000')
 
@@ -20,17 +19,14 @@ const Home = () => {
     const [msg, setMsg] = useState()
     const dispatch = useDispatch()
     const loggedinuser = useSelector(userAuth => userAuth)
-    const getTalkRequestFeed = useSelector(talkRequestNotification => talkRequestNotification)
+    //const getTalkRequestFeed = useSelector(talkRequestNotification => talkRequestNotification)
     const loggedInUserStatus = loggedinuser.userAuth.user.status
-    const loggedInUserPendingRequests = loggedinuser.userAuth.user.pendingRequests
-    const loggedInUserAcceptedRequests = loggedinuser.userAuth.user.acceptedRequests
-    const loggedInUserRejectedRequests  = loggedinuser.userAuth.user.rejectedRequested
+    const PendingRequests = loggedinuser.userAuth.user.pendingRequests
     
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
-    useEffect( async () => {
-        console.log ('useeffect rendered')
-        
+    useEffect( async () => {       
+        console.log(PendingRequests) 
         // all the socket events
         socket.on('status_change', ({ message, current_status }) => {
             setMsg(current_status)
@@ -44,20 +40,29 @@ const Home = () => {
             setNewRequestSender(new_request_data.request_sender)
         })
 
+        // dispatch all the actions from here
         dispatch(setUserStatus(loggedInUserStatus))
-        
-        // write flash here
-        console.log('loading...')
 
+        // all the axios requests here
+
+        // send an array of user IDs and receive user data for that array
+        axios({
+            method: 'POST',
+            url: `http://localhost:8000/apiV1/pending-request-user-data`,
+            data: { PendingRequests }
+        }).then(response => {
+            console.log(response)
+        }).catch(err => {
+            console.error(err)
+        })
+
+        // make a request to backend to get all the logged in user to show on homepage
         axios({
             method: 'GET',
             url: `http://localhost:8000/apiV1/get-all-logged-in-users`,
             data: { }
           })
           .then(response => {
-            // remove flash here
-            console.log('loding is done...')
-
             const res = response.data.users
             Array.from(res)
             setUsers(res)
@@ -65,7 +70,7 @@ const Home = () => {
           .catch(error => {
               console.error(error)
           })
-          console.log('just before return')
+
           return () => socket.off()
     },[msg])
 
@@ -92,7 +97,7 @@ const Home = () => {
                     </div>
                     <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
                         <div className='border-b-2 p-1 text-center mb-2 font-semibold'>Request manager</div>
-                        { loggedInUserPendingRequests.map((request, index) => (
+                        { PendingRequests.map((request, index) => (
                             <TalkRequest key={request} name={request}/>
                         )) }
                     </div>
