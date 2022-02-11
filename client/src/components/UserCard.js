@@ -25,7 +25,7 @@ const UserCard = ({ id, name, email, status }) => {
           })
           .then(response => {
               console.log(response.data.message)
-              dispatch(setTalkRequestNotification(response.data.message))
+              //dispatch(setTalkRequestNotification(response.data.message))
           })
           .catch(error => {
               console.error(error)

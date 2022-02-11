@@ -149,14 +149,10 @@ exports.loginUser = async (req, res) => {
             await newlogin.save()
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
-            
-            const { _id, username, email, status } = user
 
             return res.status(200).json({
                 token,
-                user: {
-                    _id, username, email, status
-                }
+                user: user
             })
 
         }
@@ -391,13 +387,16 @@ exports.sendRequest = async (req, res) => {
 
          // fire the new request event here for client
          // preparing data for event
-         const new_request_notification = `${findSender.username} has sent a new talk request to ${findReceiver.username}`
+         const new_request_data = {
+            new_request_notification: `You sent a new talk request to ${findReceiver.username}`,
+            request_sender: request.sender
+         }
 
          // fire the event
-         io.emit('new_request', { new_request_notification })
+         io.emit('new_request', new_request_data)
 
          return res.status(200).json({
-             message: new_request_notification
+             message: 'Request sending success'
          })
 
     } catch (error) {
@@ -417,3 +416,72 @@ on accept request move it from 'pending' to 'accepted'
 every time when a request arrives at SendRequest method check if its already there in receiver's pending or accepted list. if yes the refuse
 the request otherwise pass it
 */
+
+// load a single user
+exports.loadSingleUser = async (req, res) => {
+    const { user } = req.body
+
+    if ( user ) {
+        try {
+            const _user = await User.findOne({ _id: user })
+            if ( _user ) {
+                return res.status(200).json({
+                    message: 'User found, success',
+                    user: _user
+                })
+            } else {
+                return res.status(500).json({
+                    error: 'User not found with this ID, please try again!'
+                })
+            }
+        } catch (error) {
+            return res.status(500).json({
+                error: error
+            })
+        }
+    } else {
+        return res.status(400).json({
+            error: 'NO user ID provided'
+        })
+    }
+}
+
+// this method will accept an array of user IDs and the form a new array with data associated with those user IDs
+exports.sendUserDataForRequests = async (req, res) => {
+    const { PendingRequests } = req.body
+
+    if ( PendingRequests ) {
+        const newUserArray = []
+        try {
+            for (let i = 0; i < PendingRequests.length; i ++) {
+                const _user = await User.findOne({ _id: PendingRequests[i]})
+                const tempUser = {
+                    id: '',
+                    name: ''
+                }
+                tempUser.id = _user._id
+                tempUser.name = _user.username
+
+                newUserArray.push(tempUser)
+            }
+            return res.status(200).json({
+                message: 'success',
+                dataForPendingRequests: newUserArray
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message:'most probably you have provided invalide user id',
+                error: error
+            })
+        }
+    } else {
+        return res.status(400).json({
+            error: 'NO user ID array provided'
+        })
+    }
+}
+
+// reject request feature ( this feature will handle the request from user and the reject it )
+exports.rejectRequest = async (req, res) => {
+
+}

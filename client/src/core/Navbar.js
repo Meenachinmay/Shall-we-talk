@@ -13,15 +13,14 @@ const Navbar = () => {
     const navigate = useNavigate()
     let loggedInAs = null
     let user = null
+    const token = localStorage.getItem('token')
+    const status = useSelector(userStatus => userStatus)
 
     // if user is logged in then only fetch these details from redux store
     if (isAuth.userAuth.isAuth === true) {
         loggedInAs = isAuth.userAuth.user.username
         user = isAuth.userAuth.user._id
     }
-
-    const token = localStorage.getItem('token')
-    const status = useSelector(userStatus => userStatus)
 
     const handleLogout = () => {
         const user = isAuth.userAuth.user._id

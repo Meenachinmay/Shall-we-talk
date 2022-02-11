@@ -14,6 +14,7 @@ require('dotenv').config()
 const authRouter = require('./routes/auth/index')
 
 const app = express()
+
 app.use(cors({
     origin: "http://localhost:3000"
 }));
