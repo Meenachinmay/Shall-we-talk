@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import { logout, changeUserStatus, setUserStatus } from '../actions/auth';
 import { useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
-
 const Navbar = () => {
 
     const dispatch = useDispatch()
@@ -45,6 +43,7 @@ const Navbar = () => {
                         <button className='bg-green-300 rounded px-3' onClick={() => changeStatus('2')}>Want to talk</button>
                         <button className='bg-blue-300 rounded px-3' onClick={() => changeStatus('1')}>Ready to talk</button>
                         <button className='px-3'>Current Status: {status.userStatus.status}</button>
+                        <button className='bg-white rounded p-1 text-gray-900' style={{ fontSize: '12px'}}>Check rooms</button>
 
                     <div className="flex items-center">
                         <p className='mr-2 text-white font-thin text-sm'>Logged in as {loggedInAs}</p>

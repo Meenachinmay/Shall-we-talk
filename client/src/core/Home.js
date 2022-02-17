@@ -9,6 +9,7 @@ import TalkRequest from '../components/TalkRequest'
 
 import axios from 'axios'
 import io from 'socket.io-client'
+import RoomButton from '../components/RoomButton'
 
 const socket = io('http://localhost:8000')
 
@@ -28,6 +29,7 @@ const Home = () => {
     useEffect( async () => {       
         console.log(PendingRequests) 
         // all the socket events
+        // listening for the status change event
         socket.on('status_change', ({ message, current_status }) => {
             setMsg(current_status)
             console.log(message + ' ' + current_status)
@@ -41,17 +43,20 @@ const Home = () => {
         })
 
         // dispatch all the actions from here
+        // load action method to load all the loggedin users from server
         dispatch(setUserStatus(loggedInUserStatus))
 
         // all the axios requests here
-
         // send an array of user IDs and receive user data for that array
         axios({
             method: 'POST',
             url: `http://localhost:8000/apiV1/pending-request-user-data`,
             data: { PendingRequests }
         }).then(response => {
-            console.log(response)
+            // if error exist in the response then show it
+            if ( response.data.error ) {
+                console.log(response.data.error)
+            }
         }).catch(err => {
             console.error(err)
         })
@@ -81,6 +86,8 @@ const Home = () => {
         <div>
             <div className='flex min-h-screen items-center justify-center'>
                 <div className='bg-white p-5 rounded shadow-xl overflow-scroll' style={{ maxHeight: '500px', minWidth: '500px'}}>
+                    
+                    {/* logged in users */}
                     <div className='text-center text-2xl text-gray-900 font-semibold'>ユーザーリスト</div>
                     {
                         filteredUsers.map((item, index) => (
@@ -88,18 +95,28 @@ const Home = () => {
                         ))
                     }
                     </div>
-                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
+
+                    {/* user activity feed */}
+                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '200px', maxWidth: '200px', minHeight: '250px', maxHeight: '250px'}}>
                         <div className='border-b-2 p-1 text-center mb-2 font-semibold'>User activity feed</div>
                         <div className='p-1 text-sm text-clip border border-gray-300 mb-1'>
                             {new_request_sender === loggedinuser.userAuth.user._id ? 
-                                <p>{new_request_notification}</p> : 'no recent updates for you'}
+                                <p>{new_request_notification}</p> : <p className='overflow-hidden'>no recent updates for you</p>}
                         </div>
                     </div>
-                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '300px', maxWidth: '300px', minHeight: '300px', maxHeight: '300px'}}>
+
+                    {/* Request manager */}
+                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '200px', maxWidth: '200px', minHeight: '250px', maxHeight: '250px'}}>
                         <div className='border-b-2 p-1 text-center mb-2 font-semibold'>Request manager</div>
                         { PendingRequests.map((request, index) => (
                             <TalkRequest key={request} name={request}/>
                         )) }
+                    </div>
+
+                    {/* Request manager */}
+                    <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '100px', maxWidth: '100px', minHeight: '250px', maxHeight: '250px'}}>
+                        <div className='border-b-2 text-center text-sm mb-2'>Select location</div>
+                            <RoomButton name={'Room A'}/>
                     </div>
             </div>
         </div>

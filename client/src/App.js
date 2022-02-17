@@ -26,7 +26,6 @@ const App = () => {
         <PersistGate loading="null" persistor={persistor}>
         <>
         <Navbar />
-        </>
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={ <Home /> } />
@@ -39,6 +38,7 @@ const App = () => {
           <Route path="/login" element={ <Login /> } />
           <Route path="/flash-message" element={<FlashMessage />} />
         </Routes>
+        </>
         </PersistGate>
     </Provider>
   )

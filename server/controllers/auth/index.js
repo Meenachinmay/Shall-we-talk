@@ -9,6 +9,7 @@ const jwt = require ('jsonwebtoken')
 
 // nodemailer is for sending emails for account activation
 const nodemailer = require ('nodemailer')
+const RoomModel = require('../../models/Room.model')
 
 //register a user
 exports.register = async (req, res) => {
@@ -469,9 +470,9 @@ exports.sendUserDataForRequests = async (req, res) => {
                 dataForPendingRequests: newUserArray
             })
         } catch (error) {
-            return res.status(500).json({
-                message:'most probably you have provided invalide user id',
-                error: error
+            return res.status(200).json({
+                error:'most probably you have provided invalide user ids',
+                message: 'hello world'
             })
         }
     } else {
@@ -481,7 +482,62 @@ exports.sendUserDataForRequests = async (req, res) => {
     }
 }
 
+
 // reject request feature ( this feature will handle the request from user and the reject it )
 exports.rejectRequest = async (req, res) => {
+    
+}
 
+
+// taking up some location from the given locations
+exports.takeUpOnThisLocation = async (req, res) => {
+
+}
+
+
+// send the list of rooms to frontend
+exports.getAllTheRooms = async (req, res) => {
+    const allrooms = await RoomModel.find()
+    if ( allrooms ) {
+        return res.status(200).json({
+            rooms: allrooms
+        })
+    } else {
+        return res.status(500).json({
+            error: "Internal error"
+        })
+    }
+}
+
+
+// create a room / seat
+exports.createNewRoom = async (req, res) => {
+    const { name } = req.body
+
+    if ( name ) {
+        const findroom = await RoomModel.findOne({ name: name })
+        if ( findroom ) {
+            return res.status(400).json({
+                error: 'Please provide a different name for room this room is already taken.'
+            })
+        } else {
+            try {
+                const newroom = new RoomModel({ name })
+                await newroom.save()
+    
+                return res.status(200).json({
+                    message: 'success',
+                    newroom: newroom
+                })
+            } catch (error) {
+                return res.status(500).json({
+                    error: error
+                })
+            }
+        }
+    } else {
+        return res.status(400).json({
+            error: 'NO room name provided, please provide a room name to create a new room'
+        })
+    }
 }
