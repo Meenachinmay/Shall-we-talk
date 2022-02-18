@@ -491,6 +491,7 @@ exports.rejectRequest = async (req, res) => {
 
 // taking up some location from the given locations
 exports.occupiyARoom = async (req, res) => {
+    const io = req.app.get('socket')
     const { roomid, takenBy, name } = req.body
 
     // preapre an object for room
@@ -507,7 +508,7 @@ exports.occupiyARoom = async (req, res) => {
 
     // find room with given ID with request
     const occupiedRoom = await RoomModel.findOne({_id: room.roomid})
-    
+
     // find the user for updating their location (occupiedLocation) -> column
     const user = await User.findOne({ _id: takenBy })
 
@@ -516,12 +517,19 @@ exports.occupiyARoom = async (req, res) => {
         // if room is not vacant then...or else give this room to the given user ID
         if ( occupiedRoom.vacant === false ) {
             return res.status(200).json({
-                error: 'This Room is already occupied, please try to enter in some other location'
+                message: 'This Room is already occupied, please try to enter in some other location'
             })
         } else {
             occupiedRoom.takenBy = room.occupiedBy
             occupiedRoom.vacant = false
+
+            user.occupiedLocation = occupiedRoom._id
+
             await occupiedRoom.save()
+            await user.save()
+
+            const roomname = room.roomName
+            io.emit('enter_new_location', roomname)
 
             return res.status(200).json({
                 message: 'You entered into a new location.'

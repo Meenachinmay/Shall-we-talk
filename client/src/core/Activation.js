@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
 import { accountActivation } from '../actions/auth'
-
-import { LockClosedIcon } from '@heroicons/react/solid'
 
 const Activation = () => {
     const { token } = useParams()

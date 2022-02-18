@@ -15,7 +15,7 @@ const initialState = {
     token: null,
     isAuth: null,
     loading: true,
-    user: null,
+    user: {},
     error: null,
     message: null
 }

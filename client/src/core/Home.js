@@ -10,6 +10,7 @@ import TalkRequest from '../components/TalkRequest'
 import axios from 'axios'
 import io from 'socket.io-client'
 import RoomButton from '../components/RoomButton'
+import { updateUser } from '../actions/user'
 
 const socket = io('http://localhost:8000')
 
@@ -19,6 +20,7 @@ const Home = () => {
     const [new_request_notification, setDataNewRequestNotification] = useState('')
     const [new_request_sender, setNewRequestSender] = useState('')
     const [msg, setMsg] = useState()
+    const [location, setLocation] = useState()
     const dispatch = useDispatch()
     const loggedinuser = useSelector(userAuth => userAuth)
     const loggedInUserId = loggedinuser.userAuth.user._id
@@ -27,8 +29,12 @@ const Home = () => {
     const PendingRequests = loggedinuser.userAuth.user.pendingRequests
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
-    useEffect(() => {       
-        console.log(PendingRequests) 
+    useEffect(() => {      
+        console.log('useeffect rendered')
+
+        // update the current logged in user
+        dispatch(updateUser(loggedInUserId)) 
+
         // all the socket events
         // listening for the status change event
         socket.on('status_change', ({ message, current_status }) => {
@@ -41,6 +47,12 @@ const Home = () => {
             dispatch(setTalkRequestNotification(new_request_data.new_request_notification))
             setDataNewRequestNotification(new_request_data.new_request_notification)
             setNewRequestSender(new_request_data.request_sender)
+        })
+
+        // get this event from server and update the current logged in user
+        socket.on('enter_new_location', (roomname) =>{
+            console.log('Current user joined the ' + roomname + 'room')
+            setLocation(roomname)
         })
 
         // dispatch all the actions from here
@@ -95,7 +107,7 @@ const Home = () => {
        fetchFromServer()
 
         return () => socket.off()
-    },[msg])
+    },[msg, location])
 
     // remove current user from logged in users list, we do not want to render current logged in user in the list
     const filteredUsers = users.filter(item => item._id !== loggedinuser.userAuth.user._id)
@@ -136,7 +148,7 @@ const Home = () => {
                         <div className='border-b-2 text-center text-sm mb-2'>Select location</div>
                             {
                                 seats.map((item, index) => (
-                                    <RoomButton name={item.name} roomid={item._id} takenBy={loggedInUserId}/>
+                                    <RoomButton key={index} name={item.name} roomid={item._id} takenBy={loggedInUserId}/>
                                 ))
                             }
                     </div>

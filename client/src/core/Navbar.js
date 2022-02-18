@@ -46,7 +46,7 @@ const Navbar = () => {
                         <button className='bg-white rounded p-1 text-gray-900' style={{ fontSize: '12px'}}>Check rooms</button>
 
                     <div className="flex items-center">
-                        <p className='mr-2 text-white font-thin text-sm'>Logged in as {loggedInAs}</p>
+                        <p className='mr-2 text-white font-thin text-sm'>Logged in as {loggedInAs} {' '} (current location)</p>
                         <button onClick={handleLogout} className="mx-2 cursor-pointer">Logout</button>
                     </div>
                 </div>

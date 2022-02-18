@@ -1,25 +1,18 @@
 import {
-    CHANGING_USER_STATUS,
-    SET_USER_STATUS
+    UPDATE_USER
 } from '../actions/types'
 
 const initialState = {
-    status: 0
+    user: {}
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action
-
     switch (type) {
-        case CHANGING_USER_STATUS:
+        case UPDATE_USER:
             return {
                 ...state = initialState,
-                status: payload.status
-            }
-        case SET_USER_STATUS:
-            return {
-                ...state = initialState,
-                status: payload
+                user: payload.user
             }
         default:
             return state
