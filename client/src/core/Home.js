@@ -15,18 +15,19 @@ const socket = io('http://localhost:8000')
 
 const Home = () => {
     const [users, setUsers] = useState([])
+    const [seats, setSeats] = useState([])
     const [new_request_notification, setDataNewRequestNotification] = useState('')
     const [new_request_sender, setNewRequestSender] = useState('')
     const [msg, setMsg] = useState()
     const dispatch = useDispatch()
     const loggedinuser = useSelector(userAuth => userAuth)
+    const loggedInUserId = loggedinuser.userAuth.user._id
     //const getTalkRequestFeed = useSelector(talkRequestNotification => talkRequestNotification)
     const loggedInUserStatus = loggedinuser.userAuth.user.status
     const PendingRequests = loggedinuser.userAuth.user.pendingRequests
-    
 
     // here we will feetch all the logged in users and then pass them one by one to the UserCard
-    useEffect( async () => {       
+    useEffect(() => {       
         console.log(PendingRequests) 
         // all the socket events
         // listening for the status change event
@@ -47,6 +48,7 @@ const Home = () => {
         dispatch(setUserStatus(loggedInUserStatus))
 
         // all the axios requests here
+       async function fetchFromServer () {
         // send an array of user IDs and receive user data for that array
         axios({
             method: 'POST',
@@ -76,7 +78,23 @@ const Home = () => {
               console.error(error)
           })
 
-          return () => socket.off()
+          // 
+          axios({
+            method: 'GET',
+            url: `http://localhost:8000/apiV1/get-all-the-rooms`,
+            data: {}
+            }).then(response => {
+                const rooms = response.data.rooms
+                //Array.from(rooms)
+                setSeats(rooms)
+            }).catch(error => {
+                console.error(error)
+            })
+       }
+
+       fetchFromServer()
+
+        return () => socket.off()
     },[msg])
 
     // remove current user from logged in users list, we do not want to render current logged in user in the list
@@ -116,7 +134,11 @@ const Home = () => {
                     {/* Request manager */}
                     <div className='bg-white p-3 rounded shadow-xl ml-10 overflow-scroll' style={{ minWidth: '100px', maxWidth: '100px', minHeight: '250px', maxHeight: '250px'}}>
                         <div className='border-b-2 text-center text-sm mb-2'>Select location</div>
-                            <RoomButton name={'Room A'}/>
+                            {
+                                seats.map((item, index) => (
+                                    <RoomButton name={item.name} roomid={item._id} takenBy={loggedInUserId}/>
+                                ))
+                            }
                     </div>
             </div>
         </div>
