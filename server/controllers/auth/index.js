@@ -490,7 +490,48 @@ exports.rejectRequest = async (req, res) => {
 
 
 // taking up some location from the given locations
-exports.takeUpOnThisLocation = async (req, res) => {
+exports.occupiyARoom = async (req, res) => {
+    const { roomid, takenBy, name } = req.body
+
+    // preapre an object for room
+    const room = {
+        roomid: '',
+        occupiedBy: '',
+        roomName: ''
+    }
+
+    //
+    room.roomName = name
+    room.occupiedBy = takenBy
+    room.roomid = roomid
+
+    // find room with given ID with request
+    const occupiedRoom = await RoomModel.findOne({_id: room.roomid})
+    
+    // find the user for updating their location (occupiedLocation) -> column
+    const user = await User.findOne({ _id: takenBy })
+
+    // if there is a room then proceed further
+    if ( occupiedRoom ) {
+        // if room is not vacant then...or else give this room to the given user ID
+        if ( occupiedRoom.vacant === false ) {
+            return res.status(200).json({
+                error: 'This Room is already occupied, please try to enter in some other location'
+            })
+        } else {
+            occupiedRoom.takenBy = room.occupiedBy
+            occupiedRoom.vacant = false
+            await occupiedRoom.save()
+
+            return res.status(200).json({
+                message: 'You entered into a new location.'
+            })
+        }
+    } else {
+        return res.status(500).json({
+            error: 'there is no room available with this ID'
+        })
+    }
 
 }
 

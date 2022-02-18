@@ -1,9 +1,18 @@
 import React from 'react'
+import axios from 'axios'
 
 const RoomButton = ({ name, roomid, takenBy }) => {
 
     const handleClick = () => {
-        alert (takenBy)
+        axios({
+            method: 'POST',
+            url: `http://localhost:8000/apiV1/occupiy-a-room`,
+            data: { name, roomid, takenBy }
+        }).then(response => {
+            
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     return (

@@ -17,7 +17,8 @@ const { regsiterUsingEmailActivation,
         loadSingleUser,
         sendUserDataForRequests,
         createNewRoom,
-        getAllTheRooms
+        getAllTheRooms,
+        occupiyARoom
  } = require ('../../controllers/auth/index')
 
 // import validator
@@ -41,6 +42,7 @@ router.post('/load-user', loadSingleUser)
 router.post('/pending-request-user-data', sendUserDataForRequests)
 router.post('/create-a-new-room', createNewRoom)
 router.get('/get-all-the-rooms', getAllTheRooms)
+router.post('/occupiy-a-room', occupiyARoom)
 
 
 

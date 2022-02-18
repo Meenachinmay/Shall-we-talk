@@ -88,7 +88,7 @@ const Home = () => {
                 //Array.from(rooms)
                 setSeats(rooms)
             }).catch(error => {
-                console.error(error)
+                console.log(error)
             })
        }
 
