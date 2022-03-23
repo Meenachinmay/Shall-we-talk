@@ -1,46 +1,42 @@
-import React from 'react'
-import Navbar from './core/Navbar';
+import './App.css';
+import { Routes, Route } from "react-router-dom";
 
-import { Routes, Route } from 'react-router-dom'
+import { PersistGate } from 'redux-persist/integration/react';
 
-import Profile from './core/Profile';
-import Login from './core/Login';
-import Register from './core/Register';
-import Home from './core/Home'
-import Activation from './core/Activation';
-import UserProfile from './core/UserProfile';
-
-import { PersistGate } from 'redux-persist/integration/react'
-
-//redux implementation
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import { store, persistor } from './store'
 
-import ProtectedRoutes from './ProtectedRoutes';
-import ViewSelfProfile from './core/ViewSelfProfile';
-import FlashMessage from './components/FlashMessage';
-  
-const App = () => {
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import Users from './components/Users'
+import UserProfile from './components/UserProfile';
+
+import LoginRegister from './pages/LoginRegister'
+import Register from './pages/Register';
+import Notification from './pages/Notification';
+import SendMessage from './components/SendMessage';
+import EditProfile from './pages/EditProfile';
+import AccountActiviation from './pages/AccountActivation';
+
+function App() {
   return (
-      <Provider store={store}>
-        <PersistGate loading="null" persistor={persistor}>
-        <>
+    <Provider store={store}>
+       <PersistGate loading="null" persistor={persistor}>
         <Navbar />
         <Routes>
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={ <Home /> } />
-            <Route path="/profile" element={ <Profile /> } />
-            <Route path="/user/:userid" element={<UserProfile />}/>
-            <Route path="/view-self-profile" element={<ViewSelfProfile />}/>
-          </Route>
-          <Route path="/register" element={ <Register /> } />
-          <Route path="/auth/activate/:token" element={<Activation />}/>
-          <Route path="/login" element={ <Login /> } />
-          <Route path="/flash-message" element={<FlashMessage />} />
+          <Route path="/" element={<HomePage /> }/>
+          <Route path="/users" element={<Users />}/>
+          <Route path="/user-profile" element={<UserProfile />}/>
+          <Route path='/login-register' element={<LoginRegister />} />
+          <Route path='/notification' element={<Notification />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/send-message' element={<SendMessage />} />
+          <Route path='/edit-profile' element={<EditProfile />} />
+          <Route path='/activation' element={<AccountActiviation />} />
         </Routes>
-        </>
-        </PersistGate>
+      </PersistGate>
     </Provider>
-  )
+  );
 }
+
 export default App;

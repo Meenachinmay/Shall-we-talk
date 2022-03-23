@@ -8,7 +8,7 @@ import rootReducer from './reducers'
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['userAuth', 'talkRequestNotification']
+    whitelist: []
   }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -16,7 +16,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const initialState = {}
 
 const middleware = [thunk]
-
 
 const store = createStore(
         persistedReducer, 
