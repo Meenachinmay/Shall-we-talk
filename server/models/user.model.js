@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     }],
+    occupiedLocation: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
+        default: null
+    },
     hashed_password: {
         type: String,
         required: true,

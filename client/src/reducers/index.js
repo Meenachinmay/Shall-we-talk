@@ -1,11 +1,7 @@
 import { combineReducers } from "redux"
 
-import userAuth from './userAuth'
-import userStatus from './userStatus'
-import talkRequestNotification from './talkRequestNotification'
+import alert from "./alert"
 
 export default combineReducers({
-    userAuth,
-    userStatus,
-    talkRequestNotification
+   alert
 })
