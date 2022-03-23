@@ -29,12 +29,13 @@ const Navbar = () => {
         <div className='shadow-md w-full'>
             <div className='md:flex items-center md:justify-between bg-white py-4 md:px-10 px-7'>
                 <div className='md:flex md:items-center'>
-                    <a href='/' className='flex items-center md:justify-start justify-center font-bold text-2xl cursor-pointer text-gray-800'>
+                    <a href='/' className='flex items-center md:justify-start justify-center font-bold text-xl cursor-pointer text-gray-800'>
                         <div className='text-indigo-600'>
-                            リアル
+                            shall we
                         </div>
+                        <div>&nbsp;</div>
                         <div>
-                            コネクト
+                            talk
                         </div>
                     </a>  
 
