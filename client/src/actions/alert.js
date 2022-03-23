@@ -10,3 +10,4 @@ export const setNewAlert = (newalert) => async dispatch => {
         }
     })
 }
+

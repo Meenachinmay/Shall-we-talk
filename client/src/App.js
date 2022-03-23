@@ -30,9 +30,10 @@ function App() {
           <Route path='/login-register' element={<LoginRegister />} />
           <Route path='/notification' element={<Notification />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/send-message' element={<SendMessage />} />
+          <Route path='/send-message/:receiver_name/:receiver_id' element={<SendMessage />} />
           <Route path='/edit-profile' element={<EditProfile />} />
           <Route path='/activation' element={<AccountActiviation />} />
+          <Route path='/user-profile/:user_id' element={<UserProfile />} />
         </Routes>
       </PersistGate>
     </Provider>

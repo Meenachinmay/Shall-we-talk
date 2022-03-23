@@ -3,7 +3,8 @@ import {
 } from '../actions/types'
 
 const initialState = {
-    newalert: {}
+    newalert: {},
+    showAlert: false
 }
 
 export default function (state = initialState, action) {
@@ -13,7 +14,8 @@ export default function (state = initialState, action) {
         case NEW_ALERT:
             return {
                 ...state = initialState,
-                newalert: payload.alert
+                newalert: payload.alert,
+                showAlert: true
             }
         default:
             return state;

@@ -9,20 +9,12 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const alertState = useSelector(alert => alert)
 
-    const [showAlert, setShowAlert] = useState(false)
-
     const handleAlert = async() => {
         const newalert = {
             type: 'success',
             message: 'This is an success alert'
         }
         await dispatch(setNewAlert(newalert))
-        if (alertState.alert.newalert !== null) {
-            setShowAlert(true)
-        }
-        setTimeout(() => {
-            setShowAlert(false)
-        }, 5000);
     }
 
     return (
@@ -85,7 +77,7 @@ const Navbar = () => {
                     </a>
                 </div>
             </div>
-            { showAlert ? <Alert type={alertState.alert.newalert.type} /> : '' }
+            { alertState.alert.showAlert ? <Alert type={alertState.alert.newalert.type} /> : '' }
         </div>
     )
 }
