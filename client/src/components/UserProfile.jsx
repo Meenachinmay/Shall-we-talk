@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfile = () => {
+    const navigate = useNavigate()
+    const receiver_name = "チンメイ"
+    const receiver_id = 1234
     return (
         <div className='container mx-auto flex flex-col md:flex-row items-center justify-center'>
             <div className='mt-12 w-3/4 p-8 bg-white border-1 shadow-lg rounded-lg'>
@@ -23,8 +27,8 @@ const UserProfile = () => {
                         <button onClick={() => alert('Call send request API from backend')} className='text-xs text-gray-800 py-1 px-2 border-2 border-indigo-600 cursor-pointer 
                         hover:border-indigo-400 duration-500 rounded-md'>リクエスト送信</button>
                         {'/'}
-                        <a href='/send-message' className='text-xs text-gray-800 py-1 px-2 border-2 border-indigo-600 cursor-pointer
-                         hover:border-indigo-400 duration-500 rounded-md'>メッセージ送信</a>
+                        <button onClick={() => navigate(`/send-message/${receiver_name}/${receiver_id}`)} className='text-xs text-gray-800 py-1 px-2 border-2 border-indigo-600 cursor-pointer
+                         hover:border-indigo-400 duration-500 rounded-md'>メッセージ送信</button>
                     </div>
                     <div>
                         <div className='text-xs text-gray-800 py-1 px-2 border-2 border-indigo-600 cursor-pointer

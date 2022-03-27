@@ -420,15 +420,15 @@ the request otherwise pass it
 
 // load a single user
 exports.loadSingleUser = async (req, res) => {
-    const { user } = req.body
+    const { userID } = req.body
 
-    if ( user ) {
+    if ( userID ) {
         try {
-            const _user = await User.findOne({ _id: user })
+            const _user = await User.findOne({ _id: userID })
             if ( _user ) {
                 return res.status(200).json({
                     message: 'User found, success',
-                    user: _user
+                    userProfile: _user
                 })
             } else {
                 return res.status(500).json({

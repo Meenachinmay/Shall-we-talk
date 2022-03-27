@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setNewAlert } from '../actions/alert';
 
 const LoginRegister = () => {
 
     const [checkbox, setCheckBox] = useState(false)
-
-    console.log(checkbox)
 
     return (
         <div className='container mx-auto'>
