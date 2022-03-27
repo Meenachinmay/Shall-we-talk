@@ -6,15 +6,15 @@ import Alert from './Alert';
 
 const Navbar = () => {
     const navigate = useNavigate()
-    // const dispatch = useDispatch()
-    // const alertState = useSelector(alert => alert)
+    const dispatch = useDispatch()
+    const alertState = useSelector(alert => alert)
 
     const handleAlert = async() => {
         const newalert = {
             type: 'success',
             message: 'This is an success alert'
         }
-        // await dispatch(setNewAlert(newalert))
+        await dispatch(setNewAlert(newalert))
     }
 
     return (
@@ -77,7 +77,7 @@ const Navbar = () => {
                     </a>
                 </div>
             </div>
-            {/* { alertState.alert.showAlert ? <Alert type={alertState.alert.newalert.type} /> : '' } */}
+            { alertState.alert.showAlert ? <Alert type={alertState.alert.newalert.type} /> : '' }
         </div>
     )
 }

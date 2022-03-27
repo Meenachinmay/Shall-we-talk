@@ -26,7 +26,8 @@ export default function (state = initialState, action) {
             return {
                 ...state = initialState,
                 user: {},
-                loading: false
+                loading: false,
+                error: payload.error
             }
         default:
             return state;

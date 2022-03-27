@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserProfile } from '../actions/userProfile';
 
 const HomePage = () => {
+    const dispatch = useDispatch()
+    const userID = '61f19ec9624d6e7a0fdb141f'
+    useEffect(() => {
+        dispatch(fetchUserProfile(userID))
+    }, [dispatch])
+
     return (
         <div className='h-screen bg-indigo-600'>
             <div className='flex flex-col justify-center items-center text-center p-4'>
