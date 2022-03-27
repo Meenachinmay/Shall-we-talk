@@ -77,7 +77,7 @@ const Navbar = () => {
                     </a>
                 </div>
             </div>
-            { alertState.alert.showAlert ? <Alert type={alertState.alert.newalert.type} /> : '' }
+            { alertState.alert.showAlert ? <Alert type={alertState.alert.newalert.type} message={alertState.alert.newalert.message}/> : '' }
         </div>
     )
 }

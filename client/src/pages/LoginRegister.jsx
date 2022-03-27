@@ -5,14 +5,6 @@ import { setNewAlert } from '../actions/alert';
 const LoginRegister = () => {
 
     const [checkbox, setCheckBox] = useState(false)
-    const dispatch = useDispatch()
-    const handleAlert = async() => {
-        const newalert = {
-            type: 'success',
-            message: 'This is an success alert'
-        }
-        await dispatch(setNewAlert(newalert))
-    }
 
     return (
         <div className='container mx-auto'>
@@ -31,7 +23,7 @@ const LoginRegister = () => {
                             <input className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" />
                         </div>
                     </div>
-                    <div onClick={handleAlert} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
+                    <div className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
                         ログイン
                     </div>
                     <div className='flex items-center mt-4 space-x-2'>

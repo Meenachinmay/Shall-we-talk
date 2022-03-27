@@ -1,4 +1,5 @@
 import { 
+    HIDE_ALERT,
     NEW_ALERT
 } from '../actions/types'
 
@@ -16,6 +17,12 @@ export default function (state = initialState, action) {
                 ...state = initialState,
                 newalert: payload.alert,
                 showAlert: true
+            }
+        case HIDE_ALERT:
+            return {
+                ...state = initialState,
+                newalert:{},
+                showAlert: false
             }
         default:
             return state;

@@ -1,5 +1,5 @@
 import {
-    NEW_ALERT
+    NEW_ALERT,
 } from './types'
 
 export const setNewAlert = (newalert) => async dispatch => {
