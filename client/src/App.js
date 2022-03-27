@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { Provider } from 'react-redux';
-import { store, persistor } from './store'
+import store from './store'
 
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -21,7 +21,6 @@ import AccountActiviation from './pages/AccountActivation';
 function App() {
   return (
     <Provider store={store}>
-       <PersistGate loading="null" persistor={persistor}>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage /> }/>
@@ -35,7 +34,6 @@ function App() {
           <Route path='/activation' element={<AccountActiviation />} />
           <Route path='/user-profile/:user_id' element={<UserProfile />} />
         </Routes>
-      </PersistGate>
     </Provider>
   );
 }
