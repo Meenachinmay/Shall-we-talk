@@ -137,6 +137,7 @@ exports.accountActivation = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body
 
+    // find the user with email in database
     const user = await User.findOne({email: email})
 
     if (user) {
@@ -148,12 +149,13 @@ exports.loginUser = async (req, res) => {
         } else {
             const newlogin = new LoggedInUser({user: user._id})
             await newlogin.save()
+
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
 
             return res.status(200).json({
                 token,
-                user: user
+                userProfile: user
             })
 
         }

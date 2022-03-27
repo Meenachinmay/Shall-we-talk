@@ -1,10 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setNewAlert } from '../actions/alert';
+import { userLogin } from '../actions/user'
+import { useNavigate } from 'react-router-dom'
 
 const LoginRegister = () => {
+    
+    const dispatch = useDispatch()
+    const loadeduser = useSelector(state => state.user)
+    const navigate = useNavigate()
 
+    const { user, loading, error } = loadeduser
+
+    // states for login
     const [checkbox, setCheckBox] = useState(false)
+    const [email, setEmail] = useState(null)
+    const [password, setPassword] = useState(null)
+
+    useEffect(() => {
+        console.log('rendered')
+        if ( localStorage.getItem('token') ) {
+            navigate('/')
+        }
+    })
+
+    const handleLogin = () => {
+        dispatch(userLogin(email, password))
+        if ( user ) {
+            navigate('/')
+        }
+    }
 
     return (
         <div className='container mx-auto'>
@@ -17,13 +41,13 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールを入力ください" />
+                            <input onChange={(e) => setEmail(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールを入力ください" />
                         </div>
                         <div className='flex flex-col items-center space-x-2'>
-                            <input className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" />
+                            <input onChange={(e) => setPassword(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" />
                         </div>
                     </div>
-                    <div className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
+                    <div onClick={handleLogin} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
                         ログイン
                     </div>
                     <div className='flex items-center mt-4 space-x-2'>
