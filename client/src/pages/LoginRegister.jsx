@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { userLogin } from '../actions/user'
 import { useNavigate } from 'react-router-dom'
+import { setNewAlert } from '../actions/alert'
 
 const LoginRegister = () => {
     
@@ -9,15 +10,14 @@ const LoginRegister = () => {
     const loadeduser = useSelector(state => state.user)
     const navigate = useNavigate()
 
-    const { user, loading, error } = loadeduser
+    const { user, loading, error, login, logout } = loadeduser
 
     // states for login
     const [checkbox, setCheckBox] = useState(false)
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(null)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     useEffect(() => {
-        console.log('rendered')
         if ( localStorage.getItem('token') ) {
             navigate('/')
         }
@@ -25,7 +25,7 @@ const LoginRegister = () => {
 
     const handleLogin = () => {
         dispatch(userLogin(email, password))
-        if ( user ) {
+        if ( login ) {
             navigate('/')
         }
     }

@@ -19,7 +19,7 @@ exports.loginValidator = (req, res, next) => {
 
     if (error) {
         return res.status(422).json({
-            error: error.details[0].message
+            message: error.details[0].message
         })
     }
 

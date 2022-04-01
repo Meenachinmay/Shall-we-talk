@@ -1,9 +1,11 @@
 import { 
-    NEW_ALERT, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS
+    NEW_ALERT, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_FAIL, USER_LOGOUT_REQUEST, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS
 } from '../actions/types'
 
 const initialState = {
     user: {},
+    login: false,
+    logout: true
 }
 
 export default function (state = initialState, action) {
@@ -20,7 +22,7 @@ export default function (state = initialState, action) {
             return {
                 ...state = initialState,
                 user: payload.userProfile,
-                loading: false
+                loading: false,
             }
         case USER_PROFILE_FAIL:
             return {
@@ -39,14 +41,25 @@ export default function (state = initialState, action) {
             return {
                 ...state = initialState,
                 user: payload.user,
-                loading: false
+                loading: false,
+                login: true,
+                logout: false
             }
         case USER_LOGIN_FAIL:
             return {
                 ...state = initialState,
                 user: {},
                 loading: false,
-                error: payload.error
+                login: false,
+                logout: true,
+                error: payload.error.error
+            }
+        case USER_LOGOUT_REQUEST:
+            return {
+                ...state = initialState,
+                user: {},
+                login: false,
+                logout: true
             }
         default:
             return state;

@@ -6,10 +6,14 @@ import {
     USER_PROFILE_SUCCESS,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
-    USER_LOGIN_FAIL
+    USER_LOGIN_FAIL,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAIL
 } from './types'
 
 import axios from 'axios'
+import { setNewAlert } from './alert'
 
 export const fetchUserProfile = (userID) => async (dispatch) => {
     dispatch({ type: USER_PROFILE_REQUEST })
@@ -48,6 +52,21 @@ export const fetchUserProfile = (userID) => async (dispatch) => {
                 error: error.response.data
             }
         })
+        const newalert = {
+            type: 'danger',
+            message: error.response.data
+        }
+        dispatch({
+            type:NEW_ALERT,
+            payload: {
+                alert: newalert
+            }``
+        })
+        setTimeout(() => {
+            dispatch({
+                type: HIDE_ALERT
+            })
+        }, 3000);
     })
 }
 
@@ -70,7 +89,7 @@ export const userLogin = ( email, password ) => async dispatch => {
                 user: response.data.userProfile,
             }
         })
-        
+
         localStorage.setItem('token', response.data.token)
 
         const newalert = {
@@ -91,6 +110,12 @@ export const userLogin = ( email, password ) => async dispatch => {
 
     })
     .catch(error => {
+        const newalert = {
+            type: 'danger',
+            message: error.response.data.message
+        }
+        dispatch(setNewAlert(newalert))
+
         dispatch({
             type: USER_LOGIN_FAIL,
             payload: {
@@ -98,4 +123,11 @@ export const userLogin = ( email, password ) => async dispatch => {
             }
         })
     })
+}
+
+
+export const userLogout = ({ navigate }) => async dispatch => {
+    localStorage.removeItem('token')
+    dispatch({ type: USER_LOGOUT_REQUEST })
+    navigate('/login-register')
 }

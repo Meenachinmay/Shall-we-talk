@@ -5,7 +5,7 @@ const Alert = ({ type, message }) => {
         return (    
             <div>
                 <div className='flex justify-center items-center text-center p-4 bg-green-600 text-white font-semibold duration-500 ease-in-out'>
-                    This is an success alert message.
+                    { message }
                 </div>
             </div>
         )
@@ -15,7 +15,7 @@ const Alert = ({ type, message }) => {
         return (    
             <div>
                 <div className='flex justify-center items-center text-center p-4 bg-red-600 text-white font-semibold duration-500'>
-                    This is an danger alert message.
+                    { message }
                 </div>
             </div>
         )

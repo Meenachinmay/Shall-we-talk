@@ -144,7 +144,7 @@ exports.loginUser = async (req, res) => {
         // authentciate the user
         if (!user.authenticate(password)) {
             return res.status(400).json({
-                error: 'Incorrect passoword, please try again'
+                message: 'Incorrect passoword, please try again'
             })
         } else {
             const newlogin = new LoggedInUser({user: user._id})
@@ -161,7 +161,7 @@ exports.loginUser = async (req, res) => {
         }
     } else {
         return res.status(400).json({
-            error: 'User does not exist with this email, please regsiter first!!!'
+            message: 'User does not exist with this email, please regsiter first!!!'
         })
     }
 }
