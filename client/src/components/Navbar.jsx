@@ -9,10 +9,8 @@ const Navbar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const alertState = useSelector(alert => alert)
-    const loadedUser = useSelector(state => state.user)
 
     const user = localStorage.getItem('token')
-    const { logout } = loadedUser
 
     const handleAlert = async() => {
         const newalert = {
@@ -53,9 +51,6 @@ const Navbar = () => {
                             </li>
                             <li className='md:ml-8 md:my-0 my-4'>
                                 <a href='/users' className='text-white bg-indigo-600 py-1 px-2 rounded text-xs md:text-sm hover:text-gray-400 duration-500'>Check users space</a>
-                            </li>
-                            <li className='md:ml-8 md:my-0 my-4'>
-                                <button onClick={handleAlert} className='text-white bg-indigo-600 py-1 px-2 rounded text-xs md:text-sm hover:text-gray-400 duration-500'>Show alert</button>
                             </li>
                         </div>
                     </ul>
