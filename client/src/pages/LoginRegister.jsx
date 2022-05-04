@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { userLogin } from '../actions/user'
+import { userLogin, userRegister } from '../actions/user'
 import { useNavigate } from 'react-router-dom'
-import { setNewAlert } from '../actions/alert'
 
 import * as yup from 'yup';
 
@@ -22,7 +21,7 @@ const LoginRegister = () => {
     const [password, setPassword] = useState('')
 
     // states for register
-    const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
     const [emailRegister, setEmailRegister] = useState('')
     const [passwordRegister, setPasswordRegister] = useState('')
 
@@ -33,13 +32,13 @@ const LoginRegister = () => {
     })
 
     let registerSchema = yup.object().shape({
-        username: yup.string().required().max(36),
+        name: yup.string().required().max(36),
         email: yup.string().email().required(),
         password: yup.string().required()
     })
 
     useEffect(() => {
-        if ( localStorage.getItem('token') ) {
+        if ( localStorage.getItem('token') || login) {
             navigate('/')
         }
     })
@@ -52,7 +51,7 @@ const LoginRegister = () => {
     }
 
     const handleRegister = () => {
-        //dispatch(userRegister(username, emailRegister, passwordRegister))
+        dispatch(userRegister(name, emailRegister, passwordRegister))
         
     }
 
@@ -94,7 +93,7 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setUsername(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力ください" required/>
+                            <input onChange={(e) => setName(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力ください" required/>
                         </div>
                         <div className='flex flex-col items-center space-x-2'>
                             <input onChange={(e) => setEmailRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="email" placeholder="メールを入力ください" required/>
