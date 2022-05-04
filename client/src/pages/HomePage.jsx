@@ -1,6 +1,11 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 const HomePage = () => {
+
+    const loadeduser = useSelector(state => state.user)
+
+
     return (
         <div className='h-screen bg-indigo-600'>
             <div className='flex flex-col justify-center items-center text-center p-4'>
@@ -17,7 +22,7 @@ const HomePage = () => {
                     <path class="cls-2" d="M61.18251,15.619A17.03949,17.03949,0,0,0,41.26577,26.44019c-.24817.69367-6.04011,15.53427-7.94944,20.425a.851.851,0,0,0,1.00533,1.13331l11.7415-3.02325A17.016,17.016,0,1,0,61.18251,15.619Z"/>
                     <path class="cls-2" d="M94.659,42.57863l-6.50693-13.666A19.10043,19.10043,0,1,0,53.83115,12.14735a20.25369,20.25369,0,0,1,4.92883-.244,14.92781,14.92781,0,0,1,25.2517,15.89507l-.55573.95244L88.105,38.51707c-3.044-.55444-7.25073-1.31646-10.95939-1.98852A20.1844,20.1844,0,0,1,75.82619,40.53c3.76465.68037,13.92887,2.52785,17.91334,3.25226A.85068.85068,0,0,0,94.659,42.57863Z"/>
                 </svg>
-                <a href='/login-register' className='sm:w-2/5 text-sm sm:text-md mt-8 text-indigo-600 bg-white rounded py-2 px-2 cursor-pointer hover:bg-gray-100'>ご使用いただくように、ログイン又は新規アカウントでサインアップしてください。</a>
+                { !loadeduser.login ? <a href='/login-register' className='sm:w-2/5 text-sm sm:text-md mt-8 text-indigo-600 bg-white rounded py-2 px-2 cursor-pointer hover:bg-gray-100'>ご使用いただくように、ログイン又は新規アカウントでサインアップしてください。</a> : null }
             </div>
         </div>
     )
