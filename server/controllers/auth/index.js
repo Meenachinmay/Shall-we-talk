@@ -109,11 +109,11 @@ exports.accountActivation = async (req, res) => {
         const checkuser = await User.findOne({email})
         if (checkuser){
             return res.status(400).json({
-                error: 'Token is already used'
+                error: 'Account is already activated'
             })
         } else {
             const newlyCreated = new User ({username, email, password})
-
+            newlyCreated.accountActivated = true
             try {
                 await newlyCreated.save()
                 return res.status(200).json({
@@ -137,29 +137,31 @@ exports.accountActivation = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body
 
+    // find the user with email in database
     const user = await User.findOne({email: email})
 
     if (user) {
         // authentciate the user
         if (!user.authenticate(password)) {
             return res.status(400).json({
-                error: 'Incorrect passoword, please try again'
+                message: 'Incorrect passoword, please try again'
             })
         } else {
             const newlogin = new LoggedInUser({user: user._id})
             await newlogin.save()
+
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
 
             return res.status(200).json({
                 token,
-                user: user
+                userProfile: user
             })
 
         }
     } else {
         return res.status(400).json({
-            error: 'User does not exist with this email, please regsiter first!!!'
+            message: 'User does not exist with this email, please regsiter first!!!'
         })
     }
 }
