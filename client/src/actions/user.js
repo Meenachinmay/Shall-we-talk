@@ -86,7 +86,7 @@ export const userLogin = ( email, password ) => async dispatch => {
             type: USER_LOGIN_SUCCESS,
             payload: {
                 token: response.data.token,
-                user: response.data.userProfile,
+                user: response.data.user,
             }
         })
 

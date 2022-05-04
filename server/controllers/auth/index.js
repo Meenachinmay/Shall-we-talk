@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
 
 // send email to user to activate then save the data to the database
 exports.regsiterUsingEmailActivation = async (req, res) => {
-    const { username, email, password } = req.body
+    const { name, email, password } = req.body
 
     const user = await User.findOne({email: email});
     if ( user ) {
@@ -52,7 +52,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({username, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '60m'})
+    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '60m'})
 
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
@@ -103,7 +103,7 @@ exports.accountActivation = async (req, res) => {
 
         const newuser = jwt.decode(token)
 
-        const { username, email, password } = newuser;
+        const { name, email, password } = newuser;
 
         // check if account is already activated
         const checkuser = await User.findOne({email})
@@ -112,7 +112,7 @@ exports.accountActivation = async (req, res) => {
                 error: 'Account is already activated'
             })
         } else {
-            const newlyCreated = new User ({username, email, password})
+            const newlyCreated = new User ({name, email, password})
             newlyCreated.accountActivated = true
             try {
                 await newlyCreated.save()
@@ -155,7 +155,18 @@ exports.loginUser = async (req, res) => {
 
             return res.status(200).json({
                 token,
-                userProfile: user
+                user: {
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    status: user.status,
+                    isOnline: user.isOnline,
+                    acceptedRequests: user.acceptedRequests,
+                    pendingRequests: user.pendingRequests,
+                    rejectedRequested: user.rejectedRequested,
+                    occupiedLocation: user.occupiedLocation,
+                    
+                }
             })
 
         }

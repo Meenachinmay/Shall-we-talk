@@ -2,7 +2,7 @@ const mongoose = require ('mongoose')
 const crypto = require ('crypto')
 
 const userSchema = new mongoose.Schema({
-    username: {
+    name: {
         type: String,
         trim: true,
         required: true,
@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
         default: '0'
+    },
+    isOnline: {
+        type: Boolean,
+        default: false
     },
     acceptedRequests:[{
         type: mongoose.Schema.Types.ObjectId,
