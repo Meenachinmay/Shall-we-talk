@@ -114,7 +114,6 @@ export const userLogin = ( email, password ) => async dispatch => {
             type: 'danger',
             message: error.response.data.message
         }
-        dispatch(setNewAlert(newalert))
 
         dispatch({
             type: USER_LOGIN_FAIL,
@@ -122,6 +121,8 @@ export const userLogin = ( email, password ) => async dispatch => {
                 error: error.response.data
             }
         })
+
+        dispatch(setNewAlert(newalert))
     })
 }
 

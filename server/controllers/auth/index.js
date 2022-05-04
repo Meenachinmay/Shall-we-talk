@@ -109,11 +109,11 @@ exports.accountActivation = async (req, res) => {
         const checkuser = await User.findOne({email})
         if (checkuser){
             return res.status(400).json({
-                error: 'Token is already used'
+                error: 'Account is already activated'
             })
         } else {
             const newlyCreated = new User ({username, email, password})
-
+            newlyCreated.accountActivated = true
             try {
                 await newlyCreated.save()
                 return res.status(200).json({

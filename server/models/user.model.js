@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
         ref: 'Room',
         default: null
     },
+    accountActivated: {
+        type: Boolean,
+        default: false
+    },
     hashed_password: {
         type: String,
         required: true,
