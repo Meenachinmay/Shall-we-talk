@@ -101,9 +101,14 @@ const LoginRegister = () => {
                         <div className='flex flex-col items-center justify-start space-x-2'>
                             <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" required/>
                         </div>
-                        <div onClick={handleRegister} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
-                            行動
-                        </div>
+                        {
+                            loading ? <div className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
+                                <p>リンクを送信中です</p>
+                            </div> : 
+                            <div onClick={handleRegister} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
+                                <p>行動</p>
+                            </div>
+                        }
                     </div>
                 </div>
 

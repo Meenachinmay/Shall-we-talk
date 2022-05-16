@@ -191,7 +191,7 @@ export const userLogout = ({ navigate }) => async dispatch => {
 }
 
 //
-export const accountActivate = (auth_token) => async dispatch => {
+export const accountActivate = (auth_token,navigate) => async dispatch => {
     dispatch({ type: ACCOUNT_ACTIVATION_REQUEST})
     
     axios({
@@ -200,6 +200,7 @@ export const accountActivate = (auth_token) => async dispatch => {
         data: { auth_token }
     }).then(response => {
         dispatch({ type: ACCOUNT_ACTIVATION_SUCCESS, payload: response.data.message })
+        navigate('/login-register')
 
     }).catch(error => {
         dispatch({
