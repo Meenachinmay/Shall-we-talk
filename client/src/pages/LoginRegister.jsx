@@ -63,7 +63,7 @@ const LoginRegister = () => {
                 <div className='flex flex-grow flex-col mt-12 w-full sm:w-1/3 p-10 bg-white border-1 shadow-lg rounded-lg' style={{height: '400px'}}>
                     <div className='flex flex-col items-center justify-center pt-8 text-center'>
                         <h1 className='text-3xl text-indigo-600'>ログイン</h1>
-                        <span className='text-xs text-gray-400'>お使いのメールアドレスやパスワードでログイン</span>
+                        <span className='text-xs text-gray-400'>既にアカウントをお持ちの方はこちら</span>
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
@@ -78,7 +78,7 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex items-center mt-4 space-x-2'>
                         <input type='checkbox' className='' onChange={(e) => setCheckBox(e.target.checked)}/>
-                        <span className='text-sm text-gray-400'>ログインしたまま</span>
+                        <span className='text-sm text-gray-400'>ログインしたままにする</span>
                     </div>
                     <a className='text-sm text-gray-400 mt-2 hover:underline cursor-pointer hover:text-indigo-600'>パスワードを忘れた場合</a>
                 </div>
@@ -89,7 +89,7 @@ const LoginRegister = () => {
                 <div className='flex flex-grow flex-col mt-12 w-full sm:w-2/6 p-10 bg-white border-1 shadow-lg rounded-lg' style={{height: '400px'}}>
                     <div className='flex flex-col items-center justify-center pt-8 text-center'>
                     <h1 className='text-3xl text-indigo-600'>新規登録</h1>
-                    <span className='text-xs text-gray-400'>新規登録の場合はこちらのほうです</span>
+                    <span className='text-xs text-gray-400'>新規登録の場合はこちら</span>
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
@@ -102,7 +102,7 @@ const LoginRegister = () => {
                             <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" required/>
                         </div>
                         <div onClick={handleRegister} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
-                            行動
+                            登録する
                         </div>
                     </div>
                 </div>
