@@ -9,7 +9,13 @@ import {
     USER_LOGIN_FAIL,
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS,
-    USER_LOGOUT_FAIL
+    USER_LOGOUT_FAIL,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_SUCCESS,
+    USER_REGISTER_FAIL,
+    ACCOUNT_ACTIVATION_REQUEST,
+    ACCOUNT_ACTIVATION_SUCCESS,
+    ACCOUNT_ACTIVATION_FAIL
 } from './types'
 
 import axios from 'axios'
@@ -118,7 +124,7 @@ export const userLogin = ( email, password ) => async dispatch => {
         dispatch({
             type: USER_LOGIN_FAIL,
             payload: {
-                error: error.response.data
+                error: error.response.data.message
             }
         })
 
@@ -128,35 +134,32 @@ export const userLogin = ( email, password ) => async dispatch => {
 
 // Register action - Register a user
 // this regiter action will make a post req to backend and fethcs data from backend
-export const userRegister = ( email, password, confirmPassword ) => async dispatch => {
-    dispatch({ type: USER_LOGIN_REQUEST })
+export const userRegister = ( name, email, password ) => async dispatch => {
+    dispatch({ type: USER_REGISTER_REQUEST })
 
     axios({
         method: 'POST',
-        url: `http://localhost:8000/apiV1/login-user`,
-        data: { email, password }
+        url: `http://localhost:8000/apiV1/create-new-user`,
+        data: { name, email, password }
     })
     .then(response => {
         dispatch({
-            type: USER_LOGIN_SUCCESS,
-            payload: {
-                token: response.data.token,
-                user: response.data.userProfile,
-            }
+            type: USER_REGISTER_SUCCESS,
+            payload: response.data.message
         })
-
-        localStorage.setItem('token', response.data.token)
 
         const newalert = {
             type: 'info',
-            message: 'You are logged-in successfully!'
+            message: response.data.message
         }
+
         dispatch({
             type:NEW_ALERT,
             payload: {
                 alert: newalert
             }
         })
+
         setTimeout(() => {
             dispatch({
                 type: HIDE_ALERT
@@ -169,14 +172,15 @@ export const userRegister = ( email, password, confirmPassword ) => async dispat
             type: 'danger',
             message: error.response.data.message
         }
-        dispatch(setNewAlert(newalert))
 
         dispatch({
-            type: USER_LOGIN_FAIL,
+            type: USER_REGISTER_FAIL,
             payload: {
-                error: error.response.data
+                error: error.response.data.message
             }
         })
+
+        dispatch(setNewAlert(newalert))
     })
 }
 
@@ -184,4 +188,33 @@ export const userLogout = ({ navigate }) => async dispatch => {
     localStorage.removeItem('token')
     dispatch({ type: USER_LOGOUT_REQUEST })
     navigate('/login-register')
+}
+
+//
+export const accountActivate = (auth_token,navigate) => async dispatch => {
+    dispatch({ type: ACCOUNT_ACTIVATION_REQUEST})
+    
+    axios({
+        method: 'POST',
+        url: 'http://localhost:8000/apiV1/account-activation',
+        data: { auth_token }
+    }).then(response => {
+        dispatch({ type: ACCOUNT_ACTIVATION_SUCCESS, payload: response.data.message })
+        navigate('/login-register')
+
+    }).catch(error => {
+        dispatch({
+            type: ACCOUNT_ACTIVATION_FAIL,
+            payload: {
+                error: error.response.data.message
+            }
+        })
+
+        const newalert = {
+            type: 'danger',
+            message: error.response.data.message
+        }
+
+        dispatch(setNewAlert(newalert))
+    })
 }

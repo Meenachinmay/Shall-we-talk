@@ -48,7 +48,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
     const user = await User.findOne({email: email});
     if ( user ) {
         return res.status(400).json({
-            error: "Email is already taken"
+            message: "Email is already taken"
         })
     }
 
@@ -68,21 +68,20 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         subject: `Account activation link`,
         text: `
             <p>Use following link to activate your account!</p>
-            <p> ${process.env.CLIENT_URL}/auth/activate/${token}</p>
+            ${process.env.CLIENT_URL}/auth/account-activation/${token}
             <hr />
         `
     }
 
     mailTransporter.sendMail(emailData)
         .then(data => {
-            return res.json({
-                message: "Activation link sent successfully",
-                data: data
+            return res.status(200).json({
+                message: "Activation link sent successfully, please check your email to complete the sign up process.",
             })
         })
         .catch(err => {
-            return res.json({
-                error: err
+            return res.status(400).json({
+                message: err
             })
         })
 }
@@ -90,18 +89,18 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
 
 //activate the account
 exports.accountActivation = async (req, res) => {
-    const {token} = req.body
+    const { auth_token } = req.body
 
-    if (token) {
-        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded){
+    if (auth_token) {
+        jwt.verify(auth_token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded){
             if (err) {
                 return res.status(400).json({
-                    error: err
+                    message: err
                 })
             }
         }) 
 
-        const newuser = jwt.decode(token)
+        const newuser = jwt.decode(auth_token)
 
         const { name, email, password } = newuser;
 
@@ -109,7 +108,7 @@ exports.accountActivation = async (req, res) => {
         const checkuser = await User.findOne({email})
         if (checkuser){
             return res.status(400).json({
-                error: 'Account is already activated'
+                message: 'Account is already activated'
             })
         } else {
             const newlyCreated = new User ({name, email, password})
@@ -121,13 +120,13 @@ exports.accountActivation = async (req, res) => {
                 })
             } catch (error) {
                 return res.status(400).json({
-                    error: error
+                    message: error
                 })
             }
         }
     } else {
         return res.status(400).json({
-            error: "Token is invalide"
+            message: "Token is invalide"
         })
     }
 }
@@ -147,8 +146,8 @@ exports.loginUser = async (req, res) => {
                 message: 'Incorrect passoword, please try again'
             })
         } else {
-            const newlogin = new LoggedInUser({user: user._id})
-            await newlogin.save()
+            //const newlogin = new LoggedInUser({user: user._id})
+            //await newlogin.save()
 
             // generate a token and send that to client
             const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
@@ -165,7 +164,7 @@ exports.loginUser = async (req, res) => {
                     pendingRequests: user.pendingRequests,
                     rejectedRequested: user.rejectedRequested,
                     occupiedLocation: user.occupiedLocation,
-                    
+
                 }
             })
 
