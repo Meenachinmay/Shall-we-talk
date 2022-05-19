@@ -1,14 +1,16 @@
 const jwt = require ('jsonwebtoken')
 
 // custorm auth middlware
-exports.ifUserAuth = async (req, res, next) => {
-    const { token } = req.body
+exports.authenticated = async (req, res, next) => {
+    let token  = req.body.token 
+    token  = req.headers.autorization
+
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decoded){
             if (err) {
-                return res.json({
-                    error: err,
-                    message: "You are not authenticated!, please sign up or login to make a request"
+                return res.status(401).json({
+                    error: err.message,
+                    message: "You are not authenticated!"
                 })
             } else {
                 next()
@@ -16,7 +18,7 @@ exports.ifUserAuth = async (req, res, next) => {
         }) 
     } else {
         return res.status(400).json({
-            error: "There is no auth token provided"
+            message: "There is no auth token provided"
         })
     }
 }

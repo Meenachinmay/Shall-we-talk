@@ -52,7 +52,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '60m'})
+    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '120s'})
 
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
@@ -76,7 +76,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
     mailTransporter.sendMail(emailData)
         .then(data => {
             return res.status(200).json({
-                message: "Activation link sent successfully, please check your email to complete the sign up process.",
+                message: "Activation link sent successfully, please check your email to complete the sign up process. Link is valid for next 2 mins only.",
             })
         })
         .catch(err => {
@@ -254,30 +254,46 @@ exports.getUserProfile = async (req, res) => {
     const { userid } = req.body
     if (userid) {
         try {
-            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'username'])
-            return res.status(200).json({
-                userProfile: profile,
-                message: 'User profile received'
-            })
+            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'name'])
+            if (profile) {
+                return res.status(200).json({
+                    userProfile: profile,
+                    message: 'User profile received'
+                })
+            } else {
+                return res.status(404).json({
+                    message: "No user profile available currently, please create one."
+                })
+            }
         } catch (error) {
             return res.status(500).json({
                 error: error
             })
         }
+    } else {
+        return res.status(403).json({
+            message: "User id is not provided in request."
+        })
     }
 }
 
 
 // delete a user profile
 exports.deleteUserProfile = async (req, res) => {
-    const userID = req.body.user
+    const { userID } = req.body
 
     if (userID) {
         try {
-            await UserProfile.findOneAndDelete({ user: userID})
-            return res.status(200).json({
-                message: 'User profile deleted'
-            })
+            const profile = await UserProfile.findOneAndDelete({ user: userID})
+            if (profile) {
+                return res.status(200).json({
+                    message: 'User profile deleted'
+                })
+            } else {
+                return res.status(404).json({
+                    message: "No user profile found, please create one."
+                })
+            }
         } catch (error) {
             return res.status(500).json({
                 error: error
@@ -303,7 +319,6 @@ exports.getAllLoggedInUsers = async (req, res) => {
 
     return res.status(200).json({
         users: users,
-        message: 'All the user profiles'
     })
 }
 
