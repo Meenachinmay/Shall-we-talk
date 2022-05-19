@@ -7,19 +7,19 @@ const Users = () => {
     return (
         <div className='p-5 h-screen bg-gray-100'>
             <div className='flex flex-col flex-grow sm:flex-row sm:items-center'>
-                <h1 className='text-xl mb-2 sm:mr-8'>Logged in User's List</h1>
-                <button onClick={() => setShowVSpace(!showVSpace)} className='text-xs mb-2 underline text-indigo-600'>Switch between virtual map and list view</button>
+                <h1 className='text-xl mb-2 sm:mr-8'>現在アクティブなユーザー</h1>
+                <button onClick={() => setShowVSpace(!showVSpace)} className='text-xs mb-2 underline text-indigo-600'>ユーザーカード、又はバーチャルスペースへ入室する</button>
             </div>
             {/* for non mobile devices */}
             { !showVSpace ? <div className='overflow-auto rounded-lg shadow hidden md:block' style={{ maxHeight: '600px'}}>
                 <table className='w-full'>
                         <thead className='bg-gray-50 border-b-2 border-gray-200'>
                             <tr>
-                                <th className='w-20 p-3 text-sm font-semibold tracking-wide text-left'>Name</th>
-                                <th className='p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
-                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>Status</th>
-                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>Company</th>
-                                <th className='w-32 p-3 text-sm font-semibold tracking-wide text-left'>Action</th>
+                                <th className='w-20 p-3 text-sm font-semibold tracking-wide text-left'>名前</th>
+                                <th className='p-3 text-sm font-semibold tracking-wide text-left'>メールアドレス</th>
+                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>ステータス</th>
+                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>会社名</th>
+                                <th className='w-32 p-3 text-sm font-semibold tracking-wide text-left'>アクション</th>
                             </tr>
                         </thead>
                         <tbody className='divide-y divide-gray-100'>
