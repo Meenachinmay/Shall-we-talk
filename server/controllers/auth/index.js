@@ -52,7 +52,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '120s'})
+    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '1h'})
 
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
@@ -76,7 +76,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
     mailTransporter.sendMail(emailData)
         .then(data => {
             return res.status(200).json({
-                message: "Activation link sent successfully, please check your email to complete the sign up process. Link is valid for next 2 mins only.",
+                message: "Activation link sent successfully, please check your email to complete the sign up process. Link is valid for next 1 hour only.",
             })
         })
         .catch(err => {
@@ -142,7 +142,7 @@ exports.loginUser = async (req, res) => {
     if (user) {
         // authentciate the user
         if (!user.authenticate(password)) {
-            return res.status(400).json({
+            return res.status(401).json({
                 message: 'Incorrect passoword, please try again'
             })
         } else {

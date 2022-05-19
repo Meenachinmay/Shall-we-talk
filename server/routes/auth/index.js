@@ -26,8 +26,9 @@ const { runvalidator, loginValidator, userProfileDataValidator } = require('../.
 
 // import middleware
 const { authenticated } = require ('../../Authorization/authMiddleware')
+const { preventFromManyRegisterRequests } = require('../../Authorization/PreventFromManyRegisterRequests')
 
-router.post('/create-new-user', runvalidator, regsiterUsingEmailActivation)
+router.post('/create-new-user', runvalidator, preventFromManyRegisterRequests, regsiterUsingEmailActivation)
 router.post('/account-activation', accountActivation)
 router.post('/login-user', loginValidator, loginUser)
 router.post('/create-user-profile', authenticated, userProfileDataValidator, createUserProfile)
