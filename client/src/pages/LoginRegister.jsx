@@ -67,10 +67,10 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setEmail(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールを入力ください" />
+                            <input onChange={(e) => setEmail(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールアドレスを入力して下さい" />
                         </div>
                         <div className='flex flex-col items-center space-x-2'>
-                            <input onChange={(e) => setPassword(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" />
+                            <input onChange={(e) => setPassword(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力して下さい" />
                         </div>
                     </div>
                     <div onClick={handleLogin} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
@@ -93,13 +93,13 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setName(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力ください" required/>
+                            <input onChange={(e) => setName(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力して下さい" required/>
                         </div>
                         <div className='flex flex-col items-center space-x-2'>
-                            <input onChange={(e) => setEmailRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="email" placeholder="メールを入力ください" required/>
+                            <input onChange={(e) => setEmailRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="email" placeholder="メールアドレスを入力して下さい" required/>
                         </div>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" required/>
+                            <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力して下さい" required/>
                         </div>
                         <div onClick={handleRegister} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
                             登録する
