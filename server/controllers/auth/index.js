@@ -203,11 +203,15 @@ exports.updateUserProfile = async (req, res) => {
                 message: 'User profile updated.',
                 profile: updatedProfile
             }) 
+        } else {
+            return res.status(404).json({
+                message: "No user profile is available, please create one first."
+            })
         }
     } catch (error) {
         return res.status(500).json({
             error: error,
-            message: "Opration failed"
+            message: "No user profile found."
         })
     }
 }
@@ -262,7 +266,7 @@ exports.getUserProfile = async (req, res) => {
                 })
             } else {
                 return res.status(404).json({
-                    message: "No user profile available currently, please create one."
+                    message: "No user profile is available, please create one first."
                 })
             }
         } catch (error) {
@@ -291,7 +295,7 @@ exports.deleteUserProfile = async (req, res) => {
                 })
             } else {
                 return res.status(404).json({
-                    message: "No user profile found, please create one."
+                    message: "No user profile is available, please create one first."
                 })
             }
         } catch (error) {

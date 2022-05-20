@@ -2,8 +2,7 @@ const jwt = require ('jsonwebtoken')
 
 // custorm auth middlware
 exports.authenticated = async (req, res, next) => {
-    let token  = req.body.token 
-    token  = req.headers.autorization
+    let token  = req.headers.authorization
 
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decoded){
