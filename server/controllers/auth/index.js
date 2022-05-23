@@ -3,6 +3,8 @@ const User = require('../../models/User.model')
 const UserProfile = require('../../models/UserProfile.model')
 const Request = require ('../../models/Request.model')
 const LoggedInUser = require ('../../models/loggedinuser.model')
+const Conversation = require ('../../models/Conversation.model')
+const Message = require('../../models/Message.model')
 
 // importing JWT for jsonwebtoken related work
 const jwt = require ('jsonwebtoken')
@@ -339,12 +341,12 @@ exports.logoutUser = async (req, res) => {
             })
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error.message
             })
         }
     } else {
         return res.status(400).json({
-            error: "NO user ID is provided"
+            message: "NO user ID is provided"
         })
     }
 }
@@ -376,7 +378,7 @@ exports.changeStatus = async (req, res) => {
         }
     } catch (error) {
         return res.status(500).json({
-            error: error,
+            error: error.message,
             message: "Cannot update status"
         })
     }
@@ -433,7 +435,7 @@ exports.sendRequest = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            error: error
+            message: error.message
         })
     }
 
@@ -463,17 +465,17 @@ exports.loadSingleUser = async (req, res) => {
                 })
             } else {
                 return res.status(500).json({
-                    error: 'User not found with this ID, please try again!'
+                    message: 'User not found with this ID, please try again!'
                 })
             }
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error.message
             })
         }
     } else {
         return res.status(400).json({
-            error: 'NO user ID provided'
+            message: 'NO user ID provided'
         })
     }
 }
@@ -502,13 +504,12 @@ exports.sendUserDataForRequests = async (req, res) => {
             })
         } catch (error) {
             return res.status(200).json({
-                error:'most probably you have provided invalide user ids',
-                message: 'hello world'
+                message:'most probably you have provided invalide user ids'
             })
         }
     } else {
         return res.status(400).json({
-            error: 'NO user ID array provided'
+            message: 'NO user ID array provided'
         })
     }
 }
@@ -568,7 +569,7 @@ exports.occupiyARoom = async (req, res) => {
         }
     } else {
         return res.status(500).json({
-            error: 'there is no room available with this ID'
+            message: 'there is no room available with this ID'
         })
     }
 
@@ -584,7 +585,7 @@ exports.getAllTheRooms = async (req, res) => {
         })
     } else {
         return res.status(500).json({
-            error: "Internal error"
+            message: "Internal error"
         })
     }
 }
@@ -598,7 +599,7 @@ exports.createNewRoom = async (req, res) => {
         const findroom = await RoomModel.findOne({ name: name })
         if ( findroom ) {
             return res.status(400).json({
-                error: 'Please provide a different name for room this room is already taken.'
+                message: 'Please provide a different name for room this room is already taken.'
             })
         } else {
             try {
@@ -611,13 +612,81 @@ exports.createNewRoom = async (req, res) => {
                 })
             } catch (error) {
                 return res.status(500).json({
-                    error: error
+                    message: error
                 })
             }
         }
     } else {
         return res.status(400).json({
-            error: 'NO room name provided, please provide a room name to create a new room'
+            message: 'NO room name provided, please provide a room name to create a new room'
         })
     }
+}
+
+
+// create a new conversation api
+exports.createNewConversation = async (req, res) => {
+    const { sender, receiver } = req.body
+
+    if (sender && receiver) {
+        try {
+            const newConversation = new Conversation({sender: sender, receiver: receiver})
+            await newConversation.save()
+
+            return res.status(200).json({
+                message: 'New conversation created.'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    } else {
+        return res.status(400).json({
+            message: "Please provide sender and receiver."
+        })
+    }
+}
+
+
+// create a new message
+exports.newMessage = async (req, res) => {
+    const { conversation, content } = req.body
+
+    if (conversation && content) {
+        try {
+            const newMessage = new Message({ conversation: conversation, content: content })
+            await newMessage.save()
+
+            return res.status(200).json({
+                message: 'New message created.'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    } else {
+        return res.status(400).json({
+            message: "Please provide conversationId and message content."
+        })
+    }
+}
+
+
+// get all the conversation for a given user
+exports.getAllConversationForAUser = async (req, res) => {
+    const { userID } = req.params
+
+    
+}
+
+
+// get all the message for a given conversation
+exports.getAllMessagesForAConversation = async (req, res) => {
+    const { conversationID } = req.params
+
+    return res.status(200).json({
+        conversationID: conversationID
+    })
 }

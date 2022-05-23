@@ -18,7 +18,11 @@ const { regsiterUsingEmailActivation,
         sendUserDataForRequests,
         createNewRoom,
         getAllTheRooms,
-        occupiyARoom
+        occupiyARoom,
+        createNewConversation,
+        newMessage,
+        getAllConversationForAUser,
+        getAllMessagesForAConversation
  } = require ('../../controllers/auth/index')
 
 // import validator
@@ -44,6 +48,12 @@ router.post('/pending-request-user-data', authenticated, sendUserDataForRequests
 router.post('/create-a-new-room', authenticated, createNewRoom)
 router.get('/get-all-the-rooms', authenticated, getAllTheRooms)
 router.post('/occupiy-a-room', authenticated, occupiyARoom)
+
+// messages and conversation routes
+router.post('/create-new-conversation', authenticated, createNewConversation)
+router.post('/send-new-message', authenticated, newMessage)
+router.get('/get-all-messages/:conversationID', authenticated, getAllMessagesForAConversation)
+router.get('/get-all-conversations/:userID', authenticated, getAllConversationForAUser)
 
 
 
