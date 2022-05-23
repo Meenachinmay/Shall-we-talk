@@ -3,6 +3,8 @@ const User = require('../../models/User.model')
 const UserProfile = require('../../models/UserProfile.model')
 const Request = require ('../../models/Request.model')
 const LoggedInUser = require ('../../models/loggedinuser.model')
+const Conversation = require ('../../models/Conversation.model')
+const Message = require('../../models/Message.model')
 
 // importing JWT for jsonwebtoken related work
 const jwt = require ('jsonwebtoken')
@@ -52,7 +54,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '60m'})
+    const token = jwt.sign({name, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '1h'})
 
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
@@ -76,7 +78,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
     mailTransporter.sendMail(emailData)
         .then(data => {
             return res.status(200).json({
-                message: "Activation link sent successfully, please check your email to complete the sign up process.",
+                message: "Activation link sent successfully, please check your email to complete the sign up process. Link is valid for next 1 hour only.",
             })
         })
         .catch(err => {
@@ -142,7 +144,7 @@ exports.loginUser = async (req, res) => {
     if (user) {
         // authentciate the user
         if (!user.authenticate(password)) {
-            return res.status(400).json({
+            return res.status(401).json({
                 message: 'Incorrect passoword, please try again'
             })
         } else {
@@ -203,11 +205,15 @@ exports.updateUserProfile = async (req, res) => {
                 message: 'User profile updated.',
                 profile: updatedProfile
             }) 
+        } else {
+            return res.status(404).json({
+                message: "No user profile is available, please create one first."
+            })
         }
     } catch (error) {
         return res.status(500).json({
             error: error,
-            message: "Opration failed"
+            message: "No user profile found."
         })
     }
 }
@@ -254,30 +260,46 @@ exports.getUserProfile = async (req, res) => {
     const { userid } = req.body
     if (userid) {
         try {
-            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'username'])
-            return res.status(200).json({
-                userProfile: profile,
-                message: 'User profile received'
-            })
+            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'name'])
+            if (profile) {
+                return res.status(200).json({
+                    userProfile: profile,
+                    message: 'User profile received'
+                })
+            } else {
+                return res.status(404).json({
+                    message: "No user profile is available, please create one first."
+                })
+            }
         } catch (error) {
             return res.status(500).json({
                 error: error
             })
         }
+    } else {
+        return res.status(403).json({
+            message: "User id is not provided in request."
+        })
     }
 }
 
 
 // delete a user profile
 exports.deleteUserProfile = async (req, res) => {
-    const userID = req.body.user
+    const { userID } = req.body
 
     if (userID) {
         try {
-            await UserProfile.findOneAndDelete({ user: userID})
-            return res.status(200).json({
-                message: 'User profile deleted'
-            })
+            const profile = await UserProfile.findOneAndDelete({ user: userID})
+            if (profile) {
+                return res.status(200).json({
+                    message: 'User profile deleted'
+                })
+            } else {
+                return res.status(404).json({
+                    message: "No user profile is available, please create one first."
+                })
+            }
         } catch (error) {
             return res.status(500).json({
                 error: error
@@ -303,7 +325,6 @@ exports.getAllLoggedInUsers = async (req, res) => {
 
     return res.status(200).json({
         users: users,
-        message: 'All the user profiles'
     })
 }
 
@@ -320,12 +341,12 @@ exports.logoutUser = async (req, res) => {
             })
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error.message
             })
         }
     } else {
         return res.status(400).json({
-            error: "NO user ID is provided"
+            message: "NO user ID is provided"
         })
     }
 }
@@ -357,7 +378,7 @@ exports.changeStatus = async (req, res) => {
         }
     } catch (error) {
         return res.status(500).json({
-            error: error,
+            error: error.message,
             message: "Cannot update status"
         })
     }
@@ -414,7 +435,7 @@ exports.sendRequest = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            error: error
+            message: error.message
         })
     }
 
@@ -444,17 +465,17 @@ exports.loadSingleUser = async (req, res) => {
                 })
             } else {
                 return res.status(500).json({
-                    error: 'User not found with this ID, please try again!'
+                    message: 'User not found with this ID, please try again!'
                 })
             }
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error.message
             })
         }
     } else {
         return res.status(400).json({
-            error: 'NO user ID provided'
+            message: 'NO user ID provided'
         })
     }
 }
@@ -483,13 +504,12 @@ exports.sendUserDataForRequests = async (req, res) => {
             })
         } catch (error) {
             return res.status(200).json({
-                error:'most probably you have provided invalide user ids',
-                message: 'hello world'
+                message:'most probably you have provided invalide user ids'
             })
         }
     } else {
         return res.status(400).json({
-            error: 'NO user ID array provided'
+            message: 'NO user ID array provided'
         })
     }
 }
@@ -549,7 +569,7 @@ exports.occupiyARoom = async (req, res) => {
         }
     } else {
         return res.status(500).json({
-            error: 'there is no room available with this ID'
+            message: 'there is no room available with this ID'
         })
     }
 
@@ -565,7 +585,7 @@ exports.getAllTheRooms = async (req, res) => {
         })
     } else {
         return res.status(500).json({
-            error: "Internal error"
+            message: "Internal error"
         })
     }
 }
@@ -579,7 +599,7 @@ exports.createNewRoom = async (req, res) => {
         const findroom = await RoomModel.findOne({ name: name })
         if ( findroom ) {
             return res.status(400).json({
-                error: 'Please provide a different name for room this room is already taken.'
+                message: 'Please provide a different name for room this room is already taken.'
             })
         } else {
             try {
@@ -592,13 +612,81 @@ exports.createNewRoom = async (req, res) => {
                 })
             } catch (error) {
                 return res.status(500).json({
-                    error: error
+                    message: error
                 })
             }
         }
     } else {
         return res.status(400).json({
-            error: 'NO room name provided, please provide a room name to create a new room'
+            message: 'NO room name provided, please provide a room name to create a new room'
         })
     }
+}
+
+
+// create a new conversation api
+exports.createNewConversation = async (req, res) => {
+    const { sender, receiver } = req.body
+
+    if (sender && receiver) {
+        try {
+            const newConversation = new Conversation({sender: sender, receiver: receiver})
+            await newConversation.save()
+
+            return res.status(200).json({
+                message: 'New conversation created.'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    } else {
+        return res.status(400).json({
+            message: "Please provide sender and receiver."
+        })
+    }
+}
+
+
+// create a new message
+exports.newMessage = async (req, res) => {
+    const { conversation, content } = req.body
+
+    if (conversation && content) {
+        try {
+            const newMessage = new Message({ conversation: conversation, content: content })
+            await newMessage.save()
+
+            return res.status(200).json({
+                message: 'New message created.'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    } else {
+        return res.status(400).json({
+            message: "Please provide conversationId and message content."
+        })
+    }
+}
+
+
+// get all the conversation for a given user
+exports.getAllConversationForAUser = async (req, res) => {
+    const { userID } = req.params
+
+    
+}
+
+
+// get all the message for a given conversation
+exports.getAllMessagesForAConversation = async (req, res) => {
+    const { conversationID } = req.params
+
+    return res.status(200).json({
+        conversationID: conversationID
+    })
 }
