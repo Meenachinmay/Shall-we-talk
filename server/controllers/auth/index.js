@@ -678,7 +678,25 @@ exports.newMessage = async (req, res) => {
 exports.getAllConversationForAUser = async (req, res) => {
     const { userID } = req.params
 
-    
+    if ( userID ) {
+
+        try {
+            const conversations = await Conversation.find({sender: userID }).populate('sender', ['name', 'email']).populate('receiver', ['name', 'email'])
+
+            return res.status(200).json({
+                conversations: conversations
+        })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+
+    } else {
+        return res.status(400).json({
+            message: "Please provider user."
+        })
+    }
 }
 
 
@@ -686,7 +704,22 @@ exports.getAllConversationForAUser = async (req, res) => {
 exports.getAllMessagesForAConversation = async (req, res) => {
     const { conversationID } = req.params
 
-    return res.status(200).json({
-        conversationID: conversationID
-    })
+    if (conversationID) {
+
+        try {
+            const messages = await Message.find({conversation: conversationID}).populate('conversation', ['sender', 'receiver'])
+            return res.status(200).json({
+                messages: messages
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+
+    } else {
+        return res.status(400).json({
+            message: "Please provide conversationID."
+        })
+    }
 }
