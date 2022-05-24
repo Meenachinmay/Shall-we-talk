@@ -1,6 +1,11 @@
 import React from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const EditProfile = () => {
+    
+    const { user_id } = useParams()
+    const navigate = useNavigate()
+
     return (
         <div className='container mx-auto'>
             <div className='flex justify-center'>
@@ -50,9 +55,9 @@ const EditProfile = () => {
                         <button className='text-sm bg-indigo-600 w-full rounded text-white py-1 px-2 hover:bg-indigo-400'>
                             Update profile
                         </button>
-                        <a href='/user-profile' className='text-sm bg-red-600 w-full rounded text-white text-center py-1 px-2 hover:bg-indigo-400'>
+                        <div onClick={() => navigate(`/user-profile/${user_id}`)} className='text-sm bg-red-600 w-full rounded text-white text-center py-1 px-2 hover:bg-indigo-400'>
                            Cancel
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

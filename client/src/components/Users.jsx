@@ -9,8 +9,6 @@ const Users = () => {
     const [users, setUsers] = useState([])
 
     const [showVSpace, setShowVSpace] = useState(false)
-    let id = '6272dc1509155ac7e6781070'
-    let idmaahi = '628c090f98f0c4a54f4becde'
 
     useEffect( () => {
         axios({
@@ -51,6 +49,7 @@ const Users = () => {
                                     <th className='w-32 p-3 text-sm font-semibold tracking-wide text-left'>Action</th>
                                 </tr>
                             </thead>
+                            {/* we mapping all the users here in the User component */}
                             <tbody className='divide-y divide-gray-100'>
                                 {
                                     users.map((user, index) => (
@@ -58,6 +57,7 @@ const Users = () => {
                                     ))
                                 }
                             </tbody>
+                            {/* we mapping all the users here in the User component */}
                     </table>
                 </div> : 
                 <div className='overflow-auto rounded-lg shadow' style={{ maxHeight: '600px'}}>
