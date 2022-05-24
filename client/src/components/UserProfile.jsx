@@ -19,6 +19,7 @@ const UserProfile = () => {
             })
             .then(response => {
                 const userProfile = response.data.userProfile
+                console.log(userProfile)
                 setUserProfile({...userProfile, userProfile})
             })
             .catch(error => {
@@ -28,7 +29,7 @@ const UserProfile = () => {
 
         fetchSingleUser()
 
-    }, [user_id])
+    }, [])
     
     return (
         <div className='container mx-auto flex flex-col md:flex-row items-center justify-center'>

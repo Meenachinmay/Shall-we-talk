@@ -315,11 +315,11 @@ exports.deleteUserProfile = async (req, res) => {
 
 //get all the user profile
 exports.getAllLoggedInUsers = async (req, res) => {
-    const alluser = await LoggedInUser.find()
+    const alluser = await User.find()
     const users = []
 
     for ( let i = 0; i < alluser.length; i ++ ) {
-        const res = await User.findById({_id: alluser[i].user})
+        const res = await User.findById({_id: alluser[i]._id})
         users.push(res)
     }
 
