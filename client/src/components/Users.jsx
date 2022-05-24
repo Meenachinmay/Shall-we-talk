@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Users = () => {
 
+    const navigate = useNavigate()
+
     const [showVSpace, setShowVSpace] = useState(false)
+    let id = '6272dc1509155ac7e6781070'
+    let idmaahi = '628c090f98f0c4a54f4becde'
     
     return (
         <div className='p-5 h-screen bg-gray-100'>
@@ -25,10 +30,10 @@ const Users = () => {
                         <tbody className='divide-y divide-gray-100'>
                             <tr className='bg-white'>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='/user-profile'>Chinmay anand</a>
+                                    <a className='font-bold text-blue-500 hover:underline' onClick={() => navigate(`/user-profile/${id}`)}>Chinmay anand</a>
                                 </td>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    chinmayanand896@icloud.com
+                                    chinmayanand896@gmail.com
                                 </td>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                     <span className='p-1.5 text-xs font-medium uppercase 
@@ -43,10 +48,10 @@ const Users = () => {
                             </tr>
                             <tr className='bg-white'>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='#'>Ayumu Oshiro</a>
+                                    <a className='font-bold text-blue-500 hover:underline' href={`/user-profile/${idmaahi}`}>Maahi</a>
                                 </td>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    ayumuoshiro@real-cnt.com
+                                    chinmayanand896@icloud.com
                                 </td>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                     <span className='p-1.5 text-xs font-medium uppercase 
@@ -61,7 +66,7 @@ const Users = () => {
                             </tr>
                             <tr className='bg-white'>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='#'>Mahima Chaudhary</a>
+                                    <a className='font-bold text-blue-500 hover:underline' href={`/user-profile/${id}`}>Mahima Chaudhary</a>
                                 </td>
                                 <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
                                     mahima@real-cnt.com

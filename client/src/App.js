@@ -29,7 +29,6 @@ function App() {
 
             <Route element={<ProtectedRoutes />}>
               <Route path="/users" element={<Users />}/>
-              <Route path="/user-profile" element={<UserProfile />}/>
               <Route path='/notification' element={<Notification />} />
               <Route path='/send-message/:receiver_name/:receiver_id' element={<SendMessage />} />
               <Route path='/edit-profile' element={<EditProfile />} />

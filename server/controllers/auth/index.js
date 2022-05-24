@@ -257,10 +257,10 @@ exports.createUserProfile = async (req, res) => {
 
 //get a user profile to show on the screen
 exports.getUserProfile = async (req, res) => {
-    const { userid } = req.body
-    if (userid) {
+    const { userID } = req.body
+    if (userID) {
         try {
-            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'name'])
+            const profile = await UserProfile.findOne({ user: userID }).populate('user', ['email', 'name'])
             if (profile) {
                 return res.status(200).json({
                     userProfile: profile,
@@ -273,7 +273,7 @@ exports.getUserProfile = async (req, res) => {
             }
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error
             })
         }
     } else {
