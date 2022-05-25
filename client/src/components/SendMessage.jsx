@@ -1,6 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { checkIfUserHasAConversation } from '../utilityMethods/BackendUtilitiesMethods'
 
 const SendMessage = () => {
 
@@ -8,19 +11,48 @@ const SendMessage = () => {
     let { receiver_id, receiver_name } = useParams()
     const navigate = useNavigate()
 
+    const loadUserFromReduxState = useSelector(state => state.user)
+
+    /*
+        If currently logged in user is already not having a conversation with the user then first create a conversation and then send a message.
+        when you send a messasge to a user, then at the backend check if you are already having a conversation with the user if Yes then add the new message to that conversation or else create
+        a new conversation first and then add a new message.
+    */
+
     const sendMessage = () => {
-        try {
-            axios({
-                method: 'POST',
-                url: `http://localhost:8000/apiV1/send-new-message`,
-                data: {conversation: '', content: message},
-                headers: { authorizaion: localStorage.getItem('token')}
-            })
-        } catch (error) {
-            console.log(error)
+        const conversationFound = checkIfUserHasAConversation()
+
+        if (conversationFound) {
+            try {
+                axios({
+                    method: 'POST',
+                    url: `http://localhost:8000/apiV1/send-new-message`,
+                    data: {conversation: conversationFound._id, content: message},
+                    headers: { authorizaion: localStorage.getItem('token')}
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            // first create a conversation and then add message
+            try {
+                axios({
+                    method: 'POST',
+                    url: `http://localhost:8000/apiV1/create-new-conversation`,
+                    data: { sender: loadUserFromReduxState.user._id, receiver: receiver_id},
+                    headers: { authorizaion: localStorage.getItem('token')}
+                })
+                .then(response => {
+                    
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
         setMessage('')
     }
+
+
     
     return (
         <div className=''>

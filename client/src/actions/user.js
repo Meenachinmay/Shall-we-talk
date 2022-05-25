@@ -184,6 +184,7 @@ export const userRegister = ( name, email, password ) => async dispatch => {
     })
 }
 
+// logout the user and delete localstorage
 export const userLogout = ({ navigate }) => async dispatch => {
     localStorage.removeItem('token')
     dispatch({ type: USER_LOGOUT_REQUEST })
@@ -218,3 +219,16 @@ export const accountActivate = (auth_token,navigate) => async dispatch => {
         dispatch(setNewAlert(newalert))
     })
 }
+
+
+// create a new user profile
+export const createNewUserProfile = ({ userID }) => async dispatch => {
+
+}
+
+
+// update the user profile
+export const updateUserProfile = ({ userID }) => async dispatch => {
+
+}
+

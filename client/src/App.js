@@ -19,6 +19,8 @@ import EditProfile from './pages/EditProfile';
 import AccountActivation from './pages/AccountActivation';
 
 import ProtectedRoutes from './ProtectedRoutes';
+import CreateProfile from './pages/CreateProfile';
+import UserSettingsPage from './pages/UserSettingsPage';
 
 function App() {
   return (
@@ -33,6 +35,9 @@ function App() {
               <Route path='/send-message/:receiver_name/:receiver_id' element={<SendMessage />} />
               <Route path='/edit-profile/:user_id' element={<EditProfile />} />
               <Route path='/user-profile/:user_id' element={<UserProfile />} />
+              <Route path='/create-new-user-profile/:user_id' element={<CreateProfile />}/>
+              <Route path='/user-settings-page/:user_id' element={<UserSettingsPage />}/>
+
             </Route>
 
             <Route path="/" element={<HomePage /> }/>\
