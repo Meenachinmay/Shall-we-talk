@@ -51,8 +51,7 @@ const LoginRegister = () => {
     }
 
     const handleRegister = () => {
-        dispatch(userRegister(name, emailRegister, passwordRegister))
-        
+        dispatch(userRegister(name, emailRegister, passwordRegister))   
     }
 
     return (

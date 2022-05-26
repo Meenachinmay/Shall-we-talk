@@ -15,7 +15,10 @@ import {
     USER_REGISTER_FAIL,
     ACCOUNT_ACTIVATION_REQUEST,
     ACCOUNT_ACTIVATION_SUCCESS,
-    ACCOUNT_ACTIVATION_FAIL
+    ACCOUNT_ACTIVATION_FAIL,
+    NEW_PROFILE_CREATION_REQUEST,
+    NEW_PROFILE_CREATION_FAIL,
+    NEW_PROFILE_CREATION_SUCCESS
 } from './types'
 
 import axios from 'axios'
@@ -97,6 +100,7 @@ export const userLogin = ( email, password ) => async dispatch => {
         })
 
         localStorage.setItem('token', response.data.token)
+        
 
         const newalert = {
             type: 'info',
@@ -222,8 +226,43 @@ export const accountActivate = (auth_token,navigate) => async dispatch => {
 
 
 // create a new user profile
-export const createNewUserProfile = ({ userID }) => async dispatch => {
+export const createNewUserProfile = ({ userID, newProfileData }) => async dispatch => {
+    dispatch({ type: NEW_PROFILE_CREATION_REQUEST })
 
+    axios({
+        method: 'POST',
+        url: `http://localhost:8000/apiV1/create-user-profile`,
+        headers: { authorization: localStorage.getItem('token')},
+        data: { userID: userID, profileData: newProfileData }
+    })
+    .then(response => {
+        dispatch({ 
+            type: NEW_PROFILE_CREATION_SUCCESS, 
+            payload: response.data.userProfile
+        })
+
+        const newalert = {
+            type: 'info',
+            message: response.data.message
+        }
+
+        dispatch(setNewAlert(newalert))
+    })
+    .catch(error => {
+        dispatch({
+            type: NEW_PROFILE_CREATION_FAIL,
+            payload: {
+                error: error.response.data.message
+            }
+        })
+
+        const newalert = {
+            type: 'danger',
+            message: error.response.data.message
+        }
+
+        dispatch(setNewAlert(newalert))
+    })
 }
 
 
