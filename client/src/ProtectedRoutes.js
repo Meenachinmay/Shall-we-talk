@@ -9,6 +9,7 @@ const ProtectedRoutes = () => {
 
     useEffect(() => {
         // check for the auto logout logic here
+        
     }, [])
 
     return login ? <Outlet /> : <Navigate to='/login-register' />

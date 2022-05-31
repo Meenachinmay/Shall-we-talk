@@ -82,7 +82,7 @@ export const fetchUserProfile = (userID) => async (dispatch) => {
 
 // Login action - login a user
 // this login action will make a post req to backend and fethcs data from backend
-export const userLogin = ( email, password ) => async dispatch => {
+export const userLogin = ( email, password, navigate, keepMeLoggedIn ) => async dispatch => {
     dispatch({ type: USER_LOGIN_REQUEST })
 
     axios({
@@ -99,25 +99,26 @@ export const userLogin = ( email, password ) => async dispatch => {
             }
         })
 
+        // set token and time to the local storage here
         localStorage.setItem('token', response.data.token)
-        
 
+        // if keepMeLoggedIn is True then do not set timer for autoLogout otherwise set it
+        if (keepMeLoggedIn) {
+        } else {
+            setTimeout(() => {
+                dispatch(userLogout({ navigate }))
+            }, 60 * 60 * 1000)
+        }
+        
+        // create a new alert type and send it
         const newalert = {
             type: 'info',
             message: 'You are logged-in successfully!'
         }
-        dispatch({
-            type:NEW_ALERT,
-            payload: {
-                alert: newalert
-            }
-        })
-        setTimeout(() => {
-            dispatch({
-                type: HIDE_ALERT
-            })
-        }, 3000);
+        dispatch(setNewAlert(newalert))
 
+        // navitate to home page
+        navigate('/')
     })
     .catch(error => {
         const newalert = {
@@ -190,7 +191,9 @@ export const userRegister = ( name, email, password ) => async dispatch => {
 
 // logout the user and delete localstorage
 export const userLogout = ({ navigate }) => async dispatch => {
+    // remove token and loginTime from localStorage
     localStorage.removeItem('token')
+
     dispatch({ type: USER_LOGOUT_REQUEST })
     navigate('/login-register')
 }

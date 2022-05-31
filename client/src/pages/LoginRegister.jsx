@@ -16,7 +16,7 @@ const LoginRegister = () => {
     const { user, loading, error, login, logout } = loadeduser
 
     // states for login
-    const [checkbox, setCheckBox] = useState(false)
+    const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -44,10 +44,7 @@ const LoginRegister = () => {
     })
 
     const handleLogin = () => {
-        dispatch(userLogin(email, password))
-        if ( login ) {
-            navigate('/')
-        }
+        dispatch(userLogin(email, password, navigate, keepMeLoggedIn))
     }
 
     const handleRegister = () => {
@@ -76,7 +73,7 @@ const LoginRegister = () => {
                         ログイン
                     </div>
                     <div className='flex items-center mt-4 space-x-2'>
-                        <input type='checkbox' className='' onChange={(e) => setCheckBox(e.target.checked)}/>
+                        <input type='checkbox' className='' onChange={(e) => setKeepMeLoggedIn(e.target.checked)}/>
                         <span className='text-sm text-gray-400'>ログインしたままにする</span>
                     </div>
                     <a className='text-sm text-gray-400 mt-2 hover:underline cursor-pointer hover:text-indigo-600'>パスワードを忘れた場合</a>

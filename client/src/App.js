@@ -21,8 +21,12 @@ import AccountActivation from './pages/AccountActivation';
 import ProtectedRoutes from './ProtectedRoutes';
 import CreateProfile from './pages/CreateProfile';
 import UserSettingsPage from './pages/UserSettingsPage';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    
+  }, [])
   return (
     <Provider store={store}>
       <PersistGate loading="null" persistor={persistor}>
@@ -37,7 +41,6 @@ function App() {
               <Route path='/user-profile/:user_id' element={<UserProfile />} />
               <Route path='/create-new-user-profile/:user_id' element={<CreateProfile />}/>
               <Route path='/user-settings-page/:user_id' element={<UserSettingsPage />}/>
-
             </Route>
 
             <Route path="/" element={<HomePage /> }/>\
