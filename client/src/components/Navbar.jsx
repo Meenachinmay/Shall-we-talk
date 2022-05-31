@@ -42,16 +42,16 @@ const Navbar = () => {
                     <ul className='md:pb-0 pb-4'>
                         <div className='md:flex md:items-center'>
                             <li className='md:ml-8 md:my-0 my-4'>
-                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>準備オッケー</a>
+                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>会話できる</a>
                             </li>
                             <li className='md:ml-8 md:my-0 my-4'>
-                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>話そう</a>
+                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>会話したい</a>
                             </li>
                             <li className='md:ml-8 md:my-0 my-4'>
-                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>今じゃない</a>
+                                <a href='#' className='text-gray-800 text-xs md:text-sm hover:text-gray-400 duration-500'>忙しい。。</a>
                             </li>
                             <li className='md:ml-8 md:my-0 my-4'>
-                                <a href='/users' className='text-white bg-indigo-600 py-1 px-2 rounded text-xs md:text-sm hover:text-gray-400 duration-500'>Check users space</a>
+                                <a href='/users' className='text-white bg-indigo-600 py-1 px-2 rounded text-xs md:text-sm hover:text-gray-400 duration-500'>バーチャルスペースに入る</a>
                             </li>
                         </div>
                     </ul>
