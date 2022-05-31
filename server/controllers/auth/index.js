@@ -257,10 +257,10 @@ exports.createUserProfile = async (req, res) => {
 
 //get a user profile to show on the screen
 exports.getUserProfile = async (req, res) => {
-    const { userid } = req.body
-    if (userid) {
+    const { userID } = req.body
+    if (userID) {
         try {
-            const profile = await UserProfile.findOne({ user: userid }).populate('user', ['email', 'name'])
+            const profile = await UserProfile.findOne({ user: userID }).populate('user', ['email', 'name'])
             if (profile) {
                 return res.status(200).json({
                     userProfile: profile,
@@ -273,7 +273,7 @@ exports.getUserProfile = async (req, res) => {
             }
         } catch (error) {
             return res.status(500).json({
-                error: error
+                message: error
             })
         }
     } else {
@@ -315,11 +315,11 @@ exports.deleteUserProfile = async (req, res) => {
 
 //get all the user profile
 exports.getAllLoggedInUsers = async (req, res) => {
-    const alluser = await LoggedInUser.find()
+    const alluser = await User.find()
     const users = []
 
     for ( let i = 0; i < alluser.length; i ++ ) {
-        const res = await User.findById({_id: alluser[i].user})
+        const res = await User.findById({_id: alluser[i]._id})
         users.push(res)
     }
 
@@ -678,7 +678,25 @@ exports.newMessage = async (req, res) => {
 exports.getAllConversationForAUser = async (req, res) => {
     const { userID } = req.params
 
-    
+    if ( userID ) {
+
+        try {
+            const conversations = await Conversation.find({sender: userID }).populate('sender', ['name', 'email']).populate('receiver', ['name', 'email'])
+
+            return res.status(200).json({
+                conversations: conversations
+        })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+
+    } else {
+        return res.status(400).json({
+            message: "Please provider user."
+        })
+    }
 }
 
 
@@ -686,7 +704,22 @@ exports.getAllConversationForAUser = async (req, res) => {
 exports.getAllMessagesForAConversation = async (req, res) => {
     const { conversationID } = req.params
 
-    return res.status(200).json({
-        conversationID: conversationID
-    })
+    if (conversationID) {
+
+        try {
+            const messages = await Message.find({conversation: conversationID}).populate('conversation', ['sender', 'receiver'])
+            return res.status(200).json({
+                messages: messages
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+
+    } else {
+        return res.status(400).json({
+            message: "Please provide conversationID."
+        })
+    }
 }

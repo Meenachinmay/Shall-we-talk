@@ -1,8 +1,34 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import UserRow from './UserRow'
 
 const Users = () => {
 
+    const navigate = useNavigate()
+    const [users, setUsers] = useState([])
+
     const [showVSpace, setShowVSpace] = useState(false)
+
+    useEffect( () => {
+        axios({
+            method: 'GET',
+            url: 'http://localhost:8000/apiV1/get-all-logged-in-users',
+            data: { },
+            headers: { authorization: localStorage.getItem('token')}
+        })
+        .then(response => {
+            let temp = []
+            response.data.users.map(user => (
+                temp.push(user)
+            ))
+
+            setUsers(temp)
+        })
+        .catch (error => {
+            console.log(error.response.data.message)
+        })
+    }, [])
     
     return (
         <div className='p-5 h-screen bg-gray-100'>
@@ -11,80 +37,32 @@ const Users = () => {
                 <button onClick={() => setShowVSpace(!showVSpace)} className='text-xs mb-2 underline text-indigo-600'>ユーザーカード、又はバーチャルスペースへ入室する</button>
             </div>
             {/* for non mobile devices */}
-            { !showVSpace ? <div className='overflow-auto rounded-lg shadow hidden md:block' style={{ maxHeight: '600px'}}>
-                <table className='w-full'>
-                        <thead className='bg-gray-50 border-b-2 border-gray-200'>
-                            <tr>
-                                <th className='w-20 p-3 text-sm font-semibold tracking-wide text-left'>名前</th>
-                                <th className='p-3 text-sm font-semibold tracking-wide text-left'>メールアドレス</th>
-                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>ステータス</th>
-                                <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>会社名</th>
-                                <th className='w-32 p-3 text-sm font-semibold tracking-wide text-left'>アクション</th>
-                            </tr>
-                        </thead>
-                        <tbody className='divide-y divide-gray-100'>
-                            <tr className='bg-white'>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='/user-profile'>Chinmay anand</a>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    chinmayanand896@icloud.com
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <span className='p-1.5 text-xs font-medium uppercase 
-                                    tracking-wide text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50'>Ready</span>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    Real connect
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <button className='rounded-lg bg-green-400 px-3 py-1 text-gray-700 font-semibold'>Send request</button>
-                                </td>
-                            </tr>
-                            <tr className='bg-white'>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='#'>Ayumu Oshiro</a>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    ayumuoshiro@real-cnt.com
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <span className='p-1.5 text-xs font-medium uppercase 
-                                    tracking-wide text-green-800 bg-green-200 rounded-lg bg-opacity-50'>Let's talk</span>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    Real connect
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                     <button className='rounded-lg bg-green-400 px-3 py-1 text-gray-700 font-semibold'>Send request</button>
-                                </td>
-                            </tr>
-                            <tr className='bg-white'>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <a className='font-bold text-blue-500 hover:underline' href='#'>Mahima Chaudhary</a>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    mahima@real-cnt.com
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <span className='p-1.5 text-xs font-medium uppercase 
-                                    tracking-wide text-red-800 bg-red-200 rounded-lg bg-opacity-50'>Not now</span>
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    Real connect
-                                </td>
-                                <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
-                                    <button className='rounded-lg bg-green-400 px-3 py-1 text-gray-700 font-semibold'>Send request</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    
-                </table>
-            </div> : 
-            <div className='overflow-auto rounded-lg shadow' style={{ maxHeight: '600px'}}>
-                you have clicked on the show virtual space button, here we will show the virtual space map.
-            </div>
-            }
+            { !showVSpace ? 
+                <div className='overflow-auto rounded-lg shadow hidden md:block' style={{ maxHeight: '600px'}}>
+                    <table className='w-full'>
+                            <thead className='bg-gray-50 border-b-2 border-gray-200'>
+                                <tr>
+                                    <th className='w-20 p-3 text-sm font-semibold tracking-wide text-left'>Name</th>
+                                    <th className='p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
+                                    <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>Status</th>
+                                    <th className='w-24 p-3 text-sm font-semibold tracking-wide text-left'>Company</th>
+                                    <th className='w-32 p-3 text-sm font-semibold tracking-wide text-left'>Action</th>
+                                </tr>
+                            </thead>
+                            {/* we mapping all the users here in the User component */}
+                            <tbody className='divide-y divide-gray-100'>
+                                {
+                                    users.map((user, index) => (
+                                        <UserRow key={index} id={user._id} name={user.name} email={user.email} status={user.status} companyName={user.company_name} />
+                                    ))
+                                }
+                            </tbody>
+                            {/* we mapping all the users here in the User component */}
+                    </table>
+                </div> : 
+                <div className='overflow-auto rounded-lg shadow' style={{ maxHeight: '600px'}}>
+                    you have clicked on the show virtual space button, here we will show the virtual space map.
+                </div> }
 
             {/* for mobile devices */}
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden'>

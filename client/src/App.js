@@ -19,8 +19,14 @@ import EditProfile from './pages/EditProfile';
 import AccountActivation from './pages/AccountActivation';
 
 import ProtectedRoutes from './ProtectedRoutes';
+import CreateProfile from './pages/CreateProfile';
+import UserSettingsPage from './pages/UserSettingsPage';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    
+  }, [])
   return (
     <Provider store={store}>
       <PersistGate loading="null" persistor={persistor}>
@@ -29,11 +35,12 @@ function App() {
 
             <Route element={<ProtectedRoutes />}>
               <Route path="/users" element={<Users />}/>
-              <Route path="/user-profile" element={<UserProfile />}/>
               <Route path='/notification' element={<Notification />} />
               <Route path='/send-message/:receiver_name/:receiver_id' element={<SendMessage />} />
-              <Route path='/edit-profile' element={<EditProfile />} />
+              <Route path='/edit-profile/:user_id' element={<EditProfile />} />
               <Route path='/user-profile/:user_id' element={<UserProfile />} />
+              <Route path='/create-new-user-profile/:user_id' element={<CreateProfile />}/>
+              <Route path='/user-settings-page/:user_id' element={<UserSettingsPage />}/>
             </Route>
 
             <Route path="/" element={<HomePage /> }/>\

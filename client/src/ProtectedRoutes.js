@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const ProtectedRoutes = () => {
-    
-    const loadeduser = useSelector(state => state.user)
-    const { login } = loadeduser
+
+    const loadUserFromReduxState = useSelector(state => state.user)
+    const { login } = loadUserFromReduxState
+
+    useEffect(() => {
+        // check for the auto logout logic here
+        
+    }, [])
 
     return login ? <Outlet /> : <Navigate to='/login-register' />
     
