@@ -56,7 +56,7 @@ const EditProfile = () => {
                             Update profile
                         </button>
                         <div onClick={() => navigate(`/user-profile/${user_id}`)} className='text-sm bg-red-600 w-full rounded text-white text-center py-1 px-2 hover:bg-indigo-400'>
-                           Cancel
+                           キャンセル
                         </div>
                     </div>
                 </div>

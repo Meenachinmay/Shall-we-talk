@@ -6,3 +6,4 @@ client/node_modules/
 
 ./client/package.json
 ./client/package-lock.json
+sendgrid.env
