@@ -57,6 +57,7 @@ const LoginRegister = () => {
                 dispatch(userLogin(email, password, navigate, keepMeLoggedIn))
             } else {
                 // create a new alert type and send it
+                console.log(valid)
                 const newalert = {
                     type: 'danger',
                     message: 'Please fill all the inputs correctly.'
