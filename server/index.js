@@ -6,6 +6,9 @@ const morgan = require ('morgan')
 const connectDB = require ('./db.connect')
 const EVENTS = require ('./config/default')
 
+const sgMail = require ('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 const socket = require('./socket')
 
 require('dotenv').config()
@@ -60,3 +63,29 @@ app.get('/test', (req, res) => {
     })
 })
 
+app.get('/hello', (_req, res) => {
+    return res.status(200).json({
+        message: "hello world"
+    })
+})
+
+app.get('/sendemail/sendgrid', (_req, res) => {
+    const msg = {
+        to: "chinmayanand896@icloud.com",
+        from: "m.mahichoudhry@gmail.com",
+        subject: "Sending with sendgird",
+        text: "It is a sending email",
+        html: '<a href="http://localhost:8000/hello">Click here to open</a>',
+    }
+
+    sgMail.send(msg)
+        .then(() => {
+            console.log('email sent')
+            return res.status(200).json({
+                message: "email sent"
+            })
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+})
