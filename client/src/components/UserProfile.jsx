@@ -39,9 +39,11 @@ const UserProfile = () => {
     return (
         <div className='container mx-auto flex flex-col md:flex-row items-center justify-center'>
             <div className='mt-12 w-3/4 p-8 bg-white border-1 shadow-lg rounded-lg'>
+      
                 { loadUserFromReduxState.user._id === user_id ? 
                     <div onClick={() => navigate(`/edit-profile/${user_id}`)} className='flex justify-end text-sm text-gray-400 hover:underline hover:text-indigo-600 cursor-pointer'>編集</div> : null
                 }
+                
                 <div className='flex flex-col items-center justify-center pt-10 text-center'>
                     <img className="shrink-0 w-20 h-20 sm:w-32 sm:h-32 rounded-full" 
                         src='https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584_1280.png' alt=''/>

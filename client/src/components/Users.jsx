@@ -33,8 +33,8 @@ const Users = () => {
     return (
         <div className='p-5 h-screen bg-gray-100'>
             <div className='flex flex-col flex-grow sm:flex-row sm:items-center'>
-                <h1 className='text-xl mb-2 sm:mr-8'>Logged in User's List</h1>
-                <button onClick={() => setShowVSpace(!showVSpace)} className='text-xs mb-2 underline text-indigo-600'>Switch between virtual map and list view</button>
+                <h1 className='text-xl mb-2 sm:mr-8'>現在アクティブなユーザー</h1>
+                <button onClick={() => setShowVSpace(!showVSpace)} className='text-xs mb-2 underline text-indigo-600'>ユーザーカード、又はバーチャルスペースへ入室する</button>
             </div>
             {/* for non mobile devices */}
             { !showVSpace ? 
@@ -62,8 +62,7 @@ const Users = () => {
                 </div> : 
                 <div className='overflow-auto rounded-lg shadow' style={{ maxHeight: '600px'}}>
                     you have clicked on the show virtual space button, here we will show the virtual space map.
-                </div>
-            }
+                </div> }
 
             {/* for mobile devices */}
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden'>

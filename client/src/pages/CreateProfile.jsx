@@ -64,7 +64,7 @@ const CreateProfile = () => {
                         <button className='text-sm bg-indigo-600 w-full rounded text-white py-1 px-2 hover:bg-indigo-400'>
                             Create new profile
                         </button>
-                        <div onClick={() => navigate(`/user-profile/${params.user_id}`)} className='text-sm bg-red-600 w-full rounded text-white text-center py-1 px-2 hover:bg-indigo-400'>
+                        <div onClick={() => navigate(-1)} className='text-sm bg-red-600 w-full rounded text-white text-center py-1 px-2 hover:bg-indigo-400'>
                            Cancel
                         </div>
                     </div>

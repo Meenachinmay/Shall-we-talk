@@ -32,12 +32,14 @@ const LoginRegister = () => {
         password: yup.string().required().min(6).max(30)
     })
 
+    //
     let registerSchema = yup.object().shape({
         name: yup.string().required().max(36),
         email: yup.string().email().required(),
         password: yup.string().required().min(6).max(30)
     })
 
+    //
     useEffect(() => {
         if ( localStorage.getItem('token') || login) {
             navigate('/')
@@ -96,11 +98,11 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setEmail(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールを入力ください" />
+                            <input onChange={(e) => setEmail(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="メールアドレスを入力して下さい" />
                         </div>
                         <p className='text-[10px] text-red-600'>Name is required.</p>
                         <div className='flex flex-col items-center space-x-2'>
-                            <input onChange={(e) => setPassword(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" />
+                            <input onChange={(e) => setPassword(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力して下さい" />
                         </div>
                         <p className='text-[10px] text-red-600'>Password is required.</p>
                     </div>
@@ -130,15 +132,15 @@ const LoginRegister = () => {
                     </div>
                     <div className='flex flex-col mt-8 space-y-2'>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setName(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力ください" required/>
+                            <input onChange={(e) => setName(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="text" placeholder="お名前を入力して下さい" required/>
                         </div>
                         <p className='text-[10px] text-red-600'>Name is required.</p>
                         <div className='flex flex-col items-center space-x-2'>
-                            <input onChange={(e) => setEmailRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="email" placeholder="メールを入力ください" required/>
+                            <input onChange={(e) => setEmailRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="email" placeholder="メールアドレスを入力して下さい" required/>
                         </div>
                         <p className='text-[10px] text-red-600'>Email should be a valid email and it is required.</p>
                         <div className='flex flex-col items-center justify-start space-x-2'>
-                            <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力ください" required/>
+                            <input onChange={(e) => setPasswordRegister(e.target.value)} className='border border-gray-400 rounded focus:outline-none px-2 py-1 w-full' type="password" placeholder="パスワードを入力して下さい" required/>
                         </div>
                         <p className='text-[10px] text-red-600'>Password must contains at least 6 letters and it is required.</p>
                         <div onClick={handleRegister} className='bg-indigo-600 text-center p-1 mt-4 rounded text-white cursor-pointer hover:bg-indigo-400'>
