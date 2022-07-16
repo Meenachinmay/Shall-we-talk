@@ -52,8 +52,6 @@ const SendMessage = () => {
         setMessage('')
     }
 
-
-    
     return (
         <div className=''>
             <div className='flex items-center justify-center p-4 md:p-10'>

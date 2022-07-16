@@ -677,6 +677,7 @@ exports.newMessage = async (req, res) => {
 // get all the conversation for a given user
 exports.getAllConversationForAUser = async (req, res) => {
     const { userID } = req.params
+    req.setTimeout(5000)
 
     if ( userID ) {
 
@@ -685,7 +686,7 @@ exports.getAllConversationForAUser = async (req, res) => {
 
             return res.status(200).json({
                 conversations: conversations
-        })
+            })
         } catch (error) {
             return res.status(500).json({
                 message: error.message
@@ -703,7 +704,7 @@ exports.getAllConversationForAUser = async (req, res) => {
 // get all the message for a given conversation
 exports.getAllMessagesForAConversation = async (req, res) => {
     const { conversationID } = req.params
-
+   
     if (conversationID) {
 
         try {
@@ -722,4 +723,9 @@ exports.getAllMessagesForAConversation = async (req, res) => {
             message: "Please provide conversationID."
         })
     }
+}
+
+// get all the message from the message model
+exports.getAllMessages = async (req, res) => {
+  return 'hello world'
 }

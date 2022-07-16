@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 
 
 const connectDB = () => {
-    mongoose.connect(process.env.MONGO_URI, {
+    mongoose.connect("mongodb://localhost:27017/real-connect", {
         useNewUrlParser: true,
     })
-    .then( () => {
+    .then(() => {
         console.log("Connected to database...")
     })
     .catch(error => {

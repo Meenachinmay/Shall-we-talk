@@ -51,23 +51,6 @@ httpServer.listen(process.env.PORT, process.env.HOST, () => {
     app.set('socket', io)
 })
 
-// routes
-app.get('/test', (req, res) => {
-    const io = req.app.get('socket')
-
-    io.emit(EVENTS.SERVER.ROOM_CREATED, 
-        {message: `chinmay has created a room with name myroom at server`})
-
-    return res.json({
-        message: "success"
-    })
-})
-
-app.get('/hello', (_req, res) => {
-    return res.status(200).json({
-        message: "hello world"
-    })
-})
 
 app.get('/sendemail/sendgrid', (_req, res) => {
     const msg = {

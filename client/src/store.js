@@ -10,7 +10,7 @@ import user from './reducers/user'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user']
+  whitelist: ['user', 'user.loading']
 }
 
 const reducers = combineReducers({
