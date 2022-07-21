@@ -677,7 +677,6 @@ exports.newMessage = async (req, res) => {
 // get all the conversation for a given user
 exports.getAllConversationForAUser = async (req, res) => {
     const { userID } = req.params
-    req.setTimeout(5000)
 
     if ( userID ) {
 

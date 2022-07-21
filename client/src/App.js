@@ -17,6 +17,7 @@ import Notification from './pages/Notification';
 import SendMessage from './components/SendMessage';
 import EditProfile from './pages/EditProfile';
 import AccountActivation from './pages/AccountActivation';
+import GraphqlTesting from './pages/GraphqlTesting';
 
 import ProtectedRoutes from './ProtectedRoutes';
 import CreateProfile from './pages/CreateProfile';
@@ -47,6 +48,7 @@ function App() {
             <Route path='/auth/account-activation/:auth_token' element={<AccountActivation />} />
             <Route path='/login-register' element={<LoginRegister />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/graphql-testing' element={<GraphqlTesting/>} />
           </Routes>
         </PersistGate>
     </Provider>

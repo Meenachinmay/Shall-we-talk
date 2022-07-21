@@ -72,3 +72,7 @@ app.get('/sendemail/sendgrid', (_req, res) => {
             console.error(error)
         })
 })
+
+app.get('/checkmail', (req, res) => {
+    return 'hello world'
+})

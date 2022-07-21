@@ -53,7 +53,7 @@ router.post('/occupiy-a-room', authenticated, occupiyARoom)
 // messages and conversation routes
 router.post('/create-new-conversation', authenticated, createNewConversation)
 router.post('/send-new-message', authenticated, newMessage)
-router.get('/get-all-messages/:conversationID', authenticated, getAllMessagesForAConversation)
+router.get('/get-all-messages/:conversationID', getAllMessagesForAConversation)
 router.get('/get-all-conversations/:userID', getAllConversationForAUser)
 router.get('/get-all-messages', getAllMessages)
 
