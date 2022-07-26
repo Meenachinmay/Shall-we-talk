@@ -18,6 +18,7 @@ import SendMessage from './components/SendMessage';
 import EditProfile from './pages/EditProfile';
 import AccountActivation from './pages/AccountActivation';
 import GraphqlTesting from './pages/GraphqlTesting';
+import Firebase from './testing_experiment/firebase_testing/Firebase';
 
 import ProtectedRoutes from './ProtectedRoutes';
 import CreateProfile from './pages/CreateProfile';
@@ -49,6 +50,7 @@ function App() {
             <Route path='/login-register' element={<LoginRegister />} />
             <Route path='/register' element={<Register />} />
             <Route path='/graphql-testing' element={<GraphqlTesting/>} />
+            <Route path='/firebase-testing' element={<Firebase />} />
           </Routes>
         </PersistGate>
     </Provider>
