@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
-import { BsDot, BsReddit } from "react-icons/bs";
+import { BsDot, BsScissors, BsBellFill } from "react-icons/bs";
 import { auth } from "../../../firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModelState } from '../../../atoms/authModelState'
@@ -20,7 +20,7 @@ const ResetPassword: React.FC = () => {
   };
   return (
     <Flex direction="column" alignItems="center" width="100%">
-      <Icon as={BsReddit} color="brand.100" fontSize={40} mb={2} />
+      <Icon as={BsBellFill} color="brand.100" fontSize={40} mb={2} />
       <Text fontWeight={700} mb={2}>
         Reset your password
       </Text>
@@ -28,7 +28,7 @@ const ResetPassword: React.FC = () => {
         <Text mb={4}>Check your email :)</Text>
       ) : (
         <>
-          <Text fontSize="sm" textAlign="center" mb={2}>
+          <Text color="red.500" fontSize="sm" textAlign="center" mb={2}>
             Enter the email associated with your account and we will send you a
             reset link
           </Text>
@@ -55,9 +55,7 @@ const ResetPassword: React.FC = () => {
               }}
               bg="gray.50"
             />
-            <Text textAlign="center" fontSize="10pt" color="red">
-              Error will come here.
-            </Text>
+            
             <Button
               width="100%"
               height="36px"
@@ -65,6 +63,14 @@ const ResetPassword: React.FC = () => {
               mt={2}
               type="submit"
               isLoading={loading}
+              color="white"
+              bg="red.500"
+              _hover={{
+                bg:"white",
+                border: "1px solid",
+                borderColor: "red.500",
+                color: "red.500"
+              }}
             >
               Reset Password
             </Button>
@@ -85,6 +91,7 @@ const ResetPassword: React.FC = () => {
               view: "login",
             }))
           }
+          color= "red.500"
         >
           LOGIN
         </Text>
@@ -96,6 +103,7 @@ const ResetPassword: React.FC = () => {
               view: "signup",
             }))
           }
+          color="red.500"
         >
           SIGN UP
         </Text>

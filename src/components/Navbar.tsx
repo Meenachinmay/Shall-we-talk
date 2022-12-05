@@ -1,21 +1,33 @@
-import { Box, Button, Flex, IconButton, Text, Tooltip } from '@chakra-ui/react'
-import React from 'react'
-import { HiBell } from 'react-icons/hi'
-import NotificationsDrawer from './Drawers/NotificationsDrawer'
-import RightContent from './Navbar/RightContent/RightContent'
-import SearchInput from './SearchInput'
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Image,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
+import React from "react";
+import { HiBell } from "react-icons/hi";
+import NotificationsDrawer from "./Drawers/NotificationsDrawer";
+import RightContent from "./Navbar/RightContent/RightContent";
+import SearchInput from "./SearchInput";
+import Logo from "../images/logo_bgTransparent.png";
 
 const Navbar: React.FC = () => {
   return (
-    <Flex bg='white' height='70px' shadow="md" padding='24px 12px' alignItems="center">
-      <Flex align='center'>
-        <Text textColor={'purple.600'} fontWeight={'semibold'}>Shall</Text>
-        <Text mr={2} fontWeight={"semibold"} textColor={'gray.700'}>weTalk</Text>
-      </Flex>
+    <Flex
+      bg="white"
+      height="100px"
+      shadow="md"
+      padding="24px 12px"
+      alignItems="center"
+    >
+      <Image mr={5} src={Logo} alt="user logo" boxSize="80px" />
       <SearchInput />
       <RightContent />
-    </Flex >
-  )
-}
+    </Flex>
+  );
+};
 
-export default Navbar
+export default Navbar;

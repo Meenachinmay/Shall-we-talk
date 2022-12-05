@@ -145,13 +145,13 @@ const Login: React.FC = () => {
         _hover={{
           bg: "white",
           border: "1px solid",
-          borderColor: "blue.500",
-          color: "blue.500",
+          borderColor: "red.500",
+          color: "red.500",
         }}
         type="submit"
         fontSize="10pt"
         fontWeight={700}
-        bg="blue.500"
+        bg="red.500"
         borderRadius={"60px"}
         color="white"
         variant="solid"
@@ -168,7 +168,7 @@ const Login: React.FC = () => {
         </Text>
         <Text
           fontSize="9pt"
-          color="blue.500"
+          color="red.500"
           cursor="pointer"
           onClick={() =>
             setAuthModelState((prev) => ({
@@ -189,7 +189,7 @@ const Login: React.FC = () => {
               view: "signup",
             }))
           }
-          color="blue.500"
+          color="red.500"
           fontWeight={700}
           cursor="pointer"
         >

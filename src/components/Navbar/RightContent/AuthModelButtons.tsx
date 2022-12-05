@@ -58,11 +58,11 @@ const AuthModelButtons: React.FC = () => {
   return (
     <>
       <Button _hover={{
-        bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
       }}
         fontSize="10pt"
         fontWeight={700}
-        bg="blue.500"
+        bg="red.500"
         borderRadius={"60px"}
         color="white"
         onClick={() => setAuthModelState({ open: true, view: "login" })}
@@ -72,15 +72,15 @@ const AuthModelButtons: React.FC = () => {
         width={{ base: "70px", md: "110px" }}
         mr={2}>Log In</Button>
       <Button _hover={{
-        bg: "gray.100", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+        bg: "red.100", border: "1px solid", borderColor: "red.500", color: "red.500"
       }}
         fontSize="10pt"
         fontWeight={700}
-        bg="white"
+        bg="red.500"
         borderRadius={"60px"}
         border="1px solid"
-        borderColor="blue.500"
-        color="blue.500"
+        borderColor="red.500"
+        color="white"
         onClick={() => setAuthModelState({ open: true, view: "signup" })}
         variant='outline'
         height="28px"

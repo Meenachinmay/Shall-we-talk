@@ -24,14 +24,12 @@ const AuthModel: React.FC = () => {
           <ModalHeader textAlign='center'>
             {modelState.view === 'login' && 'Login'}
             {modelState.view === 'signup' && 'SignUp'}
-            {modelState.view === 'resetPassword' && 'Reset Password'}
+            {modelState.view === 'resetPassword' && ''}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center" pb={6} >
             <Flex direction="column" align="center" justify="center" width="70%">
               {modelState.view === 'login' || modelState.view === 'signup' ? <>
-                <OAuthButton />
-                <Text color="gray.500" fontWeight={700}>OR</Text>
                 <AuthInputs />
               </> : <ResetPassword />}
             </Flex>
