@@ -1,0 +1,12 @@
+Create user profile design[✅]
+Create UI to list all the logged in users[✅]
+create user profile model to show profile when click on user card on dashboard[✅]
+Design database for request, online-users, conversation service database. [✅]
+Highlight the user icon in the map when being clicked on the user card in the list[✅]
+after new sign up redirect user to complete their profile and else do not allow them to log-in in the app[]
+
+
+
+-----
+when ever a user try to login check for his profile updation if profile is completed then let the user log-in other wise restrict the user
+by loggin-in

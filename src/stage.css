@@ -1,0 +1,8 @@
+.container {
+  maxWidth: "700px";
+  overflow: 'scroll';
+  minHeight: "400px";
+  padding: "10px";
+  border: "2px solid black";
+  margin: "10px"; 
+}
