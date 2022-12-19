@@ -13,11 +13,13 @@ import ViewProfile from './components/User/ViewProfile';
 import CreateProfile from './components/User/CreateProfile';
 import HomePage from './components/HomePage';
 import UpdateProfile from './components/User/UpdateProfile';
+import Fonts from './chakra/Fonts'
 
 const App: React.FC = () => {
   return (
     <RecoilRoot>
       <ChakraProvider theme={theme}>
+        <Fonts />
         <Layout>
           <Routes>
             <Route element={<ProtectedRoutes />}>

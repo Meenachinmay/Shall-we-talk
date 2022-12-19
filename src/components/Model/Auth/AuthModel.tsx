@@ -3,7 +3,6 @@ import React from 'react'
 import { useRecoilState } from 'recoil'
 import { authModelState } from '../../../atoms/authModelState'
 import AuthInputs from './AuthInputs'
-import OAuthButton from './OAuthButton'
 import ResetPassword from './ResetPassword'
 
 const AuthModel: React.FC = () => {

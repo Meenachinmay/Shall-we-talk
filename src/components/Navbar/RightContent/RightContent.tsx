@@ -10,6 +10,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from 'react-router-dom'
+import '../../homepage.css'
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -59,13 +60,12 @@ const RightContent: React.FC = () => {
               _hover={{
                 bg: "white",
                 border: "1px solid",
-                borderColor: "blue.500",
-                color: "blue.500",
+                borderColor: "red.500",
+                color: "red.500",
               }}
               fontSize="10pt"
               fontWeight={700}
-              bg="blue.500"
-              borderRadius={"60px"}
+              bg="red.500"
               color="white"
               onClick={handleLogout}
               variant="outline"
@@ -73,6 +73,7 @@ const RightContent: React.FC = () => {
               display={{ base: "none", sm: "flex" }}
               width={{ base: "70px", md: "110px" }}
               mr={2}
+              className="my__button"
             >
               Logout
             </Button>

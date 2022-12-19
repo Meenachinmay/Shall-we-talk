@@ -8,22 +8,20 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
-import { HiBell } from "react-icons/hi";
-import NotificationsDrawer from "./Drawers/NotificationsDrawer";
 import RightContent from "./Navbar/RightContent/RightContent";
 import SearchInput from "./SearchInput";
-import Logo from "../images/logo_bgTransparent.png";
+import Logo from "../images/logoName.svg";
 
 const Navbar: React.FC = () => {
   return (
     <Flex
       bg="white"
-      height="100px"
+      height="70px"
       shadow="md"
       padding="24px 12px"
       alignItems="center"
     >
-      <Image mr={5} src={Logo} alt="user logo" boxSize="80px" />
+      <Image mr={3} src={Logo} alt="user logo" height="40px" />
       <SearchInput />
       <RightContent />
     </Flex>

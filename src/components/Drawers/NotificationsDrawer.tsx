@@ -54,7 +54,7 @@ const NotificationsDrawer = () => {
       <Tooltip label="Notification" placement="bottom">
         <IconButton ref={btnRef}
           onClick={onOpen}
-          color="gray.500"
+          color="red.500"
           icon={<HiBell />}
           mr={2}
           ml={2}

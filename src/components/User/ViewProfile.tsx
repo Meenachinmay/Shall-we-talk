@@ -10,6 +10,7 @@ import { sendMessageModelState } from '../../atoms/sendMessageModelState'
 import { Message } from '../../types/Message'
 import { myMessagesModelState } from '../../atoms/myMessagesModelState'
 import ViewMessages from '../Model/Message/ViewMessages'
+import '../homepage.css'
 
 type Connection = {
   id: number,
@@ -197,12 +198,11 @@ const ViewProfile: React.FC = () => {
                 </VStack >
                 {currentUser.id === id ? <><ViewMessages /> <Button
                   _hover={{
-                    bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+                    bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
                   }}
                   fontSize="10pt"
                   fontWeight={700}
-                  bg="blue.500"
-                  borderRadius={"60px"}
+                  bg="red.500"
                   color="white"
                   variant='solid'
                   height="36px"
@@ -210,38 +210,42 @@ const ViewProfile: React.FC = () => {
                   mt={3}
                   onClick={handleSeeMessage}
                   isLoading={loadingMessage}
+                  style={{ boxShadow: '5px 5px'}}
+                  className="my__button"
                 >See my messages</Button></>
                   :
                   <HStack justifyContent="space-between" mt={4} w="sm">
                     {connection.connected ? <><SendMessageModel id={id as string} /><Button
                       _hover={{
-                        bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+                        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
                       }}
                       type="submit"
                       fontSize="10pt"
                       fontWeight={700}
-                      bg="blue.500"
+                      bg="red.500"
                       borderRadius={"60px"}
                       color="white"
                       variant='solid'
                       height="36px"
                       width="100%"
                       onClick={handleSendMessage}
+                      className="my__button"
                     >Send Message</Button></> : <Button
                       _hover={{
-                        bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+                        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
                       }}
                       isLoading={fetchingConnection || sendRequest}
                       type="submit"
                       fontSize="10pt"
                       fontWeight={700}
-                      bg="blue.500"
+                      bg="red.500"
                       borderRadius={"60px"}
                       color="white"
                       variant='solid'
                       height="36px"
                       width="100%"
                       onClick={handleSendRequest}
+                      className="my__button"
                     >Send Talk Request</Button>
                     }
                   </HStack>}
