@@ -6,11 +6,11 @@ const SearchInput: React.FC = () => {
   return (
     <Flex flexGrow={1} align="center">
       <InputGroup>
-        <InputLeftElement pointerEvents='none' children={<SearchIcon color='gray.400' mb={1} />} />
-        <Input placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "gray.500" }}
-          _hover={{ bg: "white", border: "solid 1px", borderColor: "blue.500" }}
-          _focus={{ outline: "none", border: "1px solid", borderColor: "blue.500" }}
-          height="34px" bg="gray.50"
+        <InputLeftElement pointerEvents='none' children={<SearchIcon color='red.400' mb={1} />} />
+        <Input color='red.500' placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
+          _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
+          _focus={{ outline: "none", border: "1px solid", borderColor: "red.500" }}
+          height="34px" bg="white"
         />
       </InputGroup>
     </Flex>

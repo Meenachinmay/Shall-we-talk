@@ -223,7 +223,6 @@ const ViewProfile: React.FC = () => {
                       fontSize="10pt"
                       fontWeight={700}
                       bg="red.500"
-                      borderRadius={"60px"}
                       color="white"
                       variant='solid'
                       height="36px"
@@ -239,7 +238,6 @@ const ViewProfile: React.FC = () => {
                       fontSize="10pt"
                       fontWeight={700}
                       bg="red.500"
-                      borderRadius={"60px"}
                       color="white"
                       variant='solid'
                       height="36px"

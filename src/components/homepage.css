@@ -1,5 +1,7 @@
 .home__page {
     box-shadow: 5px 5px;
+    top: 50%;
+    left: 50%;
 }
 
 .my__button {

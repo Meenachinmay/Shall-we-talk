@@ -14,6 +14,7 @@ import CreateProfile from './components/User/CreateProfile';
 import HomePage from './components/HomePage';
 import UpdateProfile from './components/User/UpdateProfile';
 import Fonts from './chakra/Fonts'
+import Testing from './components/Testing'
 
 const App: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             </Route>
             <Route path='/' element={<HomePage />} />
             <Route path='/*' element={<PageNotFound />} />
+            <Route path='/testing' element={<Testing />} />
           </Routes>
         </Layout>
       </ChakraProvider>

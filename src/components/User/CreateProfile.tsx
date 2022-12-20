@@ -1,62 +1,91 @@
-import { Flex, HStack, VStack, Box, Stat, StatLabel, StatNumber, Container, Divider, Avatar, AvatarBadge, Button, Input } from '@chakra-ui/react'
-import { doc, setDoc } from 'firebase/firestore'
-import React, { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { currentUserState } from '../../atoms/currentUserState'
-import { firestore } from '../../firebase/clientApp'
-import { useToast } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
+import {
+  Flex,
+  HStack,
+  VStack,
+  Box,
+  Stat,
+  StatLabel,
+  StatNumber,
+  Container,
+  Divider,
+  Avatar,
+  AvatarBadge,
+  Button,
+  Input,
+} from "@chakra-ui/react";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "../../atoms/currentUserState";
+import { firestore } from "../../firebase/clientApp";
+import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import "../homepage.css";
 
 const CreateProfile: React.FC = () => {
-  const [owner, setOwner] = useState('')
-  const [email, setEmail] = useState('')
-  const [companyName, setCompanyName] = useState('')
-  const [companyProfile, setCompanyProfile] = useState('')
-  const [workProfile, setworkProfile] = useState('')
-  const [hobbies, setHobbies] = useState('')
-  const [pet, setPet] = useState('')
-  const [pr, setPr] = useState('')
-  const [profileImage, setProfileImage] = useState('')
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState)
-  const [loading, setLoading] = useState(false)
-  const toast = useToast()
-  const navigate = useNavigate()
+  const [owner, setOwner] = useState("");
+  const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyProfile, setCompanyProfile] = useState("");
+  const [workProfile, setworkProfile] = useState("");
+  const [hobbies, setHobbies] = useState("");
+  const [pet, setPet] = useState("");
+  const [pr, setPr] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const handleCreateProfile = async () => {
     try {
-      setLoading(true)
-      await setDoc(doc(firestore, `userProfiles/userProfileId-${currentUser.id}`), {
-        name: owner,
-        email: currentUser.email,
-        companyName: companyName,
-        companyProfile: companyProfile,
-        workProfile: workProfile,
-        hobbies: hobbies,
-        pet: pet,
-        pr: pr,
-        profileImage: '',
-        userId: currentUser.id
-      })
-      setLoading(false)
+      setLoading(true);
+      await setDoc(
+        doc(firestore, `userProfiles/userProfileId-${currentUser.id}`),
+        {
+          name: owner,
+          email: currentUser.email,
+          companyName: companyName,
+          companyProfile: companyProfile,
+          workProfile: workProfile,
+          hobbies: hobbies,
+          pet: pet,
+          pr: pr,
+          profileImage: profileImage,
+          userId: currentUser.id,
+        }
+      );
+      uploadProfileImage()
+      setLoading(false);
 
       toast({
-        title: 'Profile created',
-        description: 'Your profile created.',
-        status: 'success',
+        title: "Profile created",
+        description: "Your profile created.",
+        status: "success",
         duration: 3000,
-        isClosable: true
-      })
+        isClosable: true,
+      });
 
-      navigate(`/`)
+      navigate(`/`);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
+  };
+
+  const uploadProfileImage = () => {
+
   }
 
   return (
     <VStack h="full" spacing={0} justifyContent="start">
       <Container maxW="2xl">
-        <Flex flexDirection="column" alignItems="center" py={6} w="full" maxW="2xl">
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          py={6}
+          w="full"
+          maxW="2xl"
+        >
           <Box p={6} w="full" h="full" overflow="auto">
             <Stat mt={6}>
               <StatLabel color="gray.500">Creating Profile of</StatLabel>
@@ -66,7 +95,12 @@ const CreateProfile: React.FC = () => {
               <Divider color="gray.100" />
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
-              <Avatar name="Chinmay anand" size="xl" src='https://cdn-icons-png.flaticon.com/512/6426/6426232.png'>
+              <Avatar
+                name="Chinmay anand"
+                onClick={() => alert("hello world")}
+                size="xl"
+                src="https://cdn-icons-png.flaticon.com/512/6426/6426232.png"
+              >
                 <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
               </Avatar>
               <Box w="full" mt={1}>
@@ -81,8 +115,19 @@ const CreateProfile: React.FC = () => {
                       onChange={(e) => setOwner(e.target.value)}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -95,8 +140,19 @@ const CreateProfile: React.FC = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -109,8 +165,19 @@ const CreateProfile: React.FC = () => {
                       value={companyName}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -123,8 +190,19 @@ const CreateProfile: React.FC = () => {
                       value={companyProfile}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -137,8 +215,19 @@ const CreateProfile: React.FC = () => {
                       value={workProfile}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -151,8 +240,19 @@ const CreateProfile: React.FC = () => {
                       value={hobbies}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -165,8 +265,19 @@ const CreateProfile: React.FC = () => {
                       value={pet}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </HStack>
 
                   <Flex flexDirection="column" w="full" mt={6}>
@@ -180,35 +291,50 @@ const CreateProfile: React.FC = () => {
                       value={pr}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
-                      _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-                      _focus={{ outline: "none", bg: "white", border: "1px solid", borderColor: "blue.500" }} bg="gray.50" />
-
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      _focus={{
+                        outline: "none",
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "blue.500",
+                      }}
+                      bg="gray.50"
+                    />
                   </Flex>
-                </VStack >
+                </VStack>
                 <HStack justifyContent="space-between" mt={4} w="sm">
                   <Button
                     isLoading={loading}
                     _hover={{
-                      bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+                      bg: "white",
+                      border: "1px solid",
+                      borderColor: "red.500",
+                      color: "red.500",
                     }}
                     onClick={handleCreateProfile}
                     fontSize="10pt"
                     fontWeight={700}
-                    bg="blue.500"
-                    borderRadius={"60px"}
+                    bg="red.500"
                     color="white"
-                    variant='solid'
+                    variant="solid"
                     height="36px"
                     width="100%"
-                  >Create profile</Button>
+                    className="my__button"
+                  >
+                    Create profile
+                  </Button>
                 </HStack>
               </Box>
             </Flex>
           </Box>
         </Flex>
-      </Container >
-    </VStack >
-  )
-}
+      </Container>
+    </VStack>
+  );
+};
 
-export default CreateProfile
+export default CreateProfile;
