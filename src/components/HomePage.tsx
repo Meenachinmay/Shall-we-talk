@@ -13,9 +13,9 @@ const HomePage: React.FC = () => {
         borderRadius={"md"}
         color="red.500"
         fontWeight={"semibold"}
-        fontSize="2xl"
+        fontSize="3xl"
       >
-        Hello form SWT, an app which allows you to talk at your co-working
+        Hello form SWT ✅, an app which allows you to talk at your co-working
         space with out hesitation.
       </Text>
     </VStack>

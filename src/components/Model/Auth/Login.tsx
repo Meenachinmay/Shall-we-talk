@@ -8,6 +8,7 @@ import { currentUserState } from "../../../atoms/currentUserState";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
+import '../../homepage.css'
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -152,13 +153,13 @@ const Login: React.FC = () => {
         fontSize="10pt"
         fontWeight={700}
         bg="red.500"
-        borderRadius={"60px"}
         color="white"
         variant="solid"
         height="36px"
         width="100%"
         mt={2}
         mb={2}
+        className="my__button"
       >
         Log In
       </Button>

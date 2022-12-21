@@ -22,6 +22,7 @@ import LoadingSpinner from "./customUIComponents/LoadingSpinner";
 import ProfileModel from "./Model/Profile/ProfileModel";
 import StatusModel from "./Model/Status/StatusModel";
 import User from "./User";
+import '../components/homepage.css'
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -257,16 +258,17 @@ const Dashboard: React.FC = () => {
                   size="xs"
                   rounded="full"
                   color="white"
-                  bg="blue.500"
+                  bg="red.500"
                   border="1px solid"
-                  borderColor="blue.500"
+                  borderColor="red.500"
                   _hover={{
                     border: "1px solid",
-                    borderColor: "blue.500",
+                    borderColor: "red.500",
                     bg: "white",
-                    color: "blue.500",
+                    color: "red.500",
                   }}
                   onClick={() => handleShowProfile(user)}
+                  className="my__button"
                 >
                   Profile
                 </Button>

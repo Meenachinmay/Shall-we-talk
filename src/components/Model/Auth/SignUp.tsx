@@ -7,6 +7,7 @@ import { auth } from "../../../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { currentUserState } from "../../../atoms/currentUserState";
+import '../../homepage.css'
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
@@ -155,13 +156,13 @@ const SignUp: React.FC = () => {
         fontSize="10pt"
         fontWeight={700}
         bg="red.500"
-        borderRadius={"60px"}
         color="white"
         variant="solid"
         height="36px"
         width="100%"
         mt={2}
         mb={2}
+        className="my__button"
       >
         Sign Up
       </Button>
