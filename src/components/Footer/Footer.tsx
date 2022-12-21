@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { Icon, Flex, Image } from "@chakra-ui/react";
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <footer className="footer-container">
       <div className="footer-content">
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             src={Logo}
             alt="user logo"
             height="50px"
-            bg={'white'}
+            bg={"white"}
           />
         </Flex>
         <p>
@@ -27,10 +27,14 @@ const Footer: React.FC = () => {
         </p>
         <ul className="socials">
           <li>
-            <Icon cursor={'pointer'} as={FaLinkedin} />
+            <a href= "https://www.linkedin.com/company/78436150/admin/"target="_blank">
+              <Icon cursor={"pointer"} as={FaLinkedin} />
+            </a>
           </li>
           <li>
-            <Icon cursor={'pointer'} as={MdEmail} />
+            <a href="https://www.real-cnt.net/" target="_blank">
+              <Icon cursor={"pointer"} as={MdEmail} />
+            </a>
           </li>
         </ul>
       </div>
