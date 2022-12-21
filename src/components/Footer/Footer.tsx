@@ -21,13 +21,13 @@ const Footer: React.FC = () => {
             bg={"white"}
           />
         </Flex>
-        <p>
-          We are an online platform which gives you a hesitation free
-          environment to talk to strangers in your co-working space.
-        </p>
+        <p>自分のコワーキングスペースでご存知のない方にご遠慮なく話しかけるアプリをご紹介させていただいております。</p>
         <ul className="socials">
           <li>
-            <a href= "https://www.linkedin.com/company/78436150/admin/"target="_blank">
+            <a
+              href="https://www.linkedin.com/company/78436150/admin/"
+              target="_blank"
+            >
               <Icon cursor={"pointer"} as={FaLinkedin} />
             </a>
           </li>
