@@ -8,7 +8,7 @@ type Props = {
 
 const Message: React.FunctionComponent<Props> = ({ name, text }) => {
   return (
-    <Flex justifyItems="flex-start" w="full" maxH="xl" minH="xl" flexDirection="column">
+    <Flex justifyItems="flex-start" w="full" maxH="xl" pb={3} flexDirection="column">
       <Box bg="gray.100" p={2} rounded="md">
         <Text fontSize="xs" fontWeight="semibold">{name}</Text>
         <Text fontSize="sm" color="gray.500">{text}</Text>

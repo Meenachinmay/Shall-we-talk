@@ -15,12 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
 import { firestore } from "../../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import "../homepage.css";
+import { currentUserProfileState } from "../../atoms/currentUserProfileState";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -33,6 +34,7 @@ const CreateProfile: React.FC = () => {
   const [pr, setPr] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const setCurrentProfile = useSetRecoilState(currentUserProfileState)
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
@@ -65,6 +67,11 @@ const CreateProfile: React.FC = () => {
         duration: 3000,
         isClosable: true,
       });
+      
+      setCurrentProfile((prev) => ({
+        ...prev,
+        name: owner
+      }))
 
       navigate(`/`);
     } catch (error) {

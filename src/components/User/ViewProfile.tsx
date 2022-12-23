@@ -10,6 +10,8 @@ import { sendMessageModelState } from '../../atoms/sendMessageModelState'
 import { Message } from '../../types/Message'
 import { myMessagesModelState } from '../../atoms/myMessagesModelState'
 import ViewMessages from '../Model/Message/ViewMessages'
+import { useNavigate } from 'react-router-dom'
+
 import '../homepage.css'
 
 type Connection = {
@@ -21,6 +23,8 @@ type Connection = {
 }
 
 const ViewProfile: React.FC = () => {
+  const navigate = useNavigate()
+
   const connectionCol = collection(firestore, 'connections')
   const profileCol = collection(firestore, 'userProfiles')
   const messageCol = collection(firestore, 'messages')
@@ -63,6 +67,8 @@ const ViewProfile: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const { id } = useParams()
 
+  //プロフィール写真をアップデートするために、これを実装してください。
+  
   const handleSendRequest = async () => {
     try {
       setSendRequest(true)
@@ -158,9 +164,21 @@ const ViewProfile: React.FC = () => {
               <Divider color="gray.100" />
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
-              <Avatar name={userProfile.name} size="xl" src={userProfile.profileImage}>
-                <AvatarBadge bg="green.500" boxSize={6} borderWidth={4}></AvatarBadge>
-              </Avatar>
+              <Flex alignItems={'center'}>
+                <Avatar onClick={() => alert('hello world')} name={userProfile.name} size="xl" src={userProfile.profileImage}>
+                  <AvatarBadge bg="green.500" boxSize={6} borderWidth={4}></AvatarBadge>
+                </Avatar> 
+                <Button 
+                  size={'sm'} 
+                  fontSize={'xs'} 
+                  ml={3}
+                  bg="red.400" 
+                  color="white"
+                  onClick={() => navigate(`/update-profile/${currentUser.id}`)}
+                  >
+                    Edit Profile
+                  </Button>
+              </Flex>             
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} alignItems="center">

@@ -22,7 +22,7 @@ import LoadingSpinner from "./customUIComponents/LoadingSpinner";
 import ProfileModel from "./Model/Profile/ProfileModel";
 import StatusModel from "./Model/Status/StatusModel";
 import User from "./User";
-import '../components/homepage.css'
+import "../components/homepage.css";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);

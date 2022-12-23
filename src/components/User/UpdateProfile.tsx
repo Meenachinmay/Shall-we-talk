@@ -3,9 +3,12 @@ import { collection, doc, onSnapshot, limit, query, setDoc, where } from 'fireba
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentUserState } from '../../atoms/currentUserState'
-import { firestore } from '../../firebase/clientApp'
+import { firestore, storage } from '../../firebase/clientApp'
 import { useToast } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+
+import '../homepage.css'
 
 const UpdateProfile: React.FC = () => {
   const [userName, setUserName] = useState('')
@@ -16,13 +19,14 @@ const UpdateProfile: React.FC = () => {
   const [hobbies, setHobbies] = useState('')
   const [pet, setPet] = useState('')
   const [pr, setPr] = useState('')
-  const [profileImage, setProfileImage] = useState('')
+  const [profileImage, setProfileImage] = useState("")
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState)
   const [loading, setLoading] = useState(false)
   const [updating, setUpdating] = useState(false)
   const toast = useToast()
   const { id } = useParams()
   const profileCol = collection(firestore, 'userProfiles')
+  const [file, setFile] = useState<File | null>(null)
 
   const [userProfile, setUserProfile] = useState<{
     name: string,
@@ -46,6 +50,47 @@ const UpdateProfile: React.FC = () => {
     profileImage: ''
   })
 
+    const handleEditProfileImage = async () => {
+    try {
+
+      if (!file) {
+        alert('Image upload error, Please select a picture to upload.')
+        return
+      }
+     
+      const storageRef = ref(storage, `userProfileImage-${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log('Upload is ' + progress + '% done')
+          switch (snapshot.state) {
+            case 'paused':
+              console.log("Upload is paused.")
+              break;
+            case 'running':
+              console.log("Upload is running")
+              break
+          }
+        },
+        (error) => {
+          console.log(error.message)
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setProfileImage(downloadURL)
+          })
+        }
+      )  
+
+    } catch (error) { 
+      console.log('There is an error to update the profile image now.')
+    }
+  }
+
+  console.log('profile image link ' + profileImage)
+
   const handleUpdateProfile = async () => {
     try {
       setUpdating(true)
@@ -62,6 +107,7 @@ const UpdateProfile: React.FC = () => {
         userId: id
       })
       setUpdating(false)
+      setProfileImage("")
 
       toast({
         title: 'Profile updated',
@@ -111,9 +157,21 @@ const UpdateProfile: React.FC = () => {
                 <Divider color="gray.100" />
               </Box>
               <Flex py={3} flexDirection="column" justifyContent="flex-start">
-                <Avatar name="Chinmay anand" size="xl" src='https://cdn-icons-png.flaticon.com/512/6426/6426232.png'>
+                <Flex alignItems={'center'}>
+                <Avatar name="Chinmay anand" size="xl" src={userProfile.profileImage}>
                   <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
                 </Avatar>
+                  <div>
+                  <label className="image__upload" htmlFor='file'>Select a new picture</label>
+                  <input 
+                  onChange={(event) => setFile(event.target.files![0])} 
+                  accept="image/*" 
+                  type="file" 
+                  id='file' 
+                  style={{ display: "none"}}/>
+                  <Button size={'xs'}onClick={handleEditProfileImage}>Upload</Button>
+                </div> 
+                </Flex>
                 <Box w="full" mt={1}>
                   <VStack w="full" h="full" spacing={4} overflowY="auto">
                     <HStack w="full" mt={6} justifyContent="start">
@@ -227,17 +285,17 @@ const UpdateProfile: React.FC = () => {
                     <Button
                       isLoading={updating}
                       _hover={{
-                        bg: "white", border: "1px solid", borderColor: "blue.500", color: "blue.500"
+                        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
                       }}
                       onClick={handleUpdateProfile}
                       fontSize="10pt"
                       fontWeight={700}
-                      bg="blue.500"
-                      borderRadius={"60px"}
+                      bg="red.500"
                       color="white"
                       variant='solid'
                       height="36px"
                       width="100%"
+                      className="my__button"
                     >Update profile</Button>
                   </HStack>
                 </Box>

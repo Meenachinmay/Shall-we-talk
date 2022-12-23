@@ -11,17 +11,9 @@ const Footer: React.FC = () => {
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        <Flex alignItems={"center"}>
-          <Image
-            onClick={() => navigate("/")}
-            cursor={"pointer"}
-            src={Logo}
-            alt="user logo"
-            height="50px"
-            bg={"white"}
-          />
-        </Flex>
-        <p>自分のコワーキングスペースでご存知のない方にご遠慮なく話しかけるアプリをご紹介させていただいております。</p>
+        <h3>Shall We Talk</h3>
+        <p>We are an online platform which gives you a hesitation free environment to talk to strangers in your co-working space.");
+        </p>
         <ul className="socials">
           <li>
             <a
@@ -40,8 +32,7 @@ const Footer: React.FC = () => {
       </div>
       <div className="footer-bottom">
         <p>
-          copyright &copy;2022 SWT. designed by{" "}
-          <span>Chinmay anand (RCI India)</span>
+          copyright &copy;2022 SWT. 
         </p>
       </div>
     </footer>

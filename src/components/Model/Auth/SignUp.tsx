@@ -8,6 +8,7 @@ import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { currentUserState } from "../../../atoms/currentUserState";
 import '../../homepage.css'
+import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
@@ -20,6 +21,7 @@ const SignUp: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const setCurrentProfile = useSetRecoilState(currentUserProfileState)
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -52,6 +54,10 @@ const SignUp: React.FC = () => {
           id: userC.user.uid,
           email: userC.user.email!,
         }));
+        setCurrentProfile((prev) => ({
+          ...prev,
+          name: ''
+        }))
         navigate(`/create-profile`);
         toast({
           title: "You signed up",

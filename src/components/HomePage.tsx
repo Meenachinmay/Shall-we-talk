@@ -1,22 +1,21 @@
-import { VStack, Text } from "@chakra-ui/react";
+import { Box, Image, VStack, Text } from "@chakra-ui/react";
 import React from "react";
 import "../components/homepage.css";
+import Landing from '../images/landingpagenew.png'
 
 const HomePage: React.FC = () => {
   return (
-    <VStack>
-      <Text
-        className="home__page"
-        mt={"5"}
-        bg={"red.100"}
-        p={"5"}
-        borderRadius={"md"}
-        color="red.500"
-        fontWeight={"semibold"}
-        fontSize="xl"
-      >
-        Hello form SWT ✅, 自分のコワーキングスペースでご存知のない方にご遠慮なく話しかけるアプリをご紹介させていただいております。
-      </Text>
+    <VStack alignItems={"center"}>
+
+      <div className="landingpage__text">
+        <p className="landingpage__first__text"> Hello form SWT ✅, Shall We Talk はシェアオフィス内の</p>
+        <p className="landingpage__center__text">『直接会話』</p>
+        <p className="landingpage__end__text">を後押しするサービスです。</p>
+      </div> 
+      
+      <Box width={{ base: 'sm', md: 'lg', lg: '4xl'}} height='lg' >
+        <Image src={Landing} objectFit="cover"/>
+      </Box>
     </VStack>
   );
 };

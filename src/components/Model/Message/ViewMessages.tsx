@@ -29,7 +29,7 @@ const ViewMessagesModel: React.FC = () => {
             </VStack>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center" pb={6} >
+          <ModalBody minH={'xl'} maxH={'xl'} display="flex" flexDirection="column">
             {myMessages.messages.map((message) => (
               <Message key={message.id} name={message.from.name} text={message.text} />
             ))}
