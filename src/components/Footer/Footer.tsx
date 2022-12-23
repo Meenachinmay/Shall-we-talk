@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
     <footer className="footer-container">
       <div className="footer-content">
         <h3>Shall We Talk</h3>
-        <p>We are an online platform which gives you a hesitation free environment to talk to strangers in your co-working space.");
+        <p>We are an online platform which gives you a hesitation free environment to talk to strangers in your co-working space.;
         </p>
         <ul className="socials">
           <li>

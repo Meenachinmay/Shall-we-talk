@@ -9,15 +9,26 @@ import { useRecoilState } from "recoil";
 import { deleteDoc, doc } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
-import { useNavigate } from 'react-router-dom'
-import '../../homepage.css'
+import { useNavigate } from "react-router-dom";
+import "../../homepage.css";
+
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from "@chakra-ui/react";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [logout, setLogout] = useState(false);
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
   const [currentUserProfile] = useRecoilState(currentUserProfileState);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -44,8 +55,8 @@ const RightContent: React.FC = () => {
   };
 
   const handleUserNameClick = () => {
-    navigate(`/profile/${currentUser.id}`) 
-  }
+    navigate(`/profile/${currentUser.id}`);
+  };
 
   return (
     <>
@@ -54,29 +65,62 @@ const RightContent: React.FC = () => {
       <Flex justify="center" align="center">
         {!logout ? (
           <>
-            <Text fontSize="xs" size="xs" mr={2} cursor="pointer" onClick={handleUserNameClick}>{currentUserProfile.name}</Text>
-            <Button
-              isLoading={loading}
-              _hover={{
-                bg: "white",
-                border: "1px solid",
-                borderColor: "red.500",
-                color: "red.500",
-              }}
-              fontSize="10pt"
-              fontWeight={700}
-              bg="red.500"
-              color="white"
-              onClick={handleLogout}
-              variant="outline"
-              height="28px"
-              display={{ base: "none", sm: "flex" }}
-              width={{ base: "70px", md: "110px" }}
-              mr={2}
-              className="my__button"
-            >
-              Logout
-            </Button>
+            <Menu>
+              <MenuButton
+                bg="red.500"
+                border="1px solid"
+                color="white"
+                borderColor="white"
+                size="xs"
+                mr={1}
+                as={Button}
+                _hover={{
+                  bg: "white",
+                  border: "1px solid",
+                  borderColor: "red.500",
+                  color: "red.500",
+                }}
+                fontSize="10pt"
+                fontWeight={700}
+                className="my__button"
+                style={{ outline: "none"}}
+              >
+                {currentUserProfile.name}
+              </MenuButton>
+              <MenuList p={2}>
+                <MenuItem
+                  size="xs"
+                  mt={2}
+                  fontSize="10pt"
+                  fontWeight={700} 
+                  onClick={handleUserNameClick}
+                  as={Button}
+                  className="my__button"
+                  style={{ outline: "none"}}
+                >
+                  Go to profile
+                </MenuItem>
+                <MenuItem
+                  size="xs"
+                  mt={2}
+                  _hover={{
+                    bg: "white",
+                    border: "1px solid",
+                    borderColor: "red.500",
+                    color: "red.500",
+                  }}
+                  fontSize="10pt"
+                  fontWeight={700}
+                  bg="red.500"
+                  color="white"
+                  onClick={handleLogout}
+                  as={Button}
+                  className="my__button"
+                >
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
           </>
         ) : (
           <AuthModelButtons />
