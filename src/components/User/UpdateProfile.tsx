@@ -89,8 +89,6 @@ const UpdateProfile: React.FC = () => {
     }
   }
 
-  console.log('profile image link ' + profileImage)
-
   const handleUpdateProfile = async () => {
     try {
       setUpdating(true)
@@ -162,7 +160,7 @@ const UpdateProfile: React.FC = () => {
                   <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
                 </Avatar>
                   <div>
-                  <label className="image__upload" htmlFor='file'>Select a new picture</label>
+                    <label className="image__upload" htmlFor='file'>Select a new picture</label>
                   <input 
                   onChange={(event) => setFile(event.target.files![0])} 
                   accept="image/*" 

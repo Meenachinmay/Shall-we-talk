@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
-  const [showUserInMap, setShowUserInMap] = useRecoilState(showUserInMapState);
+  const [highLightUserInMap, setHighlightUserInMap] = useRecoilState(showUserInMapState);
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
@@ -47,12 +47,15 @@ const Dashboard: React.FC = () => {
     setProfileModelState((prev) => ({ ...prev, open: true }));
 
     const profileCol = collection(firestore, "userProfiles");
+
     const profileQ = query(
       profileCol,
       where("userId", "==", `${user.id}`),
       limit(1)
     );
+
     setProfileModelState((prev) => ({ ...prev, loadingProfileInModel: true }));
+
     onSnapshot(profileQ, (snapShot) => {
       snapShot.forEach((doc) => {
         setUserProfileState((prev) => ({
@@ -76,7 +79,7 @@ const Dashboard: React.FC = () => {
   };
 
   // loading current user profile in global current user profile state
-  useEffect(() => {
+  /*useEffect(() => {
     const profileQuery = query(
       profileCol,
       where("userId", "==", `${currentUser.id}`),
@@ -93,7 +96,7 @@ const Dashboard: React.FC = () => {
     return () => {
       unsub();
     };
-  }, [firestore, currentUser.id]);
+  }, [firestore, currentUser.id]);*/
 
   // this use effect to load all the logged in users from the database
   useEffect(() => {
@@ -116,7 +119,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus(user)}
+          onClick={() => handleStatus()}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -134,7 +137,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "do_not_want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus(user)}
+          onClick={() => handleStatus()}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -152,7 +155,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "lets_talk") {
       return (
         <Button
-          onClick={() => handleStatus(user)}
+          onClick={() => handleStatus()}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -168,7 +171,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleStatus = (user: UserData) => {
+  const handleStatus = () => {
     setUserStatusModelState({ open: true });
   };
 
@@ -193,15 +196,16 @@ const Dashboard: React.FC = () => {
                 <Image image={bgimage} width={900} height={600} />
                 {onlineUsers!.map((user) => (
                   <User
-                    show={showUserInMap.show}
-                    showX={showUserInMap.x}
-                    showY={showUserInMap.y}
+                    show={highLightUserInMap.show}
+                    showX={user.userPosX}
+                    showY={user.userPosY}
                     key={user.id}
-                    x={100}
-                    y={100}
+                    x={user.userPosX}
+                    y={user.userPosY}
                     width={40}
                     height={40}
                     status={user.status}
+                    profileImage={user.profileImage}
                   />
                 ))}
               </Layer>
@@ -236,9 +240,9 @@ const Dashboard: React.FC = () => {
               borderColor="gray.200"
               _hover={{ bg: "gray.100", cursor: "pointer" }}
               onClick={() =>
-                setShowUserInMap((prev) => ({
+                setHighlightUserInMap((prev) => ({
                   ...prev,
-                  show: !showUserInMap.show,
+                  show: !highLightUserInMap.show,
                   x: 100,
                   y: 100,
                 }))

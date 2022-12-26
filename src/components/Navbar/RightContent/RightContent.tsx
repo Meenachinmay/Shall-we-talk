@@ -10,6 +10,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from "react-router-dom";
+
 import "../../homepage.css";
 
 import {
@@ -83,7 +84,7 @@ const RightContent: React.FC = () => {
                 fontSize="10pt"
                 fontWeight={700}
                 className="my__button"
-                style={{ outline: "none"}}
+                style={{ outline: "none" }}
               >
                 {currentUserProfile.name}
               </MenuButton>
@@ -92,13 +93,32 @@ const RightContent: React.FC = () => {
                   size="xs"
                   mt={2}
                   fontSize="10pt"
-                  fontWeight={700} 
+                  fontWeight={700}
                   onClick={handleUserNameClick}
                   as={Button}
                   className="my__button"
-                  style={{ outline: "none"}}
+                  style={{ outline: "none" }}
                 >
                   Go to profile
+                </MenuItem>
+                <MenuItem
+                  size="xs"
+                  mt={2}
+                  _hover={{
+                    bg: "white",
+                    border: "1px solid",
+                    borderColor: "red.500",
+                    color: "red.500",
+                  }}
+                  fontSize="10pt"
+                  fontWeight={700}
+                  bg="red.500"
+                  color="white"
+                  onClick={() => navigate('/dashboard')}
+                  as={Button}
+                  className="my__button"
+                >
+                  Dashboard
                 </MenuItem>
                 <MenuItem
                   size="xs"

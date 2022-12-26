@@ -50,6 +50,9 @@ const Login: React.FC = () => {
               name: docSnap.data().name,
               online: true,
               status: "do_not_want_to_talk",
+              userPosX: 100,
+              userPosY: 100,
+              profileImage: docSnap.data().profileImage
             });
           } catch (error) {
             console.log(error);

@@ -32,8 +32,8 @@ const CreateProfile: React.FC = () => {
   const [hobbies, setHobbies] = useState("");
   const [pet, setPet] = useState("");
   const [pr, setPr] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const [profileImage, setProfileImage] = useState<String | null>(null);
+  const [currentUser] = useRecoilState(currentUserState);
   const setCurrentProfile = useSetRecoilState(currentUserProfileState)
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -41,7 +41,13 @@ const CreateProfile: React.FC = () => {
 
   const handleCreateProfile = async () => {
     try {
+
+      if (!profileImage) {
+        setProfileImage('https://i.pravatar.cc/40')
+      }
+
       setLoading(true);
+
       await setDoc(
         doc(firestore, `userProfiles/userProfileId-${currentUser.id}`),
         {
@@ -57,8 +63,9 @@ const CreateProfile: React.FC = () => {
           userId: currentUser.id,
         }
       );
-      uploadProfileImage()
+
       setLoading(false);
+      setProfileImage(null)
 
       toast({
         title: "Profile created",
@@ -78,10 +85,6 @@ const CreateProfile: React.FC = () => {
       console.error(error);
     }
   };
-
-  const uploadProfileImage = () => {
-
-  }
 
   return (
     <VStack h="full" spacing={0} justifyContent="start">

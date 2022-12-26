@@ -3,5 +3,8 @@ export type UserData = {
   name: string,
   status: string,
   companyName: string,
-  online: boolean
+  online: boolean,
+  userPosX: number,
+  userPosY: number,
+  profileImage: string
 }

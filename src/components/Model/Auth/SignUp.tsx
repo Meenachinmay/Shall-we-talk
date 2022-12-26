@@ -20,8 +20,8 @@ const SignUp: React.FC = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
-  const setCurrentProfile = useSetRecoilState(currentUserProfileState)
+  const setCurrentUserState  = useSetRecoilState(currentUserState);
+  
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -49,16 +49,15 @@ const SignUp: React.FC = () => {
           ...prev,
           open: false,
         }));
+
         setCurrentUserState((prev) => ({
           ...prev,
           id: userC.user.uid,
           email: userC.user.email!,
         }));
-        setCurrentProfile((prev) => ({
-          ...prev,
-          name: ''
-        }))
+        
         navigate(`/create-profile`);
+
         toast({
           title: "You signed up",
           description: "Your email has registered with us.",

@@ -81,8 +81,7 @@ const NotificationsDrawer = () => {
               <DrawerBody>
                 {
                   notifications.map((notification) => (
-                    <NotificationCard key={notification.message} sender={notification.sender} receiver={notification.receiver}
-                      seen={notification.seen} type={notification.type} />
+                    <NotificationCard key={notification.message} seen={notification.seen} type={notification.type} message={notification.message}/>
                   ))
                 }
                 {isNotificationNull ? <p>No notifications.</p> : null}

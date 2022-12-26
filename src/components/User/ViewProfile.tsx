@@ -78,9 +78,21 @@ const ViewProfile: React.FC = () => {
         user1: currentUser.id,
         user2: id
       })
-      setSendRequest(false)
 
       // create a new notification for receiver of this connection request (user2 => sender)
+      try {
+      await setDoc(doc(firestore, `notifications/notificationId-${currentUser.id}`), {
+        message: `${currentUser.email} sent you a talk request.`,
+        receiver: id,
+        sender: currentUser.email,
+        type: "requestSent",
+        seen: false
+      })
+
+      } catch (error) {
+      console.log("notification creation error ")
+      }
+      setSendRequest(false)
     } catch (error) {
       console.log("create connection request " + error)
     }
