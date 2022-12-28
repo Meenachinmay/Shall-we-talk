@@ -62,8 +62,8 @@ const RightContent: React.FC = () => {
   return (
     <>
       <AuthModel />
-      <NotificationsDrawer />
       <Flex justify="center" align="center">
+        <NotificationsDrawer />
         {!logout ? (
           <>
             <Menu>
@@ -114,7 +114,7 @@ const RightContent: React.FC = () => {
                   fontWeight={700}
                   bg="red.500"
                   color="white"
-                  onClick={() => navigate('/dashboard')}
+                  onClick={() => navigate("/dashboard")}
                   as={Button}
                   className="my__button"
                 >

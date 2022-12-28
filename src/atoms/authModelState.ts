@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 
 export interface AuthModelState {
-  open: boolean,
+ open: boolean,
   view: "login" | "signup" | "resetPassword"
 }
 

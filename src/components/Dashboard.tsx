@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Flex, HStack, Input, InputGroup, InputLeftElement, Text, useFormControlStyles, VStack } from "@chakra-ui/react";
 import {
   collection,
   limit,
@@ -23,6 +23,8 @@ import ProfileModel from "./Model/Profile/ProfileModel";
 import StatusModel from "./Model/Status/StatusModel";
 import User from "./User";
 import "../components/homepage.css";
+import SearchInput from "./SearchInput";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -37,6 +39,7 @@ const Dashboard: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
+  const [searchText, setSearchText] = useState("")
 
   const [bgimage] = useImage(
     "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
@@ -175,8 +178,18 @@ const Dashboard: React.FC = () => {
     setUserStatusModelState({ open: true });
   };
 
+  console.log(searchText)
+
   return (
     <VStack w="full" h="100vh" alignItems="center" p={6}>
+        <InputGroup width={"4xl"} mb={5}>
+          <InputLeftElement pointerEvents='none' children={<SearchIcon color='red.400' mb={1} />} />
+          <Input onChange={(e) => setSearchText(e.target.value)} color='gray.700' placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
+            _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
+            _focus={{ outline: "none", border: "1px solid", borderColor: "gray.500" }}
+            height="34px" bg="white"
+          />
+      </InputGroup>
       <HStack>
         <HStack
           w="3xl"
@@ -224,7 +237,9 @@ const Dashboard: React.FC = () => {
         >
           {loading ? <LoadingSpinner /> : null}
           {!onlineUsers ? "no user is logged-in now" : null}
-          {onlineUsers!.map((user) => (
+          {onlineUsers!.filter((user) => {
+            return searchText?.toLowerCase() === "" ? user : user.name.toLowerCase().includes(searchText.toLowerCase())
+          }).map((user) => (
             <HStack
               key={user.id}
               w="full"

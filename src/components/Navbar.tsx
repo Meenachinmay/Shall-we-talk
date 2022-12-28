@@ -24,9 +24,9 @@ const Navbar: React.FC = () => {
       shadow="md"
       padding="24px 12px"
       alignItems="center"
+      justifyContent={'space-between'}
     >
       <Image onClick={() => navigate('/')} cursor={'pointer'}  mr={3} src={Logo} alt="user logo" height="40px" />
-      <SearchInput />
       <RightContent />
     </Flex>
   );
