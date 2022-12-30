@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Image, Stage, Layer } from "react-konva";
+import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
 import useronline from "../images/useronline.jpg";
 import useroffline from "../images/useroffline.jpg";
 import userletstalk from "../images/userletstalk.jpg";
 import { Html } from "react-konva-utils";
-import { useRecoilState } from "recoil";
-import { showUserInMapState } from "../atoms/showUserInMapState";
 
 type UserProps = {
   x: number;
@@ -15,14 +13,17 @@ type UserProps = {
   width: number;
   height: number;
   status: string;
-  show: boolean;
+  highLightUser: boolean;
   showX: number;
   showY: number;
   profileImage: string;
+  userName: string
+  userId: string
+  userClicked: string
 };
 
 const User: React.FC<UserProps> = ({
-  show,
+  highLightUser,
   showX,
   showY,
   x,
@@ -31,6 +32,9 @@ const User: React.FC<UserProps> = ({
   height,
   status,
   profileImage,
+  userName,
+  userId,
+  userClicked
 }: UserProps) => {
   const [dragUser, setDragUser] = useState<boolean>(false);
   const [currentUserPos, setCurrentUserPos] = useState<{
@@ -86,7 +90,7 @@ const User: React.FC<UserProps> = ({
         onDragEnd={(e) => handleIconDragEnd(e)}
         onClick={() => alert(status)}
       />
-      {show ? (
+      {highLightUser && userId === userClicked ? (
         <Html
           divProps={{
             style: {
@@ -97,7 +101,7 @@ const User: React.FC<UserProps> = ({
             },
           }}
         >
-          <button onClick={() => alert("clicked")}>hello world</button>
+          <button onClick={() => alert("clicked")}>{userName}</button>
         </Html>
       ) : null}
     </>

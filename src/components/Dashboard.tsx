@@ -23,7 +23,6 @@ import ProfileModel from "./Model/Profile/ProfileModel";
 import StatusModel from "./Model/Status/StatusModel";
 import User from "./User";
 import "../components/homepage.css";
-import SearchInput from "./SearchInput";
 import { SearchIcon } from "@chakra-ui/icons";
 
 const Dashboard: React.FC = () => {
@@ -209,7 +208,8 @@ const Dashboard: React.FC = () => {
                 <Image image={bgimage} width={900} height={600} />
                 {onlineUsers!.map((user) => (
                   <User
-                    show={highLightUserInMap.show}
+                    highLightUser={highLightUserInMap.show}
+                    userClicked={highLightUserInMap.userId}
                     showX={user.userPosX}
                     showY={user.userPosY}
                     key={user.id}
@@ -219,6 +219,8 @@ const Dashboard: React.FC = () => {
                     height={40}
                     status={user.status}
                     profileImage={user.profileImage}
+                    userName={user.name}
+                    userId={user.id}
                   />
                 ))}
               </Layer>
@@ -236,7 +238,6 @@ const Dashboard: React.FC = () => {
           borderColor="gray.200"
         >
           {loading ? <LoadingSpinner /> : null}
-          {!onlineUsers ? "no user is logged-in now" : null}
           {onlineUsers!.filter((user) => {
             return searchText?.toLowerCase() === "" ? user : user.name.toLowerCase().includes(searchText.toLowerCase())
           }).map((user) => (
@@ -258,8 +259,9 @@ const Dashboard: React.FC = () => {
                 setHighlightUserInMap((prev) => ({
                   ...prev,
                   show: !highLightUserInMap.show,
-                  x: 100,
-                  y: 100,
+                  x: user.userPosX,
+                  y: user.userPosY,
+                  userId: user.id
                 }))
               }
             >
@@ -291,7 +293,7 @@ const Dashboard: React.FC = () => {
                 >
                   Profile
                 </Button>
-              </Flex>
+              </Flex> 
             </HStack>
           ))}
         </Flex>

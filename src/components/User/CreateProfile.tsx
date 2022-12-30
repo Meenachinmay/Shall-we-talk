@@ -17,11 +17,12 @@ import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
-import { firestore } from "../../firebase/clientApp";
+import { firestore, storage } from "../../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import "../homepage.css";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -36,6 +37,7 @@ const CreateProfile: React.FC = () => {
   const [currentUser] = useRecoilState(currentUserState);
   const setCurrentProfile = useSetRecoilState(currentUserProfileState)
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null)
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -86,6 +88,46 @@ const CreateProfile: React.FC = () => {
     }
   };
 
+    const handleCreateProfileImage = async () => {
+    try {
+
+      if (!file) {
+        alert('Image upload error, Please select a picture to upload.')
+        return
+      }
+     
+      const storageRef = ref(storage, `userProfileImage-${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log('Upload is ' + progress + '% done')
+          switch (snapshot.state) {
+            case 'paused':
+              console.log("Upload is paused.")
+              break;
+            case 'running':
+              console.log("Upload is running")
+              break
+          }
+        },
+        (error) => {
+          console.log(error.message)
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setProfileImage(downloadURL)
+          })
+        }
+      )  
+
+    } catch (error) { 
+      console.log('There is an error to update the profile image now.')
+    }
+  }
+
+
   return (
     <VStack h="full" spacing={0} justifyContent="start">
       <Container maxW="2xl">
@@ -105,14 +147,26 @@ const CreateProfile: React.FC = () => {
               <Divider color="gray.100" />
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
-              <Avatar
-                name="Chinmay anand"
-                onClick={() => alert("hello world")}
-                size="xl"
-                src="https://cdn-icons-png.flaticon.com/512/6426/6426232.png"
-              >
-                <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
-              </Avatar>
+              <Flex alignItems={'center'}>
+                <Avatar
+                  name="Chinmay anand"
+                  onClick={() => alert("hello world")}
+                  size="xl"
+                  src="https://cdn-icons-png.flaticon.com/512/6426/6426232.png"
+                >
+                  <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
+                </Avatar>
+                 <div>
+                    <label className="image__upload" htmlFor='file'>Select a new picture</label>
+                  <input 
+                  onChange={(event) => setFile(event.target.files![0])} 
+                  accept="image/*" 
+                  type="file" 
+                  id='file' 
+                  style={{ display: "none"}}/>
+                  <Button size={'xs'}onClick={handleCreateProfileImage}>Upload</Button>
+                </div>
+              </Flex>
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} justifyContent="start">
