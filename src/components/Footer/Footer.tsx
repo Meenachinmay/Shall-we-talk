@@ -12,8 +12,9 @@ const Footer: React.FC = () => {
     <footer className="footer-container">
       <div className="footer-content">
         <h3>Shall We Talk</h3>
-        <p>We are an online platform which gives you a hesitation free environment to talk to strangers in your co-working space.;
-        </p>
+        <a href="https://www.real-cnt.net/" target="_blank" style={{ textDecoration: "underline"}}>
+          Shall We Talk はリアルコネクト株式会社によって運営されています
+        </a>
         <ul className="socials">
           <li>
             <a
@@ -23,17 +24,15 @@ const Footer: React.FC = () => {
               <Icon cursor={"pointer"} as={FaLinkedin} />
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="https://www.real-cnt.net/" target="_blank">
               <Icon cursor={"pointer"} as={MdEmail} />
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className="footer-bottom">
-        <p>
-          copyright &copy;2022 SWT. 
-        </p>
+        <p>copyright &copy;2022 SWT.</p>
       </div>
     </footer>
   );

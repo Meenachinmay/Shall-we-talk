@@ -17,9 +17,9 @@ type UserProps = {
   showX: number;
   showY: number;
   profileImage: string;
-  userName: string
-  userId: string
-  userClicked: string
+  userName: string;
+  userId: string;
+  userClicked: string;
 };
 
 const User: React.FC<UserProps> = ({
@@ -34,7 +34,7 @@ const User: React.FC<UserProps> = ({
   profileImage,
   userName,
   userId,
-  userClicked
+  userClicked,
 }: UserProps) => {
   const [dragUser, setDragUser] = useState<boolean>(false);
   const [currentUserPos, setCurrentUserPos] = useState<{
