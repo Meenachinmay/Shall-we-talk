@@ -5,7 +5,7 @@ import AuthModel from "../../Model/Auth/AuthModel";
 import AuthModelButtons from "./AuthModelButtons";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { deleteDoc, doc } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
@@ -15,16 +15,8 @@ import Parrot from "../../../images/parrot.png";
 
 import "../../homepage.css";
 
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { userStatusModelState } from "../../../atoms/userStatusModelState";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +24,7 @@ const RightContent: React.FC = () => {
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
   const [currentUserProfile] = useRecoilState(currentUserProfileState);
   const navigate = useNavigate();
+  const setUserStatusModelState = useSetRecoilState(userStatusModelState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -65,9 +58,20 @@ const RightContent: React.FC = () => {
     <>
       <AuthModel />
       <Flex justify="center" align="center">
-        <Tooltip label="Change Talk status" placement="bottom">
-          <Image h={10} w={10} src={Parrot} cursor="pointer" />
-        </Tooltip>
+
+        {!logout ? (
+          <Tooltip label="Change Talk status" placement="bottom">
+            <Image
+              h={10}
+              w={10}
+              src={Parrot}
+              cursor="pointer"
+              mr={2}
+              onClick={() => setUserStatusModelState({ open: true })}
+            />
+          </Tooltip>
+        ) : null}
+
         <NotificationsDrawer />
         {!logout ? (
           <>
