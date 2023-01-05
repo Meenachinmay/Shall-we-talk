@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
         </ul>
       </div>
       <div className="footer-bottom">
-        <p>copyright &copy;2022 SWT.</p>
+        <p>copyright &copy;2023 SWT.</p>
       </div>
     </footer>
   );
