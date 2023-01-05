@@ -1,25 +1,22 @@
 import * as React from "react";
-import Logo from "../../images/logo.svg";
-import { useNavigate } from "react-router-dom";
 import "../footer.css";
 import { FaLinkedin } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { Icon, Flex, Image } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
+
   return (
     <footer className="footer-container">
       <div className="footer-content">
         <h3>Shall We Talk</h3>
-        <a href="https://www.real-cnt.net/" target="_blank" style={{ textDecoration: "underline"}}>
+        <a href="https://www.real-cnt.net/" target="_blank" rel="noreferrer" style={{ textDecoration: "underline"}}>
           Shall We Talk はリアルコネクト株式会社によって運営されています
         </a>
         <ul className="socials">
           <li>
             <a
               href="https://www.linkedin.com/company/78436150/admin/"
-              target="_blank"
+              target="_blank" rel="noreferrer"
             >
               <Icon cursor={"pointer"} as={FaLinkedin} />
             </a>

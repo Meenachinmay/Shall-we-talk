@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import NotificationsDrawer from "../../Drawers/NotificationsDrawer";
 import AuthModel from "../../Model/Auth/AuthModel";
@@ -10,6 +10,8 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from "react-router-dom";
+
+import Parrot from "../../../images/parrot.png";
 
 import "../../homepage.css";
 
@@ -63,6 +65,9 @@ const RightContent: React.FC = () => {
     <>
       <AuthModel />
       <Flex justify="center" align="center">
+        <Tooltip label="Change Talk status" placement="bottom">
+          <Image h={10} w={10} src={Parrot} cursor="pointer" />
+        </Tooltip>
         <NotificationsDrawer />
         {!logout ? (
           <>
