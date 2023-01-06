@@ -28,7 +28,7 @@ const AuthModelButtons: React.FC = () => {
         mr={2}
         className="my__button"
       >
-        Log In
+        ログイン
       </Button>
       <Button
         _hover={{
@@ -50,7 +50,7 @@ const AuthModelButtons: React.FC = () => {
         width={{ base: "70px", md: "110px" }}
         className="my__button"
       >
-        Sign Up
+        ユーザー登録
       </Button>
     </>
   );

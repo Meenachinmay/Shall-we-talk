@@ -1,14 +1,13 @@
 import { Text, Button, Flex, Input } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
 import { auth } from "../../../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { currentUserState } from "../../../atoms/currentUserState";
 import '../../homepage.css'
-import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
@@ -169,7 +168,7 @@ const SignUp: React.FC = () => {
         mb={2}
         className="my__button"
       >
-        Sign Up
+        ユーザー登録
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
         <Text mr={1}>Already have an account?</Text>
@@ -184,7 +183,7 @@ const SignUp: React.FC = () => {
           fontWeight={700}
           cursor="pointer"
         >
-          LOG IN
+          ログイン
         </Text>
       </Flex>
     </form>

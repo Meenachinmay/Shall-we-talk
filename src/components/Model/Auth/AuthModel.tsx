@@ -19,10 +19,10 @@ const AuthModel: React.FC = () => {
     <>
       <Modal isOpen={modelState.open} onClose={handleClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="red.50">
           <ModalHeader textAlign='center'>
-            {modelState.view === 'login' && 'Login'}
-            {modelState.view === 'signup' && 'SignUp'}
+            {modelState.view === 'login' && 'ログイン'}
+            {modelState.view === 'signup' && 'ユーザー登録'}
             {modelState.view === 'resetPassword' && ''}
           </ModalHeader>
           <ModalCloseButton />

@@ -146,7 +146,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                  Logout
+                  ログアウト
                 </MenuItem>
               </MenuList>
             </Menu>

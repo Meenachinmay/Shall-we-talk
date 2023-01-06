@@ -8,7 +8,7 @@ import { currentUserState } from "../../../atoms/currentUserState";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
-import '../../homepage.css'
+import "../../homepage.css";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +18,9 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const toast = useToast();
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
-  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(currentUserProfileState)
+  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
+    currentUserProfileState
+  );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +54,7 @@ const Login: React.FC = () => {
               status: "do_not_want_to_talk",
               userPosX: 100,
               userPosY: 100,
-              profileImage: docSnap.data().profileImage
+              profileImage: docSnap.data().profileImage,
             });
           } catch (error) {
             console.log(error);
@@ -164,11 +166,11 @@ const Login: React.FC = () => {
         mb={2}
         className="my__button"
       >
-        Log In
+        ログイン
       </Button>
       <Flex justifyContent="center" mb={2}>
         <Text fontSize="9pt" mr={1}>
-          Forgot your password?
+          パスワードを忘れた方はこちら
         </Text>
         <Text
           fontSize="9pt"
@@ -181,7 +183,7 @@ const Login: React.FC = () => {
             }))
           }
         >
-          Reset
+          パスワードのリセット
         </Text>
       </Flex>
       <Flex fontSize="9pt" justifyContent="center">
@@ -197,7 +199,7 @@ const Login: React.FC = () => {
           fontWeight={700}
           cursor="pointer"
         >
-          SIGN UP
+          ユーザー登録
         </Text>
       </Flex>
     </form>

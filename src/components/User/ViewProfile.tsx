@@ -165,7 +165,7 @@ const ViewProfile: React.FC = () => {
 
   return (
     <VStack h="full" spacing={0}>
-      <Container maxW="2xl" bg="gray.50" mt={6} rounded="md" shadow="md">
+      <Container maxW="2xl" bg="red.50" mt={6} mb={6} rounded="md" shadow="md">
         <Flex flexDirection="column" alignItems="start" py={6} w="full" maxW="2xl">
           <Box p={6} w="full" h="full" overflow="auto">
             <Stat mt={6}>
@@ -188,34 +188,34 @@ const ViewProfile: React.FC = () => {
                   color="white"
                   onClick={() => navigate(`/update-profile/${currentUser.id}`)}
                   >
-                    Edit Profile
+                    プロフィール編集
                   </Button>
               </Flex>             
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >Comapny Name</Heading>
+                    <Heading size="xs" minW={48} w={48} >所属名</Heading>
                     {loading ? <Text color="gray.500" fontSize="sm">Loading company name</Text> :
                       <Text flex={1} color="gray.500" fontSize="sm">{userProfile.companyName}</Text>}
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >Company Profile</Heading>
+                    <Heading size="xs" minW={48} w={48} >所属組織の紹介</Heading>
                     <Text flex={1} color="gray.500" fontSize="sm">{userProfile.companyProfile}</Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >Work profile</Heading>
+                    <Heading size="xs" minW={48} w={48} >業種または職業プロフィール</Heading>
                     <Text color="gray.500" flex={1} fontSize="sm">{userProfile.workProfile}</Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >Hobbies</Heading>
+                    <Heading size="xs" minW={48} w={48} >趣味</Heading>
                     <Text color="gray.500" flex={1} fontSize="sm" > {userProfile.hobbies}</Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >Pet</Heading>
+                    <Heading size="xs" minW={48} w={48} >飼っているペット</Heading>
                     <Text color="gray.500" flex={1} fontSize="sm">{userProfile.pet}</Text>
                   </HStack>
                   <Flex flexDirection="column" w="full" mt={6}>
-                    <Heading mb={2} size="xs">PR</Heading>
+                    <Heading mb={2} size="xs">自己紹介文</Heading>
                     <Text
                       w="full"
                       h="full"
@@ -242,7 +242,7 @@ const ViewProfile: React.FC = () => {
                   isLoading={loadingMessage}
                   style={{ boxShadow: '5px 5px'}}
                   className="my__button"
-                >See my messages</Button></>
+                >届いたメッセージを見る</Button></>
                   :
                   <HStack justifyContent="space-between" mt={4} w="sm">
                     {connection.connected ? <><SendMessageModel id={id as string} /><Button
@@ -259,7 +259,7 @@ const ViewProfile: React.FC = () => {
                       width="100%"
                       onClick={handleSendMessage}
                       className="my__button"
-                    >Send Message</Button></> : <Button
+                    >メッセージを送信する</Button></> : <Button
                       _hover={{
                         bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
                       }}
@@ -274,7 +274,7 @@ const ViewProfile: React.FC = () => {
                       width="100%"
                       onClick={handleSendRequest}
                       className="my__button"
-                    >Send Talk Request</Button>
+                    >リクエストを送信する</Button>
                     }
                   </HStack>}
               </Box>

@@ -234,7 +234,7 @@ const Dashboard: React.FC = () => {
           p={3}
           height="full"
           maxH="2xl"
-          borderWidth={1}
+          borderWidth={3}
           borderColor="gray.200"
         >
           {loading ? <LoadingSpinner /> : null}
@@ -244,7 +244,7 @@ const Dashboard: React.FC = () => {
             <HStack
               key={user.id}
               w="full"
-              bg="white"
+              bg={'red.50'}
               spacing={2}
               mb={2}
               justifyContent="space-between"

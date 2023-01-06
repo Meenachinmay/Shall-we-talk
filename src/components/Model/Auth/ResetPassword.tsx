@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
-import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
-import { BsDot, BsScissors, BsBellFill } from "react-icons/bs";
-import { auth } from "../../../firebase/clientApp";
+import { BsDot, BsBellFill } from "react-icons/bs";
 import { useSetRecoilState } from "recoil";
-import { authModelState } from '../../../atoms/authModelState'
+import { authModelState } from "../../../atoms/authModelState";
 
 const ResetPassword: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModelState);
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,15 +20,14 @@ const ResetPassword: React.FC = () => {
     <Flex direction="column" alignItems="center" width="100%">
       <Icon as={BsBellFill} color="brand.100" fontSize={40} mb={2} />
       <Text fontWeight={700} mb={2}>
-        Reset your password
+        パスワードをリセットしますか？
       </Text>
       {success ? (
         <Text mb={4}>Check your email :)</Text>
       ) : (
         <>
           <Text color="red.500" fontSize="sm" textAlign="center" mb={2}>
-            Enter the email associated with your account and we will send you a
-            reset link
+            アカウントに登録されたメールアドレスをご入力ください。パスワードをリセットするためのリンクが送信されます。
           </Text>
           <form onSubmit={onSubmit} style={{ width: "100%" }}>
             <Input
@@ -55,7 +52,7 @@ const ResetPassword: React.FC = () => {
               }}
               bg="gray.50"
             />
-            
+
             <Button
               width="100%"
               height="36px"
@@ -66,13 +63,13 @@ const ResetPassword: React.FC = () => {
               color="white"
               bg="red.500"
               _hover={{
-                bg:"white",
+                bg: "white",
                 border: "1px solid",
                 borderColor: "red.500",
-                color: "red.500"
+                color: "red.500",
               }}
             >
-              Reset Password
+              パスワードをリセット
             </Button>
           </form>
         </>
@@ -91,7 +88,7 @@ const ResetPassword: React.FC = () => {
               view: "login",
             }))
           }
-          color= "red.500"
+          color="red.500"
         >
           LOGIN
         </Text>
