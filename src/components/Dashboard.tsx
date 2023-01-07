@@ -16,7 +16,7 @@ import { showUserInMapState } from "../atoms/showUserInMapState";
 import { profileModelState } from "../atoms/userProfileModelState";
 import { userProfileState } from "../atoms/userProfileState";
 import { userStatusModelState } from "../atoms/userStatusModelState";
-import { firestore } from "../firebase/clientApp";
+import { firestore } from "./firebase/clientApp";
 import { UserData } from "../types/UserData";
 import LoadingSpinner from "./customUIComponents/LoadingSpinner";
 import ProfileModel from "./Model/Profile/ProfileModel";

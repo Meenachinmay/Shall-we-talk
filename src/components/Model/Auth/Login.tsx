@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
 import { currentUserState } from "../../../atoms/currentUserState";
-import { auth, firestore } from "../../../firebase/clientApp";
+import { auth, firestore } from "../../firebase/clientApp";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import "../../homepage.css";

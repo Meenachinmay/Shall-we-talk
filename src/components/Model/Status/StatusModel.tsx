@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { currentUserState } from '../../../atoms/currentUserState'
 import { userStatusModelState } from '../../../atoms/userStatusModelState'
-import { firestore } from '../../../firebase/clientApp'
+import { firestore } from '../../firebase/clientApp'
 import LoadingSpinner from '../../customUIComponents/LoadingSpinner'
 
 const StatusModel: React.FC = () => {

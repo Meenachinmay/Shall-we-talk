@@ -3,7 +3,7 @@ import { onSnapshot, collection, limit, query, where, setDoc, doc } from 'fireba
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentUserState } from '../../atoms/currentUserState'
-import { firestore } from '../../firebase/clientApp'
+import { firestore } from '../firebase/clientApp'
 import { useParams } from 'react-router-dom'
 import SendMessageModel from '../Model/Message/SendMessageModel'
 import { sendMessageModelState } from '../../atoms/sendMessageModelState'

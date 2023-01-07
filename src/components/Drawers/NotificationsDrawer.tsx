@@ -15,7 +15,7 @@ import { HiBell } from "react-icons/hi";
 import NotificationCard from "../Notifications/NotificationCard";
 import { NotificationType } from "../../types/NotificationType";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { firestore } from "../../firebase/clientApp";
+import { firestore } from "../firebase/clientApp";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
 import LoadingSpinner from "../customUIComponents/LoadingSpinner";

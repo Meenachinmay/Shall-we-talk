@@ -3,7 +3,7 @@ import { collection, doc, onSnapshot, limit, query, setDoc, where } from 'fireba
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { currentUserState } from '../../atoms/currentUserState'
-import { firestore, storage } from '../../firebase/clientApp'
+import { firestore, storage } from '../firebase/clientApp'
 import { useToast } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'

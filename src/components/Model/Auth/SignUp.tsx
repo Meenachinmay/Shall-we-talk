@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
-import { auth } from "../../../firebase/clientApp";
+import { auth } from "../../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { currentUserState } from "../../../atoms/currentUserState";

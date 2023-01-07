@@ -20,7 +20,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { sendMessageModelState } from "../../../atoms/sendMessageModelState";
-import { firestore } from "../../../firebase/clientApp";
+import { firestore } from "../../firebase/clientApp";
 
 type Props = {
   id: string;

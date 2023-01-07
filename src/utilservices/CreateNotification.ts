@@ -1,5 +1,5 @@
 import { collection, doc, setDoc } from "firebase/firestore"
-import { firestore } from "../firebase/clientApp"
+import { firestore } from "../components/firebase/clientApp"
 
 const notificationCol = collection(firestore, 'notifications')
 

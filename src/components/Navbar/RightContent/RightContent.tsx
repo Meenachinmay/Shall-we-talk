@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import NotificationsDrawer from "../../Drawers/NotificationsDrawer";
 import AuthModel from "../../Model/Auth/AuthModel";
 import AuthModelButtons from "./AuthModelButtons";
-import { auth, firestore } from "../../../firebase/clientApp";
+import { auth, firestore } from "../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { deleteDoc, doc } from "firebase/firestore";

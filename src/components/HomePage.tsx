@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
     <VStack alignItems={"center"} style={{ width: "100%", height: "100%"}}>
 
         <div className="landingpage__text">
-          <p className="landingpage__first__text">Shall We Talk はオフィス内の直接会話の</p>
+          <p className="landingpage__first__text">Shall We Talk はオフィス内の</p>
           <p className="landingpage__center__text">『直接会話』</p>
           <p className="landingpage__end__text">を後押しするサービスです。</p>
         </div>  

@@ -17,7 +17,7 @@ import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
-import { firestore, storage } from "../../firebase/clientApp";
+import { firestore, storage } from "../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import "../homepage.css";
