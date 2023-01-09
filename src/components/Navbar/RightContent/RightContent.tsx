@@ -81,7 +81,7 @@ const RightContent: React.FC = () => {
                 border="1px solid"
                 color="white"
                 borderColor="white"
-                size="xs"
+                size= {{ base: "xs"}}
                 mr={1}
                 as={Button}
                 _hover={{
@@ -90,7 +90,7 @@ const RightContent: React.FC = () => {
                   borderColor: "red.500",
                   color: "red.500",
                 }}
-                fontSize="10pt"
+                fontSize={{ base: "8pt", sm: "8pt"}}
                 fontWeight={700}
                 className="my__button"
                 style={{ outline: "none" }}

@@ -16,15 +16,15 @@ const AuthModelButtons: React.FC = () => {
           borderColor: "red.500",
           color: "red.500",
         }}
-        fontSize="10pt"
+        fontSize={{ base: "6pt", sm: "8pt", md: "8pt"}}
         fontWeight={700}
         bg="red.500"
         color="white"
         onClick={() => setAuthModelState({ open: true, view: "login" })}
         variant="outline"
         height="28px"
-        display={{ base: "none", sm: "flex" }}
-        width={{ base: "70px", md: "110px" }}
+        display={{ base: "flex", sm: "flex" }}
+        width={{ base: "60px",sm: "80px", md: "110px" }}
         mr={2}
         className="my__button"
       >
@@ -37,7 +37,7 @@ const AuthModelButtons: React.FC = () => {
           borderColor: "red.500",
           color: "red.500",
         }}
-        fontSize="10pt"
+        fontSize={{ base: "6pt", sm: "8pt", md: "8pt"}}
         fontWeight={700}
         bg="red.500"
         border="1px solid"
@@ -46,8 +46,8 @@ const AuthModelButtons: React.FC = () => {
         onClick={() => setAuthModelState({ open: true, view: "signup" })}
         variant="outline"
         height="28px"
-        display={{ base: "none", sm: "flex" }}
-        width={{ base: "70px", md: "110px" }}
+        display={{ base: "flex", sm: "flex" }}
+        width={{ base: "60px",sm: "80px", md: "110px" }}
         className="my__button"
       >
         ユーザー登録
