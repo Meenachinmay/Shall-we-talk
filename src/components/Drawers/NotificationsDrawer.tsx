@@ -59,7 +59,7 @@ const NotificationsDrawer = () => {
           mr={2}
           ml={2}
           size="sm"
-          display={{ base: "none", sm: "inherit" }}
+          display={{ base: "flex", sm: "inherit" }}
           aria-label="Notification"
         />
       </Tooltip>

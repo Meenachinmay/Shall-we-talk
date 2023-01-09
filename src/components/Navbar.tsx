@@ -19,6 +19,7 @@ const Navbar: React.FC = () => {
       padding="24px 12px"
       alignItems="center"
       justifyContent={'space-between'}
+      width={'auto'}
     >
       <Image onClick={() => navigate('/')} cursor={'pointer'}  mr={3} src={Logo} alt="user logo" height="40px" />
       <RightContent />

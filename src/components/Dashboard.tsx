@@ -177,11 +177,9 @@ const Dashboard: React.FC = () => {
     setUserStatusModelState({ open: true });
   };
 
-  console.log(searchText)
-
   return (
     <VStack w="full" h="100vh" alignItems="center" p={6}>
-        <InputGroup width={"4xl"} mb={5}>
+        <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
           <InputLeftElement pointerEvents='none' children={<SearchIcon color='red.400' mb={1} />} />
           <Input onChange={(e) => setSearchText(e.target.value)} color='gray.700' placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
             _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
@@ -191,11 +189,12 @@ const Dashboard: React.FC = () => {
       </InputGroup>
       <HStack>
         <HStack
-          w="3xl"
+          w={{ lg: "lg", xl: "3xl"}}
           h="full"
           maxH="2xl"
           borderWidth={1}
           borderColor="gray.100"
+          display={{ base: "none", sm: "none", md: "none" ,lg: "inherit"}}
         >
           <Flex
             style={{
@@ -230,11 +229,11 @@ const Dashboard: React.FC = () => {
         <Flex
           flexDirection="column"
           overflowY="auto"
-          w="xl"
+          w={{ base: "sm", sm: "md", lg: "md", xl: "xl" }}
           p={3}
           height="full"
           maxH="2xl"
-          borderWidth={3}
+          borderWidth={{ base: "0", md: "3"}}
           borderColor="gray.200"
         >
           {loading ? <LoadingSpinner /> : null}
