@@ -12,6 +12,7 @@ import {
   AvatarBadge,
   Button,
   Input,
+  Progress
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -36,7 +37,9 @@ const CreateProfile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<String | null>(null);
   const [currentUser] = useRecoilState(currentUserState);
   const setCurrentProfile = useSetRecoilState(currentUserProfileState)
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [uploadingImage, setuploadingImage] = useState<Boolean>(false)
+  const [bytesCount, setBytesCount] = useState<number>(0)
   const [file, setFile] = useState<File | null>(null)
   const toast = useToast();
   const navigate = useNavigate();
@@ -88,44 +91,45 @@ const CreateProfile: React.FC = () => {
     }
   };
 
-    const handleCreateProfileImage = async () => {
-    try {
-
-      if (!file) {
-        alert('Image upload error, Please select a picture to upload.')
-        return
-      }
-     
-      const storageRef = ref(storage, `userProfileImage-${file.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, file)
-
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-          switch (snapshot.state) {
-            case 'paused':
-              console.log("Upload is paused.")
-              break;
-            case 'running':
-              console.log("Upload is running")
-              break
-          }
-        },
-        (error) => {
-          console.log(error.message)
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setProfileImage(downloadURL)
-          })
-        }
-      )  
-
-    } catch (error) { 
-      console.log('There is an error to update the profile image now.')
+  const handleCreateProfileImage = async () => {
+  try {
+    if (!file) {
+      alert('Image upload error, Please select a picture to upload.')
+      return
     }
+    
+    const storageRef = ref(storage, `userProfileImage-${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file)
+    setuploadingImage(true)
+    uploadTask.on('state_changed', 
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        setBytesCount(progress)
+        console.log('Upload is ' + progress + '% done')
+        switch (snapshot.state) {
+          case 'paused':
+            console.log("Upload is paused.")
+            break;
+          case 'running':
+            console.log("Upload is running")
+            break
+        }
+      },
+      (error) => {
+        console.log(error.message)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setProfileImage(downloadURL)
+          setuploadingImage(false)
+        })
+      }
+    )  
+
+  } catch (error) { 
+    console.log('There is an error to update the profile image now.')
   }
+}
 
 
   return (
@@ -168,6 +172,7 @@ const CreateProfile: React.FC = () => {
                 </div>
               </Flex>
               <Box w="full" mt={1}>
+                {uploadingImage ? <Progress value={bytesCount} mt={2} /> : null }
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
@@ -373,6 +378,7 @@ const CreateProfile: React.FC = () => {
                 <HStack justifyContent="space-between" mt={4} w="sm">
                   <Button
                     isLoading={loading}
+                    loadingText={'please wait'}
                     _hover={{
                       bg: "white",
                       border: "1px solid",
