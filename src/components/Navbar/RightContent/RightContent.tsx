@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Tooltip } from "@chakra-ui/react";
+import { Button, Flex, Image, Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import NotificationsDrawer from "../../Drawers/NotificationsDrawer";
 import AuthModel from "../../Model/Auth/AuthModel";
@@ -17,21 +17,30 @@ import "../../homepage.css";
 
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { userStatusModelState } from "../../../atoms/userStatusModelState";
+import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [logout, setLogout] = useState(false);
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
-  const [currentUserProfile] = useRecoilState(currentUserProfileState);
+  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
+    currentUserProfileState
+  );
+  const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLogout(false);
-      } else {
-        setLogout(true);
+      if (user) { 
+        setCurrentUserLogoutState((prev) => ({
+          ...prev,
+          currentUserLoggedOut: false
+        }))
+      } else { 
+        setCurrentUserLogoutState((prev) => ({
+          ...prev,
+          currentUserLoggedOut: true
+        }))
       }
     });
   }, [auth, firestore]);
@@ -39,7 +48,6 @@ const RightContent: React.FC = () => {
   const handleLogout = async () => {
     setLoading(true);
     await deleteDoc(doc(firestore, "vs-users", `userId-${currentUser.id}`));
-    signOut(auth);
     setCurrentUserState((prev) => ({
       ...prev,
       id: "",
@@ -47,19 +55,38 @@ const RightContent: React.FC = () => {
       online: "",
       email: "",
     }));
+    setCurrentUserProfileState((prev) => ({
+      ...prev,
+      id: "",
+      name: "",
+      status: "",
+      profileImage: "",
+      companyName: "",
+      companyProfile: "",
+      workProfile: "",
+      pr: "",
+      pet: "",
+      hobbies: "",
+    }));
+    setCurrentUserLogoutState((prev) => ({
+      ...prev,
+      currentUserLoggedOut: true
+    }))
     setLoading(false);
+    signOut(auth);
   };
 
   const handleUserNameClick = () => {
     navigate(`/profile/${currentUser.id}`);
   };
 
+  console.log('current user logout state ' + userLogout.currentUserLoggedOut)
+
   return (
     <>
       <AuthModel />
       <Flex justify="center" align="center">
-
-        {!logout ? (
+        {!userLogout.currentUserLoggedOut ? (
           <Tooltip label="Change Talk status" placement="bottom">
             <Image
               h={10}
@@ -73,7 +100,8 @@ const RightContent: React.FC = () => {
         ) : null}
 
         <NotificationsDrawer />
-        {!logout ? (
+
+        {!userLogout.currentUserLoggedOut ? (
           <>
             <Menu>
               <MenuButton
@@ -81,7 +109,7 @@ const RightContent: React.FC = () => {
                 border="1px solid"
                 color="white"
                 borderColor="white"
-                size= {{ base: "xs"}}
+                size={{ base: "xs" }}
                 mr={1}
                 as={Button}
                 _hover={{
@@ -90,7 +118,7 @@ const RightContent: React.FC = () => {
                   borderColor: "red.500",
                   color: "red.500",
                 }}
-                fontSize={{ base: "8pt", sm: "8pt"}}
+                fontSize={{ base: "8pt", sm: "8pt" }}
                 fontWeight={700}
                 className="my__button"
                 style={{ outline: "none" }}

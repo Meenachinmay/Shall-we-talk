@@ -82,7 +82,7 @@ const CreateProfile: React.FC = () => {
       
       setCurrentProfile((prev) => ({
         ...prev,
-        name: owner
+        name: ""
       }))
 
       navigate(`/`);
