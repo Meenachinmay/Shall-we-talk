@@ -121,7 +121,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -139,7 +139,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "do_not_want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -157,7 +157,7 @@ const Dashboard: React.FC = () => {
     if (user.status === "lets_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
           fontSize="xs"
           mr={2}
@@ -173,8 +173,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleStatus = () => {
-    setUserStatusModelState({ open: true });
+  const handleStatus = (user: UserData) => {
+    if (currentUser.id === user.id){
+      setUserStatusModelState({ open: true });
+    }
   };
 
   return (
