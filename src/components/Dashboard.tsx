@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import { Image, Layer, Stage } from "react-konva";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import useImage from "use-image";
-import { currentUserProfileState } from "../atoms/currentUserProfileState";
 import { currentUserState } from "../atoms/currentUserState";
 import { showUserInMapState } from "../atoms/showUserInMapState";
 import { profileModelState } from "../atoms/userProfileModelState";
@@ -33,11 +32,7 @@ const Dashboard: React.FC = () => {
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
-  const profileCol = collection(firestore, "userProfiles");
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
-  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
-    currentUserProfileState
-  );
+  const [currentUser] = useRecoilState(currentUserState); 
   const [searchText, setSearchText] = useState("")
 
   const [bgimage] = useImage(
