@@ -62,6 +62,7 @@ const Dashboard: React.FC = () => {
       snapShot.forEach((doc) => {
         setUserProfileState((prev) => ({
           ...prev,
+          id: doc.data().userId,
           name: doc.data().name,
           email: doc.data().email,
           companyName: doc.data().companyName,

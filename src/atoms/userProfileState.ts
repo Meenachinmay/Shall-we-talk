@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 
 export interface UserProfileState {
-  id: number,
+  id: string,
   name: string,
   email: string,
   profileImage: string,
@@ -14,7 +14,7 @@ export interface UserProfileState {
 }
 
 const defaultState: UserProfileState = {
-  id: 0,
+  id: '',
   name: '',
   email: '',
   profileImage: '',
