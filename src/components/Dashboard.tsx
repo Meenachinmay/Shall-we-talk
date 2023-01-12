@@ -215,6 +215,7 @@ const Dashboard: React.FC = () => {
                     width={40}
                     height={40}
                     status={user.status}
+                    companyName={user.companyName}
                     profileImage={user.profileImage}
                     userName={user.name}
                     userId={user.id}
