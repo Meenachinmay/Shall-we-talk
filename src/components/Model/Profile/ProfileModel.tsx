@@ -82,7 +82,7 @@ const ProfileModel: React.FC = () => {
                           src={profileState.profileImage}
                         >
                           <AvatarBadge
-                            bg="green.500"
+                            bg={profileState.status === "want_to_talk" ? `green.500` : profileState.status === "do_not_want_to_talk" ? `red.500` : 'blue.500'}
                             boxSize={6}
                             borderWidth={4}
                           ></AvatarBadge>
