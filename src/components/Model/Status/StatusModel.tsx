@@ -39,10 +39,10 @@ const StatusModel: React.FC = () => {
           <ModalHeader textAlign='center'>
             <VStack>
               <Text>
-                Change your status here
+              トークステータスの変更 
               </Text>
               <Text color="gray.400" fontSize="xs" textOverflow="hidden">
-                Based upon your talk status other will be able to send you request and messages.
+              トークステータスが赤色の場合、他のユーザーは貴方にトークリクエストを送ることができなくなります 
               </Text>
             </VStack>
           </ModalHeader>
@@ -51,9 +51,9 @@ const StatusModel: React.FC = () => {
             <VStack align="center" justify="center" width="70%" spacing={1}>
               {loading ? <LoadingSpinner /> :
                 <>
-                  <Button isLoading={loading} onClick={() => handleStatusChange("want_to_talk")} size="xs" bg="green.100" color="green.800" _hover={{ bg: "green.100", color: "green.700" }}>Want to talk</Button>
-                  <Button isLoading={loading} onClick={() => handleStatusChange("do_not_want_to_talk")} size="xs" bg="red.100" color="red.800" _hover={{ bg: "red.100", color: "red.700" }}>Do Want to talk</Button>
-                  <Button isLoading={loading} onClick={() => handleStatusChange("lets_talk")} size="xs" bg="blue.100" color="blue.800" _hover={{ bg: "blue.100", color: "blue.700" }}>Let's talk</Button>
+                  <Button isLoading={loading} onClick={() => handleStatusChange("want_to_talk")} size="xs" bg="green.100" color="green.800" _hover={{ bg: "green.100", color: "green.700" }}>話し相手探し中</Button>
+                  <Button isLoading={loading} onClick={() => handleStatusChange("do_not_want_to_talk")} size="xs" bg="red.100" color="red.800" _hover={{ bg: "red.100", color: "red.700" }}>話しかけNG</Button>
+                  <Button isLoading={loading} onClick={() => handleStatusChange("lets_talk")} size="xs" bg="blue.100" color="blue.800" _hover={{ bg: "blue.100", color: "blue.700" }}>話しかけOK</Button>
                 </>
               }
             </VStack>

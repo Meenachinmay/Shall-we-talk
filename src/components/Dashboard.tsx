@@ -1,4 +1,13 @@
-import { Button, Flex, HStack, Input, InputGroup, InputLeftElement, Text, useFormControlStyles, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import {
   collection,
   limit,
@@ -6,11 +15,10 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, Layer, Stage } from "react-konva";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import useImage from "use-image";
-import { currentUserProfileState } from "../atoms/currentUserProfileState";
 import { currentUserState } from "../atoms/currentUserState";
 import { showUserInMapState } from "../atoms/showUserInMapState";
 import { profileModelState } from "../atoms/userProfileModelState";
@@ -25,24 +33,23 @@ import User from "./User";
 import "../components/homepage.css";
 import { SearchIcon } from "@chakra-ui/icons";
 
+import { useNavigate } from "react-router-dom";
+
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
-  const [highLightUserInMap, setHighlightUserInMap] = useRecoilState(showUserInMapState);
+  const [highLightUserInMap, setHighlightUserInMap] =
+    useRecoilState(showUserInMapState);
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
-  const profileCol = collection(firestore, "userProfiles");
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
-  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
-    currentUserProfileState
-  );
-  const [searchText, setSearchText] = useState("")
-
+  const [currentUser] = useRecoilState(currentUserState);
+  const [searchText, setSearchText] = useState("");
   const [bgimage] = useImage(
     "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
   );
+  const navigate = useNavigate();
 
   // this method shows user profile when user wants to see other user's profile by clicking on user card on dashboard page
   const handleShowProfile = (user: UserData) => {
@@ -62,6 +69,7 @@ const Dashboard: React.FC = () => {
       snapShot.forEach((doc) => {
         setUserProfileState((prev) => ({
           ...prev,
+          id: doc.data().userId,
           name: doc.data().name,
           email: doc.data().email,
           companyName: doc.data().companyName,
@@ -71,6 +79,7 @@ const Dashboard: React.FC = () => {
           pet: doc.data().pet,
           profileImage: doc.data().profileImage,
           pr: doc.data().pr,
+          status: user.status
         }));
       });
       setProfileModelState((prev) => ({
@@ -79,26 +88,6 @@ const Dashboard: React.FC = () => {
       }));
     });
   };
-
-  // loading current user profile in global current user profile state
-  /*useEffect(() => {
-    const profileQuery = query(
-      profileCol,
-      where("userId", "==", `${currentUser.id}`),
-      limit(1)
-    );
-    const unsub = onSnapshot(profileQuery, (snapShot) => {
-      snapShot.forEach((doc) => {
-        setCurrentUserProfileState((prev) => ({
-          ...prev,
-          name: doc.data().name,
-        }));
-      });
-    });
-    return () => {
-      unsub();
-    };
-  }, [firestore, currentUser.id]);*/
 
   // this use effect to load all the logged in users from the database
   useEffect(() => {
@@ -121,17 +110,17 @@ const Dashboard: React.FC = () => {
     if (user.status === "want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
-          fontSize="xs"
           mr={2}
           bg="green.100"
           color="green.800"
           _hover={{ bg: "green.100", color: "green.800" }}
           px={2}
           rounded="md"
+          style={{ fontSize: "10px" }}
         >
-          話したい
+          話し相手探し中
         </Button>
       );
     }
@@ -139,15 +128,15 @@ const Dashboard: React.FC = () => {
     if (user.status === "do_not_want_to_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
-          fontSize="xs"
           mr={2}
           bg="red.100"
           color="red.800"
           _hover={{ bg: "green.100", color: "green.800" }}
           px={2}
           rounded="md"
+          style={{ fontSize: "10px" }}
         >
           話しかけNG
         </Button>
@@ -157,15 +146,15 @@ const Dashboard: React.FC = () => {
     if (user.status === "lets_talk") {
       return (
         <Button
-          onClick={() => handleStatus()}
+          onClick={() => handleStatus(user)}
           size="xs"
-          fontSize="xs"
           mr={2}
           bg="blue.100"
           color="blue.800"
           _hover={{ bg: "blue.100", color: "blue.800" }}
           px={2}
           rounded="md"
+          style={{ fontSize: "10px" }}
         >
           話しかけOK
         </Button>
@@ -173,28 +162,53 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleStatus = () => {
-    setUserStatusModelState({ open: true });
+  const handleStatus = (user: UserData) => {
+    if (currentUser.id === user.id) {
+      setUserStatusModelState({ open: true });
+    }
+  };
+
+  const handleUserCardClick = (user: UserData) => {
+    setHighlightUserInMap((prev) => ({
+      ...prev,
+      show: !highLightUserInMap.show,
+      x: user.userPosX,
+      y: user.userPosY,
+      userId: user.id,
+    }));
   };
 
   return (
     <VStack w="full" h="100vh" alignItems="center" p={6}>
-        <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
-          <InputLeftElement pointerEvents='none' children={<SearchIcon color='red.400' mb={1} />} />
-          <Input onChange={(e) => setSearchText(e.target.value)} color='gray.700' placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
-            _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
-            _focus={{ outline: "none", border: "1px solid", borderColor: "gray.500" }}
-            height="34px" bg="white"
-          />
+      <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
+        <InputLeftElement
+          pointerEvents="none"
+          children={<SearchIcon color="red.400" mb={1} />}
+        />
+        <Input
+          onChange={(e) => setSearchText(e.target.value)}
+          color="gray.700"
+          placeholder="ユーザー検索"
+          fontSize="10pt"
+          _placeholder={{ color: "red.500" }}
+          _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
+          _focus={{
+            outline: "none",
+            border: "1px solid",
+            borderColor: "gray.500",
+          }}
+          height="34px"
+          bg="white"
+        />
       </InputGroup>
       <HStack>
         <HStack
-          w={{ lg: "lg", xl: "3xl"}}
+          w={{ lg: "lg", xl: "3xl" }}
           h="full"
           maxH="2xl"
           borderWidth={1}
           borderColor="gray.100"
-          display={{ base: "none", sm: "none", md: "none" ,lg: "inherit"}}
+          display={{ base: "none", sm: "none", md: "none", lg: "inherit" }}
         >
           <Flex
             style={{
@@ -217,6 +231,7 @@ const Dashboard: React.FC = () => {
                     width={40}
                     height={40}
                     status={user.status}
+                    companyName={user.companyName}
                     profileImage={user.profileImage}
                     userName={user.name}
                     userId={user.id}
@@ -226,6 +241,7 @@ const Dashboard: React.FC = () => {
             </Stage>
           </Flex>
         </HStack>
+
         <Flex
           flexDirection="column"
           overflowY="auto"
@@ -233,68 +249,101 @@ const Dashboard: React.FC = () => {
           p={3}
           height="full"
           maxH="2xl"
-          borderWidth={{ base: "0", md: "3"}}
+          borderWidth={{ base: "0", md: "1" }}
           borderColor="gray.200"
         >
           {loading ? <LoadingSpinner /> : null}
-          {onlineUsers!.filter((user) => {
-            return searchText?.toLowerCase() === "" ? user : user.name.toLowerCase().includes(searchText.toLowerCase())
-          }).map((user) => (
-            <HStack
-              key={user.id}
-              w="full"
-              bg={'red.50'}
-              spacing={2}
-              mb={2}
-              justifyContent="space-between"
-              px={3}
-              py={1}
-              roundedTop="md"
-              fontSize="md"
-              border="1px solid"
-              borderColor="gray.200"
-              _hover={{ bg: "gray.100", cursor: "pointer" }}
-              onClick={() =>
-                setHighlightUserInMap((prev) => ({
-                  ...prev,
-                  show: !highLightUserInMap.show,
-                  x: user.userPosX,
-                  y: user.userPosY,
-                  userId: user.id
-                }))
-              }
-            >
-              <Flex flexDirection="column">
-                <Text fontSize="sm" fontWeight="semibold">
-                  {user.name}
-                </Text>
-                <Text fontSize="sm">{user.companyName}</Text>
-              </Flex>
-              <ProfileModel />
-              <Flex alignItems="center">
-                <StatusModel />
-                {badge(user)}
-                <Button
-                  size="xs"
-                  rounded="full"
-                  color="white"
-                  bg="red.500"
+          {onlineUsers!
+            .filter((user) => {
+              return searchText?.toLowerCase() === ""
+                ? user
+                : user.name.toLowerCase().includes(searchText.toLowerCase());
+            })
+            .map((user) => (
+              <HStack alignItems={"center"}>
+                <HStack
+                  key={user.id}
+                  w="full"
+                  bg={"red.50"}
+                  mb={2}
+                  justifyContent="space-between"
+                  px={3}
+                  py={1}
+                  roundedTop="md"
+                  fontSize="md"
                   border="1px solid"
-                  borderColor="red.500"
-                  _hover={{
-                    border: "1px solid",
-                    borderColor: "red.500",
-                    bg: "white",
-                    color: "red.500",
-                  }}
-                  onClick={() => handleShowProfile(user)}
-                  className="my__button"
+                  borderColor="gray.200"
+                  _hover={{ bg: "gray.100", cursor: "pointer" }}
+                  onClick={() => handleUserCardClick(user)}
                 >
-                  Profile
-                </Button>
-              </Flex> 
-            </HStack>
-          ))}
+                  <Flex flexDirection="column">
+                    <Text fontSize="sm" fontWeight="semibold">
+                      {user.name}
+                    </Text>
+                    <Text fontSize="sm">{user.companyName}</Text>
+                  </Flex>
+                  <Button
+                    bg="red.500"
+                    color="white"
+                    _hover={{
+                      bg: "white",
+                      color: "red.500",
+                      border: "1px solid",
+                    }}
+                    size="xs"
+                    style={{ fontSize: "10px" }}
+                    onClick={() => navigate(`/profile/${user.id}`)}
+                  >
+                    Visit Profile
+                  </Button>
+                </HStack>
+                <HStack
+                  key={user.id}
+                  w="xs"
+                  h="50px"
+                  bg={"red.50"}
+                  mb={2}
+                  px={3}
+                  py={1}
+                  roundedTop="md"
+                  fontSize="md"
+                  border="1px solid"
+                  borderColor="gray.200"
+                  _hover={{ bg: "gray.100", cursor: "pointer" }}
+                >
+                  <Flex
+                    flexGrow={1}
+                    alignItems="center"
+                    justifyContent={"space-between"}
+                  >
+                    <Flex>
+                      <ProfileModel />
+                      <StatusModel />
+                      {badge(user)}
+                    </Flex>
+                    <Button
+                      size="xs"
+                      rounded="full"
+                      color="white"
+                      bg="red.500"
+                      border="1px solid"
+                      borderColor="red.500"
+                      _hover={{
+                        border: "1px solid",
+                        borderColor: "red.500",
+                        bg: "white",
+                        color: "red.500",
+                      }}
+                      onClick={() => handleShowProfile(user)}
+                      className="my__button"
+                      style={{ fontSize: "10px" }}
+                    >
+                      Profile
+                    </Button>
+                  </Flex>
+                </HStack>
+              </HStack>
+            ))}
         </Flex>
       </HStack>
     </VStack>

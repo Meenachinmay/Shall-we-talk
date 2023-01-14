@@ -7,12 +7,15 @@ import useroffline from "../images/useroffline.jpg";
 import userletstalk from "../images/userletstalk.jpg";
 import { Html } from "react-konva-utils";
 
+import "../components/messagePopUp.css";
+
 type UserProps = {
   x: number;
   y: number;
   width: number;
   height: number;
   status: string;
+  companyName: string;
   highLightUser: boolean;
   showX: number;
   showY: number;
@@ -31,6 +34,7 @@ const User: React.FC<UserProps> = ({
   width,
   height,
   status,
+  companyName,
   profileImage,
   userName,
   userId,
@@ -40,7 +44,7 @@ const User: React.FC<UserProps> = ({
   const [currentUserPos, setCurrentUserPos] = useState<{
     x: number;
     y: number;
-  }>({ x: 0, y: 0 });
+  }>({ x: x, y: y });
   let [imageOnline] = useImage(useronline);
   let [imageOffline] = useImage(useroffline);
   let [imageReady] = useImage(userletstalk);
@@ -59,26 +63,6 @@ const User: React.FC<UserProps> = ({
 
   return (
     <>
-      {/* <Image
-        x={x}
-        y={y}
-        image={
-          status === "want_to_talk"
-            ? imageOnline
-            : status === "do_not_want_to_talk"
-            ? imageOffline
-            : status === "lets_talk"
-            ? imageReady
-            : defaultImage
-        }
-        width={width}
-        height={height}
-        draggable
-        onDragStart={(e) => handleIconDragStart(e)}
-        onDragEnd={(e) => handleIconDragEnd(e)}
-        onClick={() => alert(status)}
-      /> */}
-
       <Image
         x={x}
         y={y}
@@ -95,13 +79,38 @@ const User: React.FC<UserProps> = ({
           divProps={{
             style: {
               position: "absolute",
-              top: `${showX}px`,
-              left: `${showY}px`,
-              color: "black",
+              top: `${currentUserPos.y - 60}px`,
+              left: `${currentUserPos.x + 30}px`,
             },
           }}
         >
-          <button onClick={() => alert("clicked")}>{userName}</button>
+          <div
+            style={{
+              color: "#1A202C",
+              borderRadius: "10px",
+              border: "4px solid",
+              borderColor: `${
+                status === "want_to_talk"
+                  ? "#38A169"
+                  : status === "do_not_want_to_talk"
+                  ? "#E53E3E"
+                  : "#63B3ED"
+              }`,
+              fontSize: "15px",
+              backgroundColor: "white",
+              padding: "10px",
+              width: "150px",
+              textAlign: "start",
+            }}
+            onClick={() => alert("clicked")}
+          >
+            <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>{userName}</div>
+                <div>{companyName}</div>
+              </div>
+            </div>
+          </div>
         </Html>
       ) : null}
     </>

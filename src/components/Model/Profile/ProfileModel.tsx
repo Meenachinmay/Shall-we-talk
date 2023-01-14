@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
+import { currentUserState } from "../../../atoms/currentUserState";
 import { profileModelState } from "../../../atoms/userProfileModelState";
 import { userProfileState } from "../../../atoms/userProfileState";
 import LoadingSpinner from "../../customUIComponents/LoadingSpinner";
@@ -29,7 +30,8 @@ import '../../homepage.css'
 
 const ProfileModel: React.FC = () => {
   const [modelState, setModelState] = useRecoilState(profileModelState);
-  const [profileState, setUserProfileState] = useRecoilState(userProfileState);
+  const [profileState] = useRecoilState(userProfileState);
+  const [currentUser] = useRecoilState(currentUserState)
 
   const handleClose = () => {
     setModelState((prev) => ({
@@ -38,6 +40,8 @@ const ProfileModel: React.FC = () => {
       loadingProfileInModel: false,
     }));
   };
+
+  console.log(profileState.id)
 
   return (
     <>
@@ -75,10 +79,10 @@ const ProfileModel: React.FC = () => {
                         <Avatar
                           name={`${profileState.name}`}
                           size="xl"
-                          src="https://cdn-icons-png.flaticon.com/512/6426/6426232.png"
+                          src={profileState.profileImage}
                         >
                           <AvatarBadge
-                            bg="green.500"
+                            bg={profileState.status === "want_to_talk" ? `green.500` : profileState.status === "do_not_want_to_talk" ? `red.500` : 'blue.500'}
                             boxSize={6}
                             borderWidth={4}
                           ></AvatarBadge>
@@ -128,6 +132,7 @@ const ProfileModel: React.FC = () => {
                               </Text>
                             </Flex>
                           </VStack>
+                          {currentUser.id !== profileState.id ? 
                           <HStack justifyContent="space-between" mt={4} w="sm">
                             <Button
                               _hover={{
@@ -167,7 +172,7 @@ const ProfileModel: React.FC = () => {
                             >
                               Send Message
                             </Button>
-                          </HStack>
+                          </HStack> : null }
                         </Box>
                       </Flex>
                     </Box>

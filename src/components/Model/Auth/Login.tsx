@@ -6,9 +6,10 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { auth, firestore } from "../../firebase/clientApp";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import "../../homepage.css";
+import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Login: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
+  const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,8 +54,8 @@ const Login: React.FC = () => {
               name: docSnap.data().name,
               online: true,
               status: "do_not_want_to_talk",
-              userPosX: 100,
-              userPosY: 100,
+              userPosX: 150,
+              userPosY: 150,
               profileImage: docSnap.data().profileImage,
             });
           } catch (error) {
@@ -63,16 +65,24 @@ const Login: React.FC = () => {
           // redirect user to create profile page
           navigate(`/create-profile`);
         }
+
         setCurrentUserState((prev) => ({
           ...prev,
           id: userC.user.uid,
           email: userC.user.email!,
-        }));
+        }))
+        setCurrentUserLogoutState((prev) => ({
+          ...prev,
+          currentUserLoggedOut: false
+        }))
+        
         setLoading(false);
+
         setAuthModelState((prev) => ({
           ...prev,
           open: false,
         }));
+
         toast({
           title: "Login success",
           description: "Logged in successfully.",
@@ -80,6 +90,7 @@ const Login: React.FC = () => {
           duration: 4000,
           isClosable: true,
         });
+
         navigate("/dashboard");
       })
       .catch((error) => {
