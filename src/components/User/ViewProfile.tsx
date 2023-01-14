@@ -1,130 +1,166 @@
-import { Flex, Text, HStack, VStack, Box, Stat, StatLabel, StatNumber, Container, Divider, Avatar, AvatarBadge, Heading, Button, } from '@chakra-ui/react'
-import { onSnapshot, collection, limit, query, where, setDoc, doc } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { currentUserState } from '../../atoms/currentUserState'
-import { firestore } from '../firebase/clientApp'
-import { useParams } from 'react-router-dom'
-import SendMessageModel from '../Model/Message/SendMessageModel'
-import { sendMessageModelState } from '../../atoms/sendMessageModelState'
-import { Message } from '../../types/Message'
-import { myMessagesModelState } from '../../atoms/myMessagesModelState'
-import ViewMessages from '../Model/Message/ViewMessages'
-import { useNavigate } from 'react-router-dom'
+import {
+  Flex,
+  Text,
+  HStack,
+  VStack,
+  Box,
+  Stat,
+  StatLabel,
+  StatNumber,
+  Container,
+  Divider,
+  Avatar,
+  AvatarBadge,
+  Heading,
+  Button,
+} from "@chakra-ui/react";
+import {
+  onSnapshot,
+  collection,
+  limit,
+  query,
+  where,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "../../atoms/currentUserState";
+import { firestore } from "../firebase/clientApp";
+import { useParams } from "react-router-dom";
+import SendMessageModel from "../Model/Message/SendMessageModel";
+import { sendMessageModelState } from "../../atoms/sendMessageModelState";
+import { Message } from "../../types/Message";
+import { myMessagesModelState } from "../../atoms/myMessagesModelState";
+import ViewMessages from "../Model/Message/ViewMessages";
+import { useNavigate } from "react-router-dom";
 
-import '../homepage.css'
+import "../homepage.css";
 
 type Connection = {
-  id: number,
-  user1: string,
-  user2: string,
-  connected: boolean,
-  status: string
-}
+  id: number;
+  user1: string;
+  user2: string;
+  connected: boolean;
+  status: string;
+};
 
 const ViewProfile: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const connectionCol = collection(firestore, 'connections')
-  const profileCol = collection(firestore, 'userProfiles')
-  const messageCol = collection(firestore, 'messages')
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState)
-  const [sendMessageState, setSendMessageModelState] = useRecoilState(sendMessageModelState)
-  const [myMessages, setMyMessagesModelState] = useRecoilState(myMessagesModelState)
-  const [sendRequest, setSendRequest] = useState(false)
+  const connectionCol = collection(firestore, "connections");
+  const profileCol = collection(firestore, "userProfiles");
+  const messageCol = collection(firestore, "messages");
+  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const [sendMessageState, setSendMessageModelState] = useRecoilState(
+    sendMessageModelState
+  );
+  const [myMessages, setMyMessagesModelState] =
+    useRecoilState(myMessagesModelState);
+  const [sendRequest, setSendRequest] = useState(false);
   const [connection, setConnection] = useState<Connection>({
     id: 0,
-    user1: '',
-    user2: '',
+    user1: "",
+    user2: "",
     connected: false,
-    status: ''
-  })
+    status: "",
+  });
   const [userProfile, setUserProfile] = useState<{
-    name: string,
-    email: string,
-    profileImage: string,
-    companyName: string,
-    companyProfile: string,
-    workProfile: string,
-    hobbies: string,
-    pet: string,
-    pr: string
-
+    name: string;
+    email: string;
+    profileImage: string;
+    companyName: string;
+    companyProfile: string;
+    workProfile: string;
+    hobbies: string;
+    pet: string;
+    pr: string;
   }>({
-    name: '',
-    email: '',
-    profileImage: '',
-    companyProfile: '',
-    companyName: '',
-    workProfile: '',
-    hobbies: '',
-    pr: '',
-    pet: ''
-  })
+    name: "",
+    email: "",
+    profileImage: "",
+    companyProfile: "",
+    companyName: "",
+    workProfile: "",
+    hobbies: "",
+    pr: "",
+    pet: "",
+  });
 
-  const [fetchingConnection, setFetchingConnection] = useState(false)
-  const [loadingMessage, setLoadingMessage] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { id } = useParams()
+  const [fetchingConnection, setFetchingConnection] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
 
   //プロフィール写真をアップデートするために、これを実装してください。
-  
+
   const handleSendRequest = async () => {
     try {
-      setSendRequest(true)
-      await setDoc(doc(firestore, `connections/connectionId-${currentUser.id}`), {
-        connected: false,
-        status: "pending",
-        user1: currentUser.id,
-        user2: id
-      })
+      setSendRequest(true);
+      await setDoc(
+        doc(firestore, `connections/connectionId-${currentUser.id}`),
+        {
+          connected: false,
+          status: "pending",
+          user1: currentUser.id,
+          user2: id,
+        }
+      );
 
       // create a new notification for receiver of this connection request (user2 => sender)
       try {
-      await setDoc(doc(firestore, `notifications/notificationId-${currentUser.id}`), {
-        message: `${currentUser.email} sent you a talk request.`,
-        receiver: id,
-        sender: currentUser.email,
-        type: "requestSent",
-        seen: false
-      })
-
+        await setDoc(
+          doc(firestore, `notifications/notificationId-${currentUser.id}`),
+          {
+            message: `${currentUser.email} sent you a talk request.`,
+            receiver: id,
+            sender: currentUser.email,
+            type: "requestSent",
+            seen: false,
+          }
+        );
       } catch (error) {
-      console.log("notification creation error ")
+        console.log("notification creation error ");
       }
-      setSendRequest(false)
+      setSendRequest(false);
     } catch (error) {
-      console.log("create connection request " + error)
+      console.log("create connection request " + error);
     }
-  }
+  };
 
   const handleSendMessage = () => {
-    setSendMessageModelState({ open: true })
-  }
+    setSendMessageModelState({ open: true });
+  };
 
   const handleSeeMessage = () => {
-    const mq = query(messageCol, where("to.id", "==", `${currentUser.id}`))
+    const mq = query(messageCol, where("to.id", "==", `${currentUser.id}`));
     try {
-      setLoadingMessage(true)
-      onSnapshot(mq, snapShot => {
-        let data: Message[] = []
+      setLoadingMessage(true);
+      onSnapshot(mq, (snapShot) => {
+        let data: Message[] = [];
         snapShot.forEach((doc) => {
-          data.push(doc.data() as Message)
-        })
-        setLoadingMessage(false)
+          data.push(doc.data() as Message);
+        });
+        setLoadingMessage(false);
         setMyMessagesModelState((prev) => ({
-          ...prev, messages: data, open: true
-        }))
-      })
+          ...prev,
+          messages: data,
+          open: true,
+        }));
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    setLoading(true)
-    const profileQuery = query(profileCol, where("userId", "==", `${id}`), limit(1))
-    const unsub = onSnapshot(profileQuery, snapShot => {
+    setLoading(true);
+    const profileQuery = query(
+      profileCol,
+      where("userId", "==", `${id}`),
+      limit(1)
+    );
+    const unsub = onSnapshot(profileQuery, (snapShot) => {
       snapShot.forEach((doc) => {
         setUserProfile({
           name: doc.data().name,
@@ -135,38 +171,60 @@ const ViewProfile: React.FC = () => {
           hobbies: doc.data().hobbies,
           pr: doc.data().pr,
           pet: doc.data().pet,
-          workProfile: doc.data().workProfile
-        })
-      })
-      setLoading(false)
-    })
+          workProfile: doc.data().workProfile,
+        });
+      });
+      setLoading(false);
+    });
 
-    const q = query(connectionCol, where("user1", "==", `${currentUser.id}`), where("user2", "==", `${id}`), limit(1))
-    const q2 = query(connectionCol, where("user1", "==", `${id}`), where("user2", "==", `${currentUser.id}`), limit(1))
+    const q = query(
+      connectionCol,
+      where("user1", "==", `${currentUser.id}`),
+      where("user2", "==", `${id}`),
+      limit(1)
+    );
+    const q2 = query(
+      connectionCol,
+      where("user1", "==", `${id}`),
+      where("user2", "==", `${currentUser.id}`),
+      limit(1)
+    );
 
-    setFetchingConnection(true)
-    const unsub2 = onSnapshot(q, snapShot => {
+    setFetchingConnection(true);
+    const unsub2 = onSnapshot(q, (snapShot) => {
       snapShot.forEach((doc) => {
-        setConnection(doc.data() as Connection)
-      })
-      setFetchingConnection(false)
-    })
+        setConnection(doc.data() as Connection);
+      });
+      setFetchingConnection(false);
+    });
 
-    setFetchingConnection(true)
-    const unsub3 = onSnapshot(q2, snapShot => {
+    setFetchingConnection(true);
+    const unsub3 = onSnapshot(q2, (snapShot) => {
       snapShot.forEach((doc) => {
-        setConnection(doc.data() as Connection)
-      })
-      setFetchingConnection(false)
-    })
+        setConnection(doc.data() as Connection);
+      });
+      setFetchingConnection(false);
+    });
 
-  }, [firestore, id])
+    const revokeEverything = () => {
+      unsub()
+      unsub2()
+      unsub3()
+    }
 
+    return () => revokeEverything()
+  }, [firestore, id]);
 
   return (
     <VStack h="full" spacing={0}>
       <Container maxW="2xl" bg="red.50" mt={6} mb={6} rounded="md" shadow="md">
-        <Flex flexDirection="column" alignItems="start" py={6} w="full" maxW="2xl">
+        <Flex
+          flexDirection="column"
+          alignItems="start"
+          py={6}
+          w="full"
+          maxW="2xl"
+        >
           <Box p={6} w="full" h="full" overflow="auto">
             <Stat mt={6}>
               <StatLabel color="gray.500">Profile of</StatLabel>
@@ -176,114 +234,148 @@ const ViewProfile: React.FC = () => {
               <Divider color="gray.100" />
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
-              <Flex alignItems={'center'}>
-                <Avatar onClick={() => alert('hello world')} name={userProfile.name} size="xl" src={userProfile.profileImage}>
-                  <AvatarBadge bg="green.500" boxSize={6} borderWidth={4}></AvatarBadge>
-                </Avatar> 
-                <Button 
-                  size={'sm'} 
-                  fontSize={'xs'} 
+              <Flex alignItems={"center"}>
+                <Avatar
+                  onClick={() => alert("hello world")}
+                  name={userProfile.name}
+                  size="xl"
+                  src={userProfile.profileImage}
+                >
+                  <AvatarBadge
+                    bg="green.500"
+                    boxSize={6}
+                    borderWidth={4}
+                  ></AvatarBadge>
+                </Avatar>
+                <Button
+                  size={"sm"}
+                  fontSize={"xs"}
                   ml={3}
-                  bg="red.400" 
+                  bg="red.400"
                   color="white"
                   onClick={() => navigate(`/update-profile/${currentUser.id}`)}
-                  >
-                    プロフィール編集
-                  </Button>
-              </Flex>             
+                >
+                  プロフィール編集
+                </Button>
+              </Flex>
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >所属名</Heading>
-                    {loading ? <Text color="gray.500" fontSize="sm">Loading company name</Text> :
-                      <Text flex={1} color="gray.500" fontSize="sm">{userProfile.companyName}</Text>}
+                    <Heading size="xs" minW={48} w={48}>
+                      所属名
+                    </Heading>
+                    {loading ? (
+                      <Text color="gray.500" fontSize="sm">
+                        Loading company name
+                      </Text>
+                    ) : (
+                      <Text flex={1} color="gray.500" fontSize="sm">
+                        {userProfile.companyName}
+                      </Text>
+                    )}
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >所属組織の紹介</Heading>
-                    <Text flex={1} color="gray.500" fontSize="sm">{userProfile.companyProfile}</Text>
+                    <Heading size="xs" minW={48} w={48}>
+                      所属組織の紹介
+                    </Heading>
+                    <Text flex={1} color="gray.500" fontSize="sm">
+                      {userProfile.companyProfile}
+                    </Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >業種または職業プロフィール</Heading>
-                    <Text color="gray.500" flex={1} fontSize="sm">{userProfile.workProfile}</Text>
+                    <Heading size="xs" minW={48} w={48}>
+                      業種または職業プロフィール
+                    </Heading>
+                    <Text color="gray.500" flex={1} fontSize="sm">
+                      {userProfile.workProfile}
+                    </Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >趣味</Heading>
-                    <Text color="gray.500" flex={1} fontSize="sm" > {userProfile.hobbies}</Text>
+                    <Heading size="xs" minW={48} w={48}>
+                      趣味
+                    </Heading>
+                    <Text color="gray.500" flex={1} fontSize="sm">
+                      {" "}
+                      {userProfile.hobbies}
+                    </Text>
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
-                    <Heading size="xs" minW={48} w={48} >飼っているペット</Heading>
-                    <Text color="gray.500" flex={1} fontSize="sm">{userProfile.pet}</Text>
+                    <Heading size="xs" minW={48} w={48}>
+                      飼っているペット
+                    </Heading>
+                    <Text color="gray.500" flex={1} fontSize="sm">
+                      {userProfile.pet}
+                    </Text>
                   </HStack>
                   <Flex flexDirection="column" w="full" mt={6}>
-                    <Heading mb={2} size="xs">自己紹介文</Heading>
-                    <Text
-                      w="full"
-                      h="full"
-                      fontSize="xs"
-                      color="gray.500"
-                    >
+                    <Heading mb={2} size="xs">
+                      自己紹介文
+                    </Heading>
+                    <Text w="full" h="full" fontSize="xs" color="gray.500">
                       {userProfile.pr}
                     </Text>
                   </Flex>
-                </VStack >
-                {currentUser.id === id ? <><ViewMessages /> <Button
-                  _hover={{
-                    bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
-                  }}
-                  fontSize="10pt"
-                  fontWeight={700}
-                  bg="red.500"
-                  color="white"
-                  variant='solid'
-                  height="36px"
-                  width="50%"
-                  mt={3}
-                  onClick={handleSeeMessage}
-                  isLoading={loadingMessage}
-                  style={{ boxShadow: '5px 5px'}}
-                  className="my__button"
-                >届いたメッセージを見る</Button></>
-                  :
+                </VStack>
+                {currentUser.id === id ? (
+                  <>
+                    <ViewMessages />{" "}
+                    <Button
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "red.500",
+                        color: "red.500",
+                      }}
+                      fontSize="10pt"
+                      fontWeight={700}
+                      bg="red.500"
+                      color="white"
+                      variant="solid"
+                      height="36px"
+                      width="50%"
+                      mt={3}
+                      onClick={handleSeeMessage}
+                      isLoading={loadingMessage}
+                      style={{ boxShadow: "5px 5px" }}
+                      className="my__button"
+                    >
+                      届いたメッセージを見る
+                    </Button>
+                  </>
+                ) : (
                   <HStack justifyContent="space-between" mt={4} w="sm">
-                    {connection.connected ? <><SendMessageModel id={id as string} /><Button
-                      _hover={{
-                        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
-                      }}
-                      type="submit"
-                      fontSize="10pt"
-                      fontWeight={700}
-                      bg="red.500"
-                      color="white"
-                      variant='solid'
-                      height="36px"
-                      width="100%"
-                      onClick={handleSendMessage}
-                      className="my__button"
-                    >メッセージを送信する</Button></> : <Button
-                      _hover={{
-                        bg: "white", border: "1px solid", borderColor: "red.500", color: "red.500"
-                      }}
-                      isLoading={fetchingConnection || sendRequest}
-                      type="submit"
-                      fontSize="10pt"
-                      fontWeight={700}
-                      bg="red.500"
-                      color="white"
-                      variant='solid'
-                      height="36px"
-                      width="100%"
-                      onClick={handleSendRequest}
-                      className="my__button"
-                    >リクエストを送信する</Button>
-                    }
-                  </HStack>}
+                    <>
+                      <SendMessageModel id={id as string} />
+                      <Button
+                        _hover={{
+                          bg: "white",
+                          border: "1px solid",
+                          borderColor: "red.500",
+                          color: "red.500",
+                        }}
+                        type="submit"
+                        fontSize="10pt"
+                        fontWeight={700}
+                        bg="red.500"
+                        color="white"
+                        variant="solid"
+                        height="36px"
+                        width="100%"
+                        onClick={handleSendMessage}
+                        className="my__button"
+                      >
+                        メッセージを送信する
+                      </Button>
+                    </>
+                  </HStack>
+                )}
               </Box>
             </Flex>
           </Box>
         </Flex>
-      </Container >
-    </VStack >
-  )
-}
+      </Container>
+    </VStack>
+  );
+};
 
-export default ViewProfile
+export default ViewProfile;

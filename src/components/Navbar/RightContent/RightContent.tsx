@@ -80,8 +80,6 @@ const RightContent: React.FC = () => {
     navigate(`/profile/${currentUser.id}`);
   };
 
-  console.log('current user logout state ' + userLogout.currentUserLoggedOut)
-
   return (
     <>
       <AuthModel />
