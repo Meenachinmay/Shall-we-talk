@@ -7,7 +7,7 @@ const SearchInput: React.FC = () => {
     <Flex flexGrow={1} align="center">
       <InputGroup>
         <InputLeftElement pointerEvents='none' children={<SearchIcon color='red.400' mb={1} />} />
-        <Input color='red.500' placeholder="ユーザー検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
+        <Input color='red.500' placeholder="ユーザーを名前で検索" fontSize="10pt" _placeholder={{ color: "red.500" }}
           _hover={{ bg: "red.50", border: "solid 1px", borderColor: "red.500" }}
           _focus={{ outline: "none", border: "1px solid", borderColor: "red.500" }}
           height="34px" bg="white"

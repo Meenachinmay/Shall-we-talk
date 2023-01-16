@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
           pet: doc.data().pet,
           profileImage: doc.data().profileImage,
           pr: doc.data().pr,
-          status: user.status
+          status: user.status,
         }));
       });
       setProfileModelState((prev) => ({
@@ -119,6 +119,7 @@ const Dashboard: React.FC = () => {
           px={2}
           rounded="md"
           style={{ fontSize: "10px" }}
+          width="90px"
         >
           話し相手探し中
         </Button>
@@ -137,6 +138,7 @@ const Dashboard: React.FC = () => {
           px={2}
           rounded="md"
           style={{ fontSize: "10px" }}
+          width="90px"
         >
           話しかけNG
         </Button>
@@ -155,6 +157,7 @@ const Dashboard: React.FC = () => {
           px={2}
           rounded="md"
           style={{ fontSize: "10px" }}
+          width="90px"
         >
           話しかけOK
         </Button>
@@ -245,7 +248,7 @@ const Dashboard: React.FC = () => {
         <Flex
           flexDirection="column"
           overflowY="auto"
-          w={{ base: "sm", sm: "md", lg: "md", xl: "xl" }}
+          w={{ base: "400px", sm: "md", lg: "md", xl: "xl" }}
           p={3}
           height="full"
           maxH="2xl"
@@ -260,69 +263,75 @@ const Dashboard: React.FC = () => {
                 : user.name.toLowerCase().includes(searchText.toLowerCase());
             })
             .map((user) => (
-              <HStack alignItems={"center"}>
-                <HStack
-                  key={user.id}
-                  w="full"
+              <Flex
+                key={user.id}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Flex
+                  width={{
+                    base: "120px",
+                    sm: "120px",
+                    md: "120px",
+                    lg: "150px",
+                  }}
+                  minWidth={{
+                    base: "120px",
+                    sm: "120px",
+                    md: "120px",
+                    lg: "150px",
+                  }}
+                  h="60px"
+                  flexGrow={1}
                   bg={"red.50"}
                   mb={2}
                   justifyContent="space-between"
+                  alignItems={"center"}
                   px={3}
                   py={1}
                   roundedTop="md"
                   fontSize="md"
                   border="1px solid"
                   borderColor="gray.200"
+                  borderRightColor={"red.50"}
+                  borderRightRadius={0}
                   _hover={{ bg: "gray.100", cursor: "pointer" }}
                   onClick={() => handleUserCardClick(user)}
                 >
                   <Flex flexDirection="column">
-                    <Text fontSize="sm" fontWeight="semibold">
+                    <Text fontSize="xs" fontWeight="semibold">
                       {user.name}
                     </Text>
-                    <Text fontSize="sm">{user.companyName}</Text>
+                    <Text fontSize={{ base: "10px", sm: "10px", md: "xs", lg: "xs"}}>{user.companyName}</Text>
                   </Flex>
-                  <Button
-                    bg="red.500"
-                    color="white"
-                    _hover={{
-                      bg: "white",
-                      color: "red.500",
-                      border: "1px solid",
-                    }}
-                    size="xs"
-                    style={{ fontSize: "10px" }}
-                    onClick={() => navigate(`/profile/${user.id}`)}
-                  >
-                    Visit Profile
-                  </Button>
-                </HStack>
-                <HStack
-                  key={user.id}
-                  w="xs"
-                  h="50px"
+                </Flex>
+                <Flex
+                  w={{ base: "200px", sm: "xs", md: "xs", lg: "sm" }}
+                  h="60px"
+                  flexGrow={1}
                   bg={"red.50"}
                   mb={2}
+                  justifyContent="space-between"
+                  alignItems={"center"}
                   px={3}
                   py={1}
                   roundedTop="md"
                   fontSize="md"
                   border="1px solid"
                   borderColor="gray.200"
+                  borderLeftColor={"red.50"}
+                  borderLeftRadius={0}
                   _hover={{ bg: "gray.100", cursor: "pointer" }}
                 >
                   <Flex
-                    flexGrow={1}
-                    alignItems="center"
+                    alignItems={"center"}
                     justifyContent={"space-between"}
+                    flexGrow={1}
                   >
-                    <Flex>
-                      <ProfileModel />
-                      <StatusModel />
-                      {badge(user)}
-                    </Flex>
+                    <ProfileModel />
+                    <StatusModel />
+                    {badge(user)}
                     <Button
-                      size="xs"
                       rounded="full"
                       color="white"
                       bg="red.500"
@@ -334,15 +343,33 @@ const Dashboard: React.FC = () => {
                         bg: "white",
                         color: "red.500",
                       }}
+                      size={{ base: "xxs", sm:"xxs", md: "xs", lg: "xs"}}
+                      p={1}
                       onClick={() => handleShowProfile(user)}
                       className="my__button"
-                      style={{ fontSize: "10px" }}
+                      style={{ fontSize: "9px" }}
+                      display={{ base: "none", sm: "inherit" }}
                     >
-                      Profile
+                      クイックプロフ
+                    </Button>
+                    <Button
+                      bg="red.500"
+                      color="white"
+                      _hover={{
+                        bg: "white",
+                        color: "red.500",
+                        border: "1px solid",
+                      }}
+                      size={{ base: "xxs", sm:"xxs", md: "xs", lg: "xs"}}
+                      p={1}
+                      style={{ fontSize: "9px" }}
+                      onClick={() => navigate(`/profile/${user.id}`)}
+                    >
+                      メッセージ送信
                     </Button>
                   </Flex>
-                </HStack>
-              </HStack>
+                </Flex>
+              </Flex>
             ))}
         </Flex>
       </HStack>
