@@ -82,7 +82,9 @@ const NotificationsDrawer = () => {
             </DrawerBody>
           ) : (
             <DrawerBody>
-              {notifications.map((notification) => (
+              {notifications.filter((n) => {
+                return n.seen === true ? null  : n
+              }).map((notification) => (
                 <NotificationCard
                   key={notification.message}
                   seen={notification.seen}

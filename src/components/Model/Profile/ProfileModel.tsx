@@ -26,12 +26,12 @@ import { currentUserState } from "../../../atoms/currentUserState";
 import { profileModelState } from "../../../atoms/userProfileModelState";
 import { userProfileState } from "../../../atoms/userProfileState";
 import LoadingSpinner from "../../customUIComponents/LoadingSpinner";
-import '../../homepage.css'
+import "../../homepage.css";
 
 const ProfileModel: React.FC = () => {
   const [modelState, setModelState] = useRecoilState(profileModelState);
   const [profileState] = useRecoilState(userProfileState);
-  const [currentUser] = useRecoilState(currentUserState)
+  const [currentUser] = useRecoilState(currentUserState);
 
   const handleClose = () => {
     setModelState((prev) => ({
@@ -41,7 +41,7 @@ const ProfileModel: React.FC = () => {
     }));
   };
 
-  console.log(profileState.id)
+  console.log(profileState.id);
 
   return (
     <>
@@ -82,7 +82,13 @@ const ProfileModel: React.FC = () => {
                           src={profileState.profileImage}
                         >
                           <AvatarBadge
-                            bg={profileState.status === "want_to_talk" ? `green.500` : profileState.status === "do_not_want_to_talk" ? `red.500` : 'blue.500'}
+                            bg={
+                              profileState.status === "want_to_talk"
+                                ? `green.500`
+                                : profileState.status === "do_not_want_to_talk"
+                                ? `red.500`
+                                : "blue.500"
+                            }
                             boxSize={6}
                             borderWidth={4}
                           ></AvatarBadge>
@@ -96,7 +102,7 @@ const ProfileModel: React.FC = () => {
                           >
                             <HStack w="full" mt={6} justifyContent="start">
                               <Heading size="xs" fontSize="xs">
-                                Company Name
+                                所属名
                               </Heading>
                               <Text color="gray.500" fontSize="xs">
                                 {profileState.companyName}
@@ -104,7 +110,7 @@ const ProfileModel: React.FC = () => {
                             </HStack>
                             <HStack w="full" mt={6} justifyContent="start">
                               <Heading size="xs" fontSize="xs">
-                                Company Profile
+                                所属組織の紹介
                               </Heading>
                               <Text color="gray.500" fontSize="xs">
                                 {profileState.companyProfile}
@@ -112,7 +118,7 @@ const ProfileModel: React.FC = () => {
                             </HStack>
                             <HStack w="full" mt={6} justifyContent="start">
                               <Heading size="xs" fontSize="xs">
-                                Work profile
+                                業種または職業プロフィール
                               </Heading>
                               <Text color="gray.500" fontSize="xs">
                                 {profileState.workProfile}
@@ -120,7 +126,7 @@ const ProfileModel: React.FC = () => {
                             </HStack>
                             <Flex flexDirection="column" w="full" mt={6}>
                               <Heading mb={2} size="xs" fontSize="xs">
-                                PR
+                                自己紹介文
                               </Heading>
                               <Text
                                 w="full"
@@ -132,47 +138,33 @@ const ProfileModel: React.FC = () => {
                               </Text>
                             </Flex>
                           </VStack>
-                          {currentUser.id !== profileState.id ? 
-                          <HStack justifyContent="space-between" mt={4} w="sm">
-                            <Button
-                              _hover={{
-                                bg: "white",
-                                border: "1px solid",
-                                borderColor: "red.500",
-                                color: "red.500",
-                              }}
-                              type="submit"
-                              fontSize="10pt"
-                              fontWeight={700}
-                              bg="red.500"
-                              color="white"
-                              variant="solid"
-                              height="36px"
-                              width="100%"
-                              className="my__button"
+                          {currentUser.id !== profileState.id ? (
+                            <HStack
+                              justifyContent="space-between"
+                              mt={4}
+                              w="sm"
                             >
-                              Send Talk Request
-                            </Button>
-                            <Button
-                              _hover={{
-                                bg: "white",
-                                border: "1px solid",
-                                borderColor: "red.500",
-                                color: "red.500",
-                              }}
-                              type="submit"
-                              fontSize="10pt"
-                              fontWeight={700}
-                              bg="red.500"
-                              color="white"
-                              variant="solid"
-                              height="36px"
-                              width="100%"
-                              className="my__button"
-                            >
-                              Send Message
-                            </Button>
-                          </HStack> : null }
+                              <Button
+                                _hover={{
+                                  bg: "white",
+                                  border: "1px solid",
+                                  borderColor: "red.500",
+                                  color: "red.500",
+                                }}
+                                type="submit"
+                                fontSize="10pt"
+                                fontWeight={700}
+                                bg="red.500"
+                                color="white"
+                                variant="solid"
+                                height="36px"
+                                width="100%"
+                                className="my__button"
+                              >
+                                メッセージ送信
+                              </Button>
+                            </HStack>
+                          ) : null}
                         </Box>
                       </Flex>
                     </Box>

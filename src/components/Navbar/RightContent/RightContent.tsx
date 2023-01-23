@@ -18,6 +18,7 @@ import "../../homepage.css";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { userStatusModelState } from "../../../atoms/userStatusModelState";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
+import StatusModel from "../../Model/Status/StatusModel";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -80,11 +81,10 @@ const RightContent: React.FC = () => {
     navigate(`/profile/${currentUser.id}`);
   };
 
-  console.log('current user logout state ' + userLogout.currentUserLoggedOut)
-
   return (
     <>
       <AuthModel />
+      <StatusModel />
       <Flex justify="center" align="center">
         {!userLogout.currentUserLoggedOut ? (
           <Tooltip label="Change Talk status" placement="bottom">
@@ -129,14 +129,14 @@ const RightContent: React.FC = () => {
                 <MenuItem
                   size="xs"
                   mt={2}
-                  fontSize="10pt"
+                  fontSize="8pt"
                   fontWeight={700}
                   onClick={handleUserNameClick}
                   as={Button}
                   className="my__button"
                   style={{ outline: "none" }}
                 >
-                  Go to profile
+                  プロフィールへ
                 </MenuItem>
                 <MenuItem
                   size="xs"
@@ -147,7 +147,7 @@ const RightContent: React.FC = () => {
                     borderColor: "red.500",
                     color: "red.500",
                   }}
-                  fontSize="10pt"
+                  fontSize="8pt"
                   fontWeight={700}
                   bg="red.500"
                   color="white"
@@ -155,7 +155,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                  Dashboard
+                 ダッシュボード 
                 </MenuItem>
                 <MenuItem
                   size="xs"
@@ -166,7 +166,7 @@ const RightContent: React.FC = () => {
                     borderColor: "red.500",
                     color: "red.500",
                   }}
-                  fontSize="10pt"
+                  fontSize="8pt"
                   fontWeight={700}
                   bg="red.500"
                   color="white"

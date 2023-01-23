@@ -179,12 +179,12 @@ const Login: React.FC = () => {
       >
         ログイン
       </Button>
-      <Flex justifyContent="center" mb={2}>
-        <Text fontSize="9pt" mr={1}>
+      <Flex justifyContent="center" mb={2} flexDirection={'column'} alignItems='center'>
+        <Text fontSize={{ base: "8pt", lg: "9pt"}} mr={1}>
           パスワードを忘れた方はこちら
         </Text>
         <Text
-          fontSize="9pt"
+          fontSize={{ base: "8pt", lg: "9pt"}}
           color="red.500"
           cursor="pointer"
           onClick={() =>
@@ -209,6 +209,7 @@ const Login: React.FC = () => {
           color="red.500"
           fontWeight={700}
           cursor="pointer"
+          fontSize={{ base: "8pt", lg: "9pt"}}
         >
           ユーザー登録
         </Text>

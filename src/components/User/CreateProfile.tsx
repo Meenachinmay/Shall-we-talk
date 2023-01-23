@@ -34,7 +34,7 @@ const CreateProfile: React.FC = () => {
   const [hobbies, setHobbies] = useState("");
   const [pet, setPet] = useState("");
   const [pr, setPr] = useState("");
-  const [profileImage, setProfileImage] = useState<String | null>(null);
+  const [profileImage, setProfileImage] = useState<string>("");
   const [currentUser] = useRecoilState(currentUserState);
   const setCurrentProfile = useSetRecoilState(currentUserProfileState)
   const [loading, setLoading] = useState(false)
@@ -70,7 +70,7 @@ const CreateProfile: React.FC = () => {
       );
 
       setLoading(false);
-      setProfileImage(null)
+      setProfileImage("")
 
       toast({
         title: "Profile created",
@@ -153,22 +153,20 @@ const CreateProfile: React.FC = () => {
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
               <Flex alignItems={'center'}>
                 <Avatar
-                  name="Chinmay anand"
-                  onClick={() => alert("hello world")}
+                  name={owner}
                   size="xl"
-                  src="https://cdn-icons-png.flaticon.com/512/6426/6426232.png"
+                  src={profileImage}
                 >
-                  <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
                 </Avatar>
                  <div>
-                    <label className="image__upload" htmlFor='file'>Select a new picture</label>
+                    <label className="image__upload" htmlFor='file'>イメージ選択</label>
                   <input 
                   onChange={(event) => setFile(event.target.files![0])} 
                   accept="image/*" 
                   type="file" 
                   id='file' 
                   style={{ display: "none"}}/>
-                  <Button size={'xs'}onClick={handleCreateProfileImage}>Upload</Button>
+                  <Button size={'xs'}onClick={handleCreateProfileImage}>アップロード</Button>
                 </div>
               </Flex>
               <Box w="full" mt={1}>
@@ -177,7 +175,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="name"
-                      placeholder="Please tell us your name."
+                      placeholder="お名前"
                       type="text"
                       mb={2}
                       mt={2}
@@ -201,7 +199,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="email"
-                      placeholder="Email"
+                      placeholder="メールアドレス"
                       type="email"
                       mb={2}
                       mt={2}
@@ -227,7 +225,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="companyName"
                       onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="What is your company name?"
+                      placeholder="所属（会社名・部署名等）"
                       type="text"
                       mb={2}
                       mt={2}
@@ -252,7 +250,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="companyProfile"
                       onChange={(e) => setCompanyProfile(e.target.value)}
-                      placeholder="What is your company profile?"
+                      placeholder="職業プロフィール"
                       type="text"
                       mb={2}
                       mt={2}
@@ -302,7 +300,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="hobbies"
                       onChange={(e) => setHobbies(e.target.value)}
-                      placeholder="Tell us your hobbies."
+                      placeholder="趣味"
                       type="text"
                       mb={2}
                       mt={2}
@@ -327,7 +325,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="pet"
                       onChange={(e) => setPet(e.target.value)}
-                      placeholder="Write about your pet."
+                      placeholder="飼っているペットまたは好きなものについて"
                       type="text"
                       mb={2}
                       mt={2}
@@ -353,7 +351,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="pr"
                       onChange={(e) => setPr(e.target.value)}
-                      placeholder="Write few words about yourself."
+                      placeholder="自己紹介文"
                       type="text"
                       mb={2}
                       mt={2}
@@ -395,7 +393,7 @@ const CreateProfile: React.FC = () => {
                     width="100%"
                     className="my__button"
                   >
-                    Create profile
+                    プロフィール作成
                   </Button>
                 </HStack>
               </Box>

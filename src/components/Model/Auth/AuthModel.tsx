@@ -17,7 +17,7 @@ const AuthModel: React.FC = () => {
 
   return (
     <>
-      <Modal isOpen={modelState.open} onClose={handleClose}>
+      <Modal size={{ base: "xs", sm: "md", md: "lg"}} isOpen={modelState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent bg="red.50">
           <ModalHeader textAlign='center'>
@@ -26,8 +26,8 @@ const AuthModel: React.FC = () => {
             {modelState.view === 'resetPassword' && ''}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center" pb={6} >
-            <Flex direction="column" align="center" justify="center" width="70%">
+          <ModalBody display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+            <Flex direction="column" align="center" justify="center" width={{ base: "100%", sm: "90%", md: "80%", lg: "70%"}}>
               {modelState.view === 'login' || modelState.view === 'signup' ? <>
                 <AuthInputs />
               </> : <ResetPassword />}
