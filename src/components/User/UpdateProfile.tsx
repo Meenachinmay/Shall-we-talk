@@ -168,7 +168,7 @@ const UpdateProfile: React.FC = () => {
 
     return () => unsub();
   }, [firestore]);
-
+ 
   return (
     <VStack h="full" spacing={0} justifyContent="start">
       <Container maxW="3xl">
@@ -183,7 +183,7 @@ const UpdateProfile: React.FC = () => {
             <Box p={6} w="full" h="full" overflow="auto">
               <Stat mt={6}>
                 <StatLabel color="gray.500">Updating Profile of</StatLabel>
-                <StatNumber>{userName}</StatNumber>
+                <StatNumber>{userProfile.name}</StatNumber>
               </Stat>
               <Box w="full">
                 <Divider color="gray.100" />
@@ -191,15 +191,13 @@ const UpdateProfile: React.FC = () => {
               <Flex py={3} flexDirection="column" justifyContent="flex-start">
                 <Flex alignItems={"center"}>
                   <Avatar
-                    name="Chinmay anand"
+                    name={userName}
                     size="xl"
-                    src={userProfile.profileImage}
-                  >
-                    <AvatarBadge bg="green.500" boxSize={6} borderWidth={4} />
-                  </Avatar>
+                    src={profileImage || userProfile.profileImage}
+                  ></Avatar>
                   <div>
                     <label className="image__upload" htmlFor="file">
-                      Select a new picture
+                      イメージ選択
                     </label>
                     <input
                       onChange={(event) => setFile(event.target.files![0])}
@@ -209,19 +207,29 @@ const UpdateProfile: React.FC = () => {
                       style={{ display: "none" }}
                     />
                     <Button size={"xs"} onClick={handleEditProfileImage}>
-                      Upload
+                      アップロード
                     </Button>
                   </div>
                 </Flex>
                 <Box w="full" mt={1}>
                   {uploadingImage ? (
-                    <Progress width={{ base: 'xs', sm: "sm", md: "full" }} value={bytesCount} mt={2} />
+                    <Progress
+                      width={{ base: "xs", sm: "sm", md: "full" }}
+                      value={bytesCount}
+                      mt={2}
+                    />
                   ) : null}
-                  <VStack w="full" h="full" spacing={4} overflowY="auto">
-                    <HStack w="full" mt={6} justifyContent="start">
+                  <Flex
+                    w="full"
+                    h="full"
+                    flexDirection={"column"}
+                    overflowY="auto"
+                    alignItems={"center"}
+                  >
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="name"
-                        placeholder="Please tell us your name."
+                        placeholder="お名前"
                         type="text"
                         mb={2}
                         mt={2}
@@ -242,10 +250,10 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="email"
-                        placeholder="Email"
+                        placeholder="メールアドレス"
                         type="email"
                         mb={2}
                         mt={2}
@@ -266,11 +274,11 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="companyName"
                         onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder="What is your company name?"
+                        placeholder="所属（会社名・部署名等）"
                         type="text"
                         mb={2}
                         mt={2}
@@ -290,11 +298,11 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="companyProfile"
                         onChange={(e) => setCompanyProfile(e.target.value)}
-                        placeholder="What is your company profile?"
+                        placeholder="職業プロフィール"
                         type="text"
                         mb={2}
                         mt={2}
@@ -314,11 +322,11 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="workProfile"
                         onChange={(e) => setworkProfile(e.target.value)}
-                        placeholder="What is your work profile."
+                        placeholder="Work profile"
                         type="text"
                         mb={2}
                         mt={2}
@@ -338,11 +346,11 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="hobbies"
                         onChange={(e) => setHobbies(e.target.value)}
-                        placeholder="Tell us your hobbies."
+                        placeholder="趣味"
                         type="text"
                         mb={2}
                         mt={2}
@@ -362,11 +370,11 @@ const UpdateProfile: React.FC = () => {
                         bg="gray.50"
                       />
                     </HStack>
-                    <HStack w="full" mt={6} justifyContent="start">
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="pet"
                         onChange={(e) => setPet(e.target.value)}
-                        placeholder="Write about your pet."
+                        placeholder="飼っているペットまたは好きなものについて"
                         type="text"
                         mb={2}
                         mt={2}
@@ -387,11 +395,11 @@ const UpdateProfile: React.FC = () => {
                       />
                     </HStack>
 
-                    <Flex flexDirection="column" w="full" mt={6}>
+                    <HStack w="full" mt={3} justifyContent="start">
                       <Input
                         name="pr"
                         onChange={(e) => setPr(e.target.value)}
-                        placeholder="Write few words about yourself."
+                        placeholder="自己紹介文"
                         type="text"
                         mb={2}
                         mt={2}
@@ -410,10 +418,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </Flex>
-                  </VStack>
-                  <HStack justifyContent="center" mt={4} w="xs">
+                    </HStack>
                     <Button
+                      mt={5}
                       isLoading={updating}
                       loadingText={"Updating..."}
                       _hover={{
@@ -429,12 +436,12 @@ const UpdateProfile: React.FC = () => {
                       color="white"
                       variant="solid"
                       height="36px"
-                      width="100%"
+                      width={{ base: "80%", lg: "100%" }}
                       className="my__button"
                     >
-                      Update profile
+                      実行
                     </Button>
-                  </HStack>
+                  </Flex>
                 </Box>
               </Flex>
             </Box>
