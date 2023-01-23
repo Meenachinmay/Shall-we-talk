@@ -94,16 +94,19 @@ const Dashboard: React.FC = () => {
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
       let data: UserData[] = [];
-      snapshot.forEach((doc) => {
-        data.push(doc.data() as UserData);
-      });
-      setOnlineUsers(data);
-      setLoading(false);
+      if (snapshot.docChanges().length) {
+        snapshot.forEach((doc) => {
+          data.push(doc.data() as UserData);
+        });
+        setOnlineUsers(data);
+        setLoading(false);
+      }
     });
+
     return () => {
       unsub2();
     };
-  }, [firestore]);
+  }, [setOnlineUsers]);
 
   // creating a badge based upon the talk status of the user
   const badge = (user: UserData) => {
@@ -238,6 +241,7 @@ const Dashboard: React.FC = () => {
                     profileImage={user.profileImage}
                     userName={user.name}
                     userId={user.id}
+                    currentLoggedInUser={currentUser.id}
                   />
                 ))}
               </Layer>
@@ -302,7 +306,16 @@ const Dashboard: React.FC = () => {
                     <Text fontSize="xs" fontWeight="semibold">
                       {user.name}
                     </Text>
-                    <Text fontSize={{ base: "10px", sm: "10px", md: "xs", lg: "xs"}}>{user.companyName}</Text>
+                    <Text
+                      fontSize={{
+                        base: "10px",
+                        sm: "10px",
+                        md: "xs",
+                        lg: "xs",
+                      }}
+                    >
+                      {user.companyName}
+                    </Text>
                   </Flex>
                 </Flex>
                 <Flex
@@ -343,7 +356,7 @@ const Dashboard: React.FC = () => {
                         bg: "white",
                         color: "red.500",
                       }}
-                      size={{ base: "xxs", sm:"xxs", md: "xs", lg: "xs"}}
+                      size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                       p={1}
                       onClick={() => handleShowProfile(user)}
                       className="my__button"
@@ -360,7 +373,7 @@ const Dashboard: React.FC = () => {
                         color: "red.500",
                         border: "1px solid",
                       }}
-                      size={{ base: "xxs", sm:"xxs", md: "xs", lg: "xs"}}
+                      size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                       p={1}
                       style={{ fontSize: "9px" }}
                       onClick={() => navigate(`/profile/${user.id}`)}

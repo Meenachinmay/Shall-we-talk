@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
-import useronline from "../images/useronline.jpg";
-import useroffline from "../images/useroffline.jpg";
-import userletstalk from "../images/userletstalk.jpg";
 import { Html } from "react-konva-utils";
 
 import "../components/messagePopUp.css";
@@ -22,6 +19,7 @@ type UserProps = {
   profileImage: string;
   userName: string;
   userId: string;
+  currentLoggedInUser: string;
   userClicked: string;
 };
 
@@ -38,6 +36,7 @@ const User: React.FC<UserProps> = ({
   profileImage,
   userName,
   userId,
+  currentLoggedInUser,
   userClicked,
 }: UserProps) => {
   const [dragUser, setDragUser] = useState<boolean>(false);
@@ -45,34 +44,48 @@ const User: React.FC<UserProps> = ({
     x: number;
     y: number;
   }>({ x: x, y: y });
-  let [imageOnline] = useImage(useronline);
-  let [imageOffline] = useImage(useroffline);
-  let [imageReady] = useImage(userletstalk);
-  let [defaultImage] = useImage(useroffline);
   let [profileImg] = useImage(profileImage);
 
   const handleIconDragStart = (e: KonvaEventObject<DragEvent>) => {
-    setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
     setDragUser(true);
+    setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
   };
 
   const handleIconDragEnd = (e: KonvaEventObject<DragEvent>) => {
     setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
     setDragUser(false);
   };
+ 
+  function handleMouseEnter() {
+    if (currentLoggedInUser === userId) {
+      setDragUser(true);
+    } else {
+      setDragUser(false);
+    }
+  }
 
   return (
     <>
       <Image
         x={x}
         y={y}
+        stroke={`${
+          status === "want_to_talk"
+            ? "#38A169"
+            : status === "do_not_want_to_talk"
+            ? "#E53E3E"
+            : "#63B3ED"
+        }`}
+        strokeWidth={10}
+        lineJoin="round"
         image={profileImg}
         width={width}
         height={height}
-        draggable
+        draggable={dragUser}
         onDragStart={(e) => handleIconDragStart(e)}
         onDragEnd={(e) => handleIconDragEnd(e)}
         onClick={() => alert(status)}
+        onMouseEnter={() => handleMouseEnter()}
       />
       {highLightUser && userId === userClicked ? (
         <Html
@@ -96,13 +109,12 @@ const User: React.FC<UserProps> = ({
                   ? "#E53E3E"
                   : "#63B3ED"
               }`,
-              fontSize: "15px",
+              fontSize: "10px",
               backgroundColor: "white",
               padding: "10px",
               width: "150px",
               textAlign: "start",
             }}
-            onClick={() => alert("clicked")}
           >
             <div style={{ display: "flex" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
