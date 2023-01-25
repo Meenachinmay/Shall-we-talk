@@ -49,7 +49,7 @@ const StatusModel: React.FC = () => {
             <VStack>
               <Text>トークステータスの変更</Text>
               <Text color="gray.400" fontSize="xs" textOverflow="hidden">
-                トークステータスが赤色の場合、他のユーザーは貴方にトークリクエストを送ることができなくなります
+                このトークステータスより他のユーザーはあなたが会話可能かどうか判断します。作業中の場合は「話しかけNG」にセットしてください。
               </Text>
             </VStack>
           </ModalHeader>

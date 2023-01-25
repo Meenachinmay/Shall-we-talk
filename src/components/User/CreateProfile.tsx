@@ -275,7 +275,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="workProfile"
                       onChange={(e) => setworkProfile(e.target.value)}
-                      placeholder="What is your work profile."
+                      placeholder="職業プロフィール"
                       type="text"
                       mb={2}
                       mt={2}

@@ -138,7 +138,7 @@ const ProfileModel: React.FC = () => {
                               </Text>
                             </Flex>
                           </VStack>
-                          {currentUser.id !== profileState.id ? (
+                          {/* {currentUser.id !== profileState.id ? (
                             <HStack
                               justifyContent="space-between"
                               mt={4}
@@ -164,7 +164,7 @@ const ProfileModel: React.FC = () => {
                                 メッセージ送信
                               </Button>
                             </HStack>
-                          ) : null}
+                          ) : null} */}
                         </Box>
                       </Flex>
                     </Box>

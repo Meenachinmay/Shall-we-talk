@@ -326,7 +326,7 @@ const UpdateProfile: React.FC = () => {
                       <Input
                         name="workProfile"
                         onChange={(e) => setworkProfile(e.target.value)}
-                        placeholder="Work profile"
+                        placeholder="職業プロフィール"
                         type="text"
                         mb={2}
                         mt={2}
