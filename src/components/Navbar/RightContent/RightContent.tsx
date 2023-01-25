@@ -75,6 +75,7 @@ const RightContent: React.FC = () => {
     }))
     setLoading(false);
     signOut(auth);
+    localStorage.removeItem('recoil-persist')
   };
 
   const handleUserNameClick = () => {
