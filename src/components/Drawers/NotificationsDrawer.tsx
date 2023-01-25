@@ -93,7 +93,7 @@ const NotificationsDrawer = () => {
                 />
               ))}
               {notifications.length === 0 ? (
-                <Text fontSize="sm">No notifications for you as of now.</Text>
+                <Text fontSize="sm">現在通知なし</Text>
               ) : null}
             </DrawerBody>
           )}
