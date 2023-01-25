@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
 import { Html } from "react-konva-utils";
 
 import "../components/messagePopUp.css";
+import Konva from "konva";
 
 type UserProps = {
   x: number;
@@ -53,9 +54,11 @@ const User: React.FC<UserProps> = ({
 
   const handleIconDragEnd = (e: KonvaEventObject<DragEvent>) => {
     setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
-    setDragUser(false);
+    //setDragUser(false);
+    handleMouseEnter()
   };
- 
+
+  //this method is controlling the drag and drop auth issues in the virtual space
   function handleMouseEnter() {
     if (currentLoggedInUser === userId) {
       setDragUser(true);
@@ -63,6 +66,7 @@ const User: React.FC<UserProps> = ({
       setDragUser(false);
     }
   }
+  console.log("Drag user " + dragUser)
 
   return (
     <>
@@ -76,7 +80,7 @@ const User: React.FC<UserProps> = ({
             ? "#E53E3E"
             : "#63B3ED"
         }`}
-        strokeWidth={10}
+        strokeWidth={8}
         lineJoin="round"
         image={profileImg}
         width={width}
