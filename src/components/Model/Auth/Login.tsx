@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { auth, firestore } from "../../firebase/clientApp";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import "../../homepage.css";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
@@ -22,7 +22,9 @@ const Login: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
-  const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
+  const [userLogout, setCurrentUserLogoutState] = useRecoilState(
+    currentUserLogoutState
+  );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,10 +42,28 @@ const Login: React.FC = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          // setting global state for current user name
+          // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
           setCurrentUserProfileState((prev) => ({
             ...prev,
+            id: userC.user.uid,
             name: docSnap.data().name,
+            companyName: docSnap.data().companyName,
+            companyProfile: docSnap.data().companyProfile,
+            profileImage: docSnap.data().profileImage,
+            pet: docSnap.data().pet,
+            pr: docSnap.data().pr,
+            status: docSnap.data().status,
+            hobbies: docSnap.data().hobbies,
+            workProfile: docSnap.data().workProfile
+          }));
+
+          // setting current user state (id, email, online, status)
+          setCurrentUserState((prev) => ({
+            ...prev,
+            id: userC.user.uid,
+            email: userC.user.email!,
+            online: "true",
+            status: "do_not_want_to_talk",
           }));
 
           // here add user in vs-user's collection
@@ -66,16 +86,11 @@ const Login: React.FC = () => {
           navigate(`/create-profile`);
         }
 
-        setCurrentUserState((prev) => ({
-          ...prev,
-          id: userC.user.uid,
-          email: userC.user.email!,
-        }))
         setCurrentUserLogoutState((prev) => ({
           ...prev,
-          currentUserLoggedOut: false
-        }))
-        
+          currentUserLoggedOut: false,
+        }));
+
         setLoading(false);
 
         setAuthModelState((prev) => ({
@@ -179,12 +194,17 @@ const Login: React.FC = () => {
       >
         ログイン
       </Button>
-      <Flex justifyContent="center" mb={2} flexDirection={'column'} alignItems='center'>
-        <Text fontSize={{ base: "8pt", lg: "9pt"}} mr={1}>
+      <Flex
+        justifyContent="center"
+        mb={2}
+        flexDirection={"column"}
+        alignItems="center"
+      >
+        <Text fontSize={{ base: "8pt", lg: "9pt" }} mr={1}>
           パスワードを忘れた方はこちら
         </Text>
         <Text
-          fontSize={{ base: "8pt", lg: "9pt"}}
+          fontSize={{ base: "8pt", lg: "9pt" }}
           color="red.500"
           cursor="pointer"
           onClick={() =>
@@ -209,7 +229,7 @@ const Login: React.FC = () => {
           color="red.500"
           fontWeight={700}
           cursor="pointer"
-          fontSize={{ base: "8pt", lg: "9pt"}}
+          fontSize={{ base: "8pt", lg: "9pt" }}
         >
           ユーザー登録
         </Text>
