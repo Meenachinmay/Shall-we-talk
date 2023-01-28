@@ -9,7 +9,6 @@ import {
   Container,
   Divider,
   Avatar,
-  AvatarBadge,
   Button,
   Input,
   Progress,

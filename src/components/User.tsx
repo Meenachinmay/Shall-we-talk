@@ -5,7 +5,8 @@ import useImage from "use-image";
 import { Html } from "react-konva-utils";
 
 import "../components/messagePopUp.css";
-import Konva from "konva";
+import { doc, updateDoc } from "firebase/firestore";
+import { firestore } from "./firebase/clientApp";
 
 type UserProps = {
   x: number;
@@ -47,15 +48,21 @@ const User: React.FC<UserProps> = ({
   }>({ x: x, y: y });
   let [profileImg] = useImage(profileImage);
 
-  const handleIconDragStart = (e: KonvaEventObject<DragEvent>) => {
+  const handleIconDragStart = async (e: KonvaEventObject<DragEvent>) => {
     setDragUser(true);
-    setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
+    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() }); 
   };
 
-  const handleIconDragEnd = (e: KonvaEventObject<DragEvent>) => {
-    setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
+  const handleIconDragEnd = async (e: KonvaEventObject<DragEvent>) => {
+    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
+
+    await updateDoc(doc(firestore, `vs-users/userId-${userId}`), {
+      userPosX: e.target.x(),
+      userPosY: e.target.y(),
+    });
+
     //setDragUser(false);
-    handleMouseEnter()
+    handleMouseEnter();
   };
 
   //this method is controlling the drag and drop auth issues in the virtual space
@@ -66,7 +73,7 @@ const User: React.FC<UserProps> = ({
       setDragUser(false);
     }
   }
-  console.log("Drag user " + dragUser)
+  console.log("Drag user " + dragUser);
 
   return (
     <>
