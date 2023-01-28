@@ -1,6 +1,6 @@
 version: '3'
 services:  
-  swtapp:
+  swtapp: #name of your application
     build:
       context: ./
       dockerfile: ./Dockerfile
