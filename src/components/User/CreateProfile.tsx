@@ -250,7 +250,7 @@ const CreateProfile: React.FC = () => {
                     <Input
                       name="companyProfile"
                       onChange={(e) => setCompanyProfile(e.target.value)}
-                      placeholder="職業プロフィール"
+                      placeholder="所属組織の紹介"
                       type="text"
                       mb={2}
                       mt={2}
