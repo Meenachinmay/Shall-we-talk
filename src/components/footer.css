@@ -50,9 +50,12 @@
 
 .footer-bottom {
     background-color: #F56565;
+    /* background-color: blue; */
     width: 100vw;
     padding: 10px 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .footer-bottom p {
@@ -65,4 +68,9 @@
     text-transform: uppercase;
     opacity: .4;
     font-weight: 200;
+}
+
+.privacy__policy {
+    text-decoration: underline;
+    margin-left: 20px;
 }

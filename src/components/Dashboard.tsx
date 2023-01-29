@@ -376,7 +376,7 @@ const Dashboard: React.FC = () => {
                       size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                       p={1}
                       style={{ fontSize: "9px" }}
-                      onClick={() => navigate(`/profile/${user.id}`)}
+                      onClick={() => navigate(`/profile/${user.id}/${user.status}`)}
                     >
                       メッセージ
                     </Button>
