@@ -32,17 +32,18 @@ const PrivacyPolicyModel: React.FC = () => {
 
   useEffect(() => {
     getDownloadURL(
-      ref(storage, "Shall We Talkプライバシーポリシー.docx")
+      ref(storage, "Shall We Talkプライバシーポリシー.pdf")
     ).then((url) => {
-      setURL1(url1);
+      setURL1(url);
     });
 
     getDownloadURL(
-      ref(storage, "Shall We Talk利用規約.docx")
+      ref(storage, "Shall We Talk利用規約.pdf")
     ).then((url) => {
-      setURL2(url2);
+      setURL2(url);
     });
-  }, []);
+  });
+
  
   return (
     <>
@@ -74,12 +75,12 @@ const PrivacyPolicyModel: React.FC = () => {
                   You can download privacy policies from here.
                 </Text>
                 <Flex>
-                  <a href={url1}>
+                  <a href={url1} target="_blank" rel="noreferrer">
                     <Button size={'sm'} mr={5} bg="red.500" color={"white"} _hover={{ bg: "white", border: "1px solid", borderColor: 'red.500', color: "red.500"}}>
                       ゚ライバシーポリシー
                     </Button>
                   </a>
-                  <a href={url2}>
+                  <a href={url2} target="_blank" rel="noreferrer">
                     <Button size="sm" bg="red.500" color={"white"} _hover={{ bg: "white", border: "1px solid", borderColor: 'red.500', color: "red.500" }}>
                       利用規約
                     </Button>
