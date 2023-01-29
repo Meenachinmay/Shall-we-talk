@@ -51,7 +51,7 @@ const ViewProfile: React.FC = () => {
   const connectionCol = collection(firestore, "connections");
   const profileCol = collection(firestore, "userProfiles");
   const messageCol = collection(firestore, "messages");
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
+  const [currentUser] = useRecoilState(currentUserState);
   const [sendMessageState, setSendMessageModelState] = useRecoilState(
     sendMessageModelState
   );
@@ -90,43 +90,44 @@ const ViewProfile: React.FC = () => {
   const [fetchingConnection, setFetchingConnection] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{ status: string }>({ status: "" });
   const { id } = useParams();
 
   //プロフィール写真をアップデートするために、これを実装してください。
 
-  const handleSendRequest = async () => {
-    try {
-      setSendRequest(true);
-      await setDoc(
-        doc(firestore, `connections/connectionId-${currentUser.id}`),
-        {
-          connected: false,
-          status: "pending",
-          user1: currentUser.id,
-          user2: id,
-        }
-      );
+  // const handleSendRequest = async () => {
+  //   try {
+  //     setSendRequest(true);
+  //     await setDoc(
+  //       doc(firestore, `connections/connectionId-${currentUser.id}`),
+  //       {
+  //         connected: false,
+  //         status: "pending",
+  //         user1: currentUser.id,
+  //         user2: id,
+  //       }
+  //     );
 
-      // create a new notification for receiver of this connection request (user2 => sender)
-      try {
-        await setDoc(
-          doc(firestore, `notifications/notificationId-${currentUser.id}`),
-          {
-            message: `${currentUser.email} sent you a talk request.`,
-            receiver: id,
-            sender: currentUser.email,
-            type: "requestSent",
-            seen: false,
-          }
-        );
-      } catch (error) {
-        console.log("notification creation error ");
-      }
-      setSendRequest(false);
-    } catch (error) {
-      console.log("create connection request " + error);
-    }
-  };
+  //     // create a new notification for receiver of this connection request (user2 => sender)
+  //     try {
+  //       await setDoc(
+  //         doc(firestore, `notifications/notificationId-${currentUser.id}`),
+  //         {
+  //           message: `${currentUser.email} sent you a talk request.`,
+  //           receiver: id,
+  //           sender: currentUser.email,
+  //           type: "requestSent",
+  //           seen: false,
+  //         }
+  //       );
+  //     } catch (error) {
+  //       console.log("notification creation error ");
+  //     }
+  //     setSendRequest(false);
+  //   } catch (error) {
+  //     console.log("create connection request " + error);
+  //   }
+  // };
 
   const handleSendMessage = () => {
     setSendMessageModelState({ open: true });
@@ -177,43 +178,73 @@ const ViewProfile: React.FC = () => {
       setLoading(false);
     });
 
-    const q = query(
-      connectionCol,
-      where("user1", "==", `${currentUser.id}`),
-      where("user2", "==", `${id}`),
+    const onlineUserQuery = query(
+      collection(firestore, "vs-users"),
+      where("id", "==", `${id}`),
       limit(1)
     );
-    const q2 = query(
-      connectionCol,
-      where("user1", "==", `${id}`),
-      where("user2", "==", `${currentUser.id}`),
-      limit(1)
-    );
-
-    setFetchingConnection(true);
-    const unsub2 = onSnapshot(q, (snapShot) => {
+    const unsub2 = onSnapshot(onlineUserQuery, (snapShot) => {
       snapShot.forEach((doc) => {
-        setConnection(doc.data() as Connection);
+        setStatus({ status: doc.data().status });
       });
-      setFetchingConnection(false);
     });
 
-    setFetchingConnection(true);
-    const unsub3 = onSnapshot(q2, (snapShot) => {
-      snapShot.forEach((doc) => {
-        setConnection(doc.data() as Connection);
-      });
-      setFetchingConnection(false);
-    });
+    // const q = query(
+    //   connectionCol,
+    //   where("user1", "==", `${currentUser.id}`),
+    //   where("user2", "==", `${id}`),
+    //   limit(1)
+    // );
+    // const q2 = query(
+    //   connectionCol,
+    //   where("user1", "==", `${id}`),
+    //   where("user2", "==", `${currentUser.id}`),
+    //   limit(1)
+    // );
+
+    // setFetchingConnection(true);
+    // const unsub2 = onSnapshot(q, (snapShot) => {
+    //   snapShot.forEach((doc) => {
+    //     setConnection(doc.data() as Connection);
+    //   });
+    //   setFetchingConnection(false);
+    // });
+
+    // setFetchingConnection(true);
+    // const unsub3 = onSnapshot(q2, (snapShot) => {
+    //   snapShot.forEach((doc) => {
+    //     setConnection(doc.data() as Connection);
+    //   });
+    //   setFetchingConnection(false);
+    // });
 
     const revokeEverything = () => {
-      unsub()
-      unsub2()
-      unsub3()
-    }
+      unsub();
+      unsub2();
+      // unsub3()
+    };
 
-    return () => revokeEverything()
+    return () => revokeEverything();
   }, [firestore, id]);
+
+  function renderEditButton() {
+    if (currentUser.id === id) {
+      return (
+        <div>
+          <Button
+            size={"sm"}
+            fontSize={"xs"}
+            ml={3}
+            bg="red.400"
+            color="white"
+            onClick={() => navigate(`/update-profile/${currentUser.id}`)}
+          >
+            プロフィール編集
+          </Button>
+        </div>
+      );
+    }
+  }
 
   return (
     <VStack h="full" spacing={0}>
@@ -242,21 +273,18 @@ const ViewProfile: React.FC = () => {
                   src={userProfile.profileImage}
                 >
                   <AvatarBadge
-                    bg="green.500"
+                    bg={
+                      status.status === "want_to_talk"
+                        ? `green.500`
+                        : status.status === "do_not_want_to_talk"
+                        ? `red.500`
+                        : "blue.500"
+                    }
                     boxSize={6}
                     borderWidth={4}
                   ></AvatarBadge>
                 </Avatar>
-                <Button
-                  size={"sm"}
-                  fontSize={"xs"}
-                  ml={3}
-                  bg="red.400"
-                  color="white"
-                  onClick={() => navigate(`/update-profile/${currentUser.id}`)}
-                >
-                  プロフィール編集
-                </Button>
+               { renderEditButton()} 
               </Flex>
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">

@@ -103,8 +103,8 @@ const User: React.FC<UserProps> = ({
           divProps={{
             style: {
               position: "absolute",
-              top: `${currentUserPos.y - 60}px`,
-              left: `${currentUserPos.x + 30}px`,
+              top: `${y - 60}px`,
+              left: `${x + 30}px`,
             },
           }}
         >
