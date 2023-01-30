@@ -50,7 +50,7 @@ const NotificationsDrawer = () => {
 
   return (
     <>
-      <Tooltip label="Notification" placement="bottom">
+      <Tooltip label="通知" placement="bottom">
         <IconButton
           ref={btnRef}
           onClick={onOpen}
@@ -60,7 +60,7 @@ const NotificationsDrawer = () => {
           ml={2}
           size="sm"
           display={{ base: "flex", sm: "inherit" }}
-          aria-label="Notification"
+          aria-label="通知"
         />
       </Tooltip>
 
@@ -74,7 +74,7 @@ const NotificationsDrawer = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Notifications</DrawerHeader>
+          <DrawerHeader>通知</DrawerHeader>
 
           {loading ? (
             <DrawerBody>

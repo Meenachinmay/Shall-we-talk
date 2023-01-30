@@ -88,7 +88,7 @@ const RightContent: React.FC = () => {
       <StatusModel />
       <Flex justify="center" align="center">
         {!userLogout.currentUserLoggedOut ? (
-          <Tooltip label="Change Talk status" placement="bottom">
+          <Tooltip label="トークステータスの変更" placement="bottom">
             <Image
               h={10}
               w={10}
@@ -100,7 +100,7 @@ const RightContent: React.FC = () => {
           </Tooltip>
         ) : null}
 
-        <NotificationsDrawer />
+        {!userLogout.currentUserLoggedOut ? <NotificationsDrawer /> : null }
 
         {!userLogout.currentUserLoggedOut ? (
           <>
