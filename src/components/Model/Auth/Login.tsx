@@ -6,10 +6,11 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { auth, firestore } from "../../firebase/clientApp";
-import { doc, DocumentSnapshot, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import "../../homepage.css";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
+import { generateRandomPositions } from "../../../utilservices/ExternalMethods";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -74,8 +75,8 @@ const Login: React.FC = () => {
               name: docSnap.data().name,
               online: true,
               status: "do_not_want_to_talk",
-              userPosX: 150,
-              userPosY: 150,
+              userPosX: generateRandomPositions(100, 500).x,
+              userPosY: generateRandomPositions(100, 500).y,
               profileImage: docSnap.data().profileImage,
             });
           } catch (error) {
@@ -99,8 +100,8 @@ const Login: React.FC = () => {
         }));
 
         toast({
-          title: "Login success",
-          description: "Logged in successfully.",
+          title: "ログイン成功！",
+          description: "SWTでの体験をお楽しみください",
           status: "success",
           duration: 4000,
           isClosable: true,
@@ -112,8 +113,8 @@ const Login: React.FC = () => {
         setLoading(false);
         if (error.message === "Firebase: Error (auth/wrong-password).") {
           toast({
-            title: "Server Error",
-            description: "You have entered wrong password.",
+            title: "サーバーエラー",
+            description: "このメールアドレスは登録されていません",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -123,8 +124,8 @@ const Login: React.FC = () => {
 
         if ((error.message = "Firebase: Error (auth/user-not-found).")) {
           toast({
-            title: "Server Error",
-            description: "This email does not exists at our server.",
+            title: "サーバーエラー",
+            description: "このメールアドレスは登録されていません",
             status: "error",
             duration: 3000,
             isClosable: true,

@@ -37,14 +37,11 @@ const PrivacyPolicyModel: React.FC = () => {
       setURL1(url);
     });
 
-    getDownloadURL(
-      ref(storage, "Shall We Talk利用規約.pdf")
-    ).then((url) => {
+    getDownloadURL(ref(storage, "Shall We Talk利用規約.pdf")).then((url) => {
       setURL2(url);
     });
   });
 
- 
   return (
     <>
       <Modal isOpen={privacyPolicyModel.open} onClose={handleClose}>
@@ -72,16 +69,37 @@ const PrivacyPolicyModel: React.FC = () => {
                 alignItems={"center"}
               >
                 <Text mb={10}>
-                  You can download privacy policies from here.
+                  SWTの利用規約とプライバシーポリシーはこちらから確認できます。
                 </Text>
                 <Flex>
                   <a href={url1} target="_blank" rel="noreferrer">
-                    <Button size={'sm'} mr={5} bg="red.500" color={"white"} _hover={{ bg: "white", border: "1px solid", borderColor: 'red.500', color: "red.500"}}>
+                    <Button
+                      size={"sm"}
+                      mr={5}
+                      bg="red.500"
+                      color={"white"}
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "red.500",
+                        color: "red.500",
+                      }}
+                    >
                       ゚ライバシーポリシー
                     </Button>
                   </a>
                   <a href={url2} target="_blank" rel="noreferrer">
-                    <Button size="sm" bg="red.500" color={"white"} _hover={{ bg: "white", border: "1px solid", borderColor: 'red.500', color: "red.500" }}>
+                    <Button
+                      size="sm"
+                      bg="red.500"
+                      color={"white"}
+                      _hover={{
+                        bg: "white",
+                        border: "1px solid",
+                        borderColor: "red.500",
+                        color: "red.500",
+                      }}
+                    >
                       利用規約
                     </Button>
                   </a>

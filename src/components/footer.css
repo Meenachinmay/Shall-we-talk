@@ -73,4 +73,5 @@
 .privacy__policy {
     text-decoration: underline;
     margin-left: 20px;
+    cursor: pointer;
 }
