@@ -183,6 +183,7 @@ const ViewProfile: React.FC = () => {
       where("id", "==", `${id}`),
       limit(1)
     );
+
     const unsub2 = onSnapshot(onlineUserQuery, (snapShot) => {
       snapShot.forEach((doc) => {
         setStatus({ status: doc.data().status });

@@ -15,7 +15,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Layer, Stage } from "react-konva";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import useImage from "use-image";
@@ -34,6 +34,9 @@ import "../components/homepage.css";
 import { SearchIcon } from "@chakra-ui/icons";
 
 import { useNavigate } from "react-router-dom";
+import { myMessagesModelState } from "../atoms/myMessagesModelState";
+import { Message } from "../types/Message";
+import ViewMessagesModel from "./Model/Message/ViewMessages";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -45,6 +48,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
   const [currentUser] = useRecoilState(currentUserState);
+  const [messageModel, setMyMessagesModelState] = useRecoilState(myMessagesModelState)
   const [searchText, setSearchText] = useState("");
   const [bgimage] = useImage(
     "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
@@ -137,7 +141,7 @@ const Dashboard: React.FC = () => {
           mr={2}
           bg="red.100"
           color="red.800"
-          _hover={{ bg: "green.100", color: "green.800" }}
+          _hover={{ bg: "red.100", color: "red.800" }}
           px={2}
           rounded="md"
           style={{ fontSize: "10px" }}
@@ -165,6 +169,25 @@ const Dashboard: React.FC = () => {
           話しかけOK
         </Button>
       );
+    }
+  };
+
+  const handleSeeMessage = () => {
+    const mq = query(collection(firestore, "messages"), where("to.id", "==", `${currentUser.id}`));
+    try {
+      onSnapshot(mq, (snapShot) => {
+        let data: Message[] = [];
+        snapShot.forEach((doc) => {
+          data.push(doc.data() as Message);
+        });
+        setMyMessagesModelState((prev) => ({
+          ...prev,
+          messages: data,
+          open: true,
+        }));
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -365,21 +388,44 @@ const Dashboard: React.FC = () => {
                     >
                       クイックプロフ
                     </Button>
-                    <Button
-                      bg="red.500"
-                      color="white"
-                      _hover={{
-                        bg: "white",
-                        color: "red.500",
-                        border: "1px solid",
-                      }}
-                      size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
-                      p={1}
-                      style={{ fontSize: "9px" }}
-                      onClick={() => navigate(`/profile/${user.id}/${user.status}`)}
-                    >
-                      メッセージ
-                    </Button>
+                    <ViewMessagesModel />
+                    {currentUser.id !== user.id ? (
+                      <Button
+                        bg="red.500"
+                        color="white"
+                        _hover={{
+                          bg: "white",
+                          color: "red.500",
+                          border: "1px solid",
+                        }}
+                        size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
+                        p={1}
+                        style={{ fontSize: "9px" }}
+                        onClick={() =>
+                          navigate(`/profile/${user.id}`)
+                        }
+                      >
+                        メッセージ送信
+                      </Button>
+                    ) : (
+                      <Button
+                        bg="red.500"
+                        color="white"
+                        _hover={{
+                          bg: "white",
+                          color: "red.500",
+                          border: "1px solid",
+                        }}
+                        size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
+                        p={1}
+                        style={{ fontSize: "9px" }}
+                        onClick={() =>
+                          handleSeeMessage()
+                        }
+                      >
+                        メッセージ
+                      </Button>
+                    )}
                   </Flex>
                 </Flex>
               </Flex>

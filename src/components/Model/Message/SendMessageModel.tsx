@@ -6,14 +6,12 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Button,
   VStack,
   Flex,
-  Input,
   IconButton,
   Textarea,
 } from "@chakra-ui/react";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { useRecoilState, useRecoilValue } from "recoil";
