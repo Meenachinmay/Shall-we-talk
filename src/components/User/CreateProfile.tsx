@@ -195,7 +195,7 @@ const CreateProfile: React.FC = () => {
               </Flex>
               <Box w="full" mt={1}>
                 {uploadingImage ? <Progress value={bytesCount} mt={2} /> : null}
-                <VStack w="full" h="full" spacing={4} overflowY="auto">
+                <VStack w="full" h="full" spacing={4} overflowY="scroll">
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="name"
@@ -345,7 +345,7 @@ const CreateProfile: React.FC = () => {
                       bg="gray.50"
                     />
                   </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  <HStack w="full" mt={6} justifyContent="start" overflowY="scroll">
                     <Input
                       name="pet"
                       onChange={(e) => setPet(e.target.value)}
@@ -368,6 +368,7 @@ const CreateProfile: React.FC = () => {
                         borderColor: "blue.500",
                       }}
                       bg="gray.50"
+                      textOverflow="clip"
                     />
                   </HStack>
 

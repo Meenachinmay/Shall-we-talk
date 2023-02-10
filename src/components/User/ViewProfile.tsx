@@ -289,7 +289,7 @@ const ViewProfile: React.FC = () => {
                 </Avatar>
                { renderEditButton()} 
               </Flex>
-              <Box w="full" mt={1}>
+              <Box w="full" h="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
                   <HStack w="full" mt={6} alignItems="center">
                     <Heading size="xs" minW={48} w={48}>
@@ -338,7 +338,7 @@ const ViewProfile: React.FC = () => {
                       {userProfile.pet}
                     </Text>
                   </HStack>
-                  <Flex flexDirection="column" w="full" mt={6}>
+                  <Flex flexDirection="column" w="full" maxHeight="150px" mt={6} overflowY="scroll">
                     <Heading mb={2} size="xs">
                       自己紹介文
                     </Heading>
@@ -348,7 +348,7 @@ const ViewProfile: React.FC = () => {
                   </Flex>
                 </VStack>
                 {currentUser.id === id ? (
-                  <>
+                  <Flex alignItems='center' justifyContent='center'>
                     <ViewMessages />{" "}
                     <Button
                       _hover={{
@@ -357,7 +357,7 @@ const ViewProfile: React.FC = () => {
                         borderColor: "red.500",
                         color: "red.500",
                       }}
-                      fontSize="10pt"
+                      fontSize={{ base: "8pt", sm: "9pt", md: "10pt"}}
                       fontWeight={700}
                       bg="red.500"
                       color="white"
@@ -372,7 +372,7 @@ const ViewProfile: React.FC = () => {
                     >
                       届いたメッセージを見る
                     </Button>
-                  </>
+                  </Flex>
                 ) : (
                   <HStack justifyContent="space-between" mt={4} w="sm">
                     <>
