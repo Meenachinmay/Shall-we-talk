@@ -11,7 +11,9 @@ import {
   Avatar,
   Button,
   Input,
+  Text,
   Progress,
+  Textarea,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -203,6 +205,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="name"
+                      maxLength={50}
                       placeholder="お名前"
                       type="text"
                       mb={2}
@@ -227,6 +230,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="email"
+                      maxLength={50}
                       placeholder="メールアドレス"
                       type="email"
                       mb={2}
@@ -252,6 +256,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="companyName"
+                      maxLength={50}
                       onChange={(e) => setCompanyName(e.target.value)}
                       placeholder="所属（会社名・部署名等）"
                       type="text"
@@ -277,6 +282,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="companyProfile"
+                      maxLength={100}
                       onChange={(e) => setCompanyProfile(e.target.value)}
                       placeholder="所属組織の紹介"
                       type="text"
@@ -302,6 +308,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="workProfile"
+                      maxLength={50}
                       onChange={(e) => setworkProfile(e.target.value)}
                       placeholder="職業プロフィール"
                       type="text"
@@ -327,6 +334,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="hobbies"
+                      maxLength={50}
                       onChange={(e) => setHobbies(e.target.value)}
                       placeholder="趣味"
                       type="text"
@@ -352,6 +360,7 @@ const CreateProfile: React.FC = () => {
                   <HStack w="full" mt={6} justifyContent="start" overflowY="scroll">
                     <Input
                       name="pet"
+                      maxLength={50}
                       onChange={(e) => setPet(e.target.value)}
                       placeholder="飼っているペットまたは好きなものについて"
                       type="text"
@@ -377,11 +386,13 @@ const CreateProfile: React.FC = () => {
                   </HStack>
 
                   <Flex flexDirection="column" w="full" mt={6}>
-                    <Input
+                      <Text fontSize={{ base: '10px', sm: "10px", md: "xs", lg: "xs"}}>Please write about yourself in 200 characters only.</Text>
+                    <Textarea
+                      resize={'vertical'}
+                      maxLength={200}
                       name="pr"
                       onChange={(e) => setPr(e.target.value)}
                       placeholder="自己紹介文"
-                      type="text"
                       mb={2}
                       mt={2}
                       value={pr}
