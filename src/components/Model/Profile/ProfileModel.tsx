@@ -124,13 +124,12 @@ const ProfileModel: React.FC = () => {
                                 {profileState.workProfile}
                               </Text>
                             </HStack>
-                            <Flex flexDirection="column" w="full" mt={6}>
+                            <Flex flexDirection="column" w="full" maxHeight="150px" mt={6} overflowY="scroll">
                               <Heading mb={2} size="xs" fontSize="xs">
                                 自己紹介文
                               </Heading>
                               <Text
-                                w="full"
-                                h="full"
+                                textOverflow="ellipsis"
                                 fontSize="xs"
                                 color="gray.500"
                               >

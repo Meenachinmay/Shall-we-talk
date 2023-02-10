@@ -44,12 +44,16 @@ const CreateProfile: React.FC = () => {
 
   const setCurrentUserProfileState = useSetRecoilState(currentUserProfileState);
 
+  function putImage() {
+    if (profileImage === "") {
+      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    } else {
+      return profileImage
+    }
+  }
+
   const handleCreateProfile = async () => {
     try {
-      if (!profileImage) {
-        setProfileImage("https://i.pravatar.cc/40");
-      }
-
       setLoading(true);
 
       await setDoc(
@@ -63,7 +67,7 @@ const CreateProfile: React.FC = () => {
           hobbies: hobbies,
           pet: pet,
           pr: pr,
-          profileImage: profileImage,
+          profileImage: putImage() ,
           userId: currentUser.id,
         }
       );
@@ -92,7 +96,7 @@ const CreateProfile: React.FC = () => {
           status: "do_not_want_to_talk",
           userPosX: 150,
           userPosY: 150,
-          profileImage: profileImage,
+          profileImage: putImage(),
         });
       } catch (error) {
         console.log(error);
