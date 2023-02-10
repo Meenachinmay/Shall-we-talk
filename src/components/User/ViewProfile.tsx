@@ -34,6 +34,8 @@ import ViewMessages from "../Model/Message/ViewMessages";
 import { useNavigate } from "react-router-dom";
 
 import "../homepage.css";
+import { imageViewModelState } from "../../atoms/imageViewModelState";
+import ImageViewModel from "../Model/Images/ImageViewModel";
 
 type Connection = {
   id: number;
@@ -90,6 +92,7 @@ const ViewProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ status: string }>({ status: "" });
   const { id } = useParams();
+  const [imageViewModel, setImageViewModelState] = useRecoilState(imageViewModelState)
 
   //プロフィール写真をアップデートするために、これを実装してください。
 
@@ -265,8 +268,9 @@ const ViewProfile: React.FC = () => {
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
               <Flex alignItems={"center"}>
+                <ImageViewModel imageUrl={userProfile.profileImage} />
                 <Avatar
-                  onClick={() => alert("hello world")}
+                  onClick={() => setImageViewModelState({ open: true })}
                   name={userProfile.name}
                   size="xl"
                   src={userProfile.profileImage}
@@ -283,7 +287,7 @@ const ViewProfile: React.FC = () => {
                     borderWidth={4}
                   ></AvatarBadge>
                 </Avatar>
-                {renderEditButton()}
+               { renderEditButton()} 
               </Flex>
               <Box w="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">
