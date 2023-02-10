@@ -44,12 +44,16 @@ const CreateProfile: React.FC = () => {
 
   const setCurrentUserProfileState = useSetRecoilState(currentUserProfileState);
 
+  function putImage() {
+    if (profileImage === "") {
+      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    } else {
+      return profileImage
+    }
+  }
+
   const handleCreateProfile = async () => {
     try {
-      if (!profileImage) {
-        setProfileImage("https://i.pravatar.cc/40");
-      }
-
       setLoading(true);
 
       await setDoc(
@@ -63,7 +67,7 @@ const CreateProfile: React.FC = () => {
           hobbies: hobbies,
           pet: pet,
           pr: pr,
-          profileImage: profileImage,
+          profileImage: putImage() ,
           userId: currentUser.id,
         }
       );
@@ -92,7 +96,7 @@ const CreateProfile: React.FC = () => {
           status: "do_not_want_to_talk",
           userPosX: 150,
           userPosY: 150,
-          profileImage: profileImage,
+          profileImage: putImage(),
         });
       } catch (error) {
         console.log(error);
@@ -195,7 +199,7 @@ const CreateProfile: React.FC = () => {
               </Flex>
               <Box w="full" mt={1}>
                 {uploadingImage ? <Progress value={bytesCount} mt={2} /> : null}
-                <VStack w="full" h="full" spacing={4} overflowY="auto">
+                <VStack w="full" h="full" spacing={4} overflowY="scroll">
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="name"
@@ -345,7 +349,7 @@ const CreateProfile: React.FC = () => {
                       bg="gray.50"
                     />
                   </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  <HStack w="full" mt={6} justifyContent="start" overflowY="scroll">
                     <Input
                       name="pet"
                       onChange={(e) => setPet(e.target.value)}
@@ -368,6 +372,7 @@ const CreateProfile: React.FC = () => {
                         borderColor: "blue.500",
                       }}
                       bg="gray.50"
+                      textOverflow="clip"
                     />
                   </HStack>
 
