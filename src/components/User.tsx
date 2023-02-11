@@ -73,7 +73,6 @@ const User: React.FC<UserProps> = ({
       setDragUser(false);
     }
   }
-  console.log("Drag user " + dragUser);
 
   return (
     <>
