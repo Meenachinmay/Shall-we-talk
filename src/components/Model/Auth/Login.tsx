@@ -219,7 +219,7 @@ const Login: React.FC = () => {
         </Text>
       </Flex>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>アカウントをお持ちのない方？</Text>
+        <Text mr={1}>新規ユーザー様ですか？</Text>
         <Text
           onClick={() =>
             setAuthModelState((prev) => ({

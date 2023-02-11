@@ -156,7 +156,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                 ダッシュボード 
+                 バーチャルスペース 
                 </MenuItem>
                 <MenuItem
                   size="xs"
@@ -175,7 +175,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                  ログアウト
+                  {loading ? "ログアウト中" : "ログアウト" }
                 </MenuItem>
               </MenuList>
             </Menu>
