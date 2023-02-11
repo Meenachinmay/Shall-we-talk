@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
-  collection, 
+  collection,
   limit,
   onSnapshot,
   query,
@@ -38,6 +38,8 @@ import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
 
+import appBg from "../images/bg2.jpg";
+
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
@@ -47,13 +49,13 @@ const Dashboard: React.FC = () => {
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
-  const [messageModel, setMyMessagesModelState] = useRecoilState(myMessagesModelState)
+  const [messageModel, setMyMessagesModelState] =
+    useRecoilState(myMessagesModelState);
   const [searchText, setSearchText] = useState("");
   const [bgimage] = useImage(
     "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
   );
   const navigate = useNavigate();
-
 
   const [currentUser] = useRecoilState(currentUserState);
 
@@ -175,7 +177,10 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSeeMessage = () => {
-    const mq = query(collection(firestore, "messages"), where("to.id", "==", `${currentUser.id}`));
+    const mq = query(
+      collection(firestore, "messages"),
+      where("to.id", "==", `${currentUser.id}`)
+    );
     try {
       onSnapshot(mq, (snapShot) => {
         let data: Message[] = [];
@@ -210,7 +215,17 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <VStack w="full" h="100vh" alignItems="center" p={6}>
+    <VStack
+      w="full"
+      h="100vh"
+      alignItems="center"
+      p={6}
+      style={{
+        flexGrow: "1",
+        backgroundRepeat: "no-repeat",
+        backgroundImage: `url(${appBg})`,
+      }}
+    >
       <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
         <InputLeftElement
           pointerEvents="none"
@@ -403,9 +418,7 @@ const Dashboard: React.FC = () => {
                         size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                         p={1}
                         style={{ fontSize: "9px" }}
-                        onClick={() =>
-                          navigate(`/profile/${user.id}`)
-                        }
+                        onClick={() => navigate(`/profile/${user.id}`)}
                       >
                         メッセージ送信
                       </Button>
@@ -421,9 +434,7 @@ const Dashboard: React.FC = () => {
                         size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                         p={1}
                         style={{ fontSize: "9px" }}
-                        onClick={() =>
-                          handleSeeMessage()
-                        }
+                        onClick={() => handleSeeMessage()}
                       >
                         メッセージ
                       </Button>
