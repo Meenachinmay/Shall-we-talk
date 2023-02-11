@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
-  collection,
+  collection, 
   limit,
   onSnapshot,
   query,
@@ -47,13 +47,15 @@ const Dashboard: React.FC = () => {
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
-  const [currentUser] = useRecoilState(currentUserState);
   const [messageModel, setMyMessagesModelState] = useRecoilState(myMessagesModelState)
   const [searchText, setSearchText] = useState("");
   const [bgimage] = useImage(
     "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
   );
   const navigate = useNavigate();
+
+
+  const [currentUser] = useRecoilState(currentUserState);
 
   // this method shows user profile when user wants to see other user's profile by clicking on user card on dashboard page
   const handleShowProfile = (user: UserData) => {

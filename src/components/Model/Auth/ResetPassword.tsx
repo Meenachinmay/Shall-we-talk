@@ -3,27 +3,35 @@ import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { BsDot, BsBellFill } from "react-icons/bs";
 import { useSetRecoilState } from "recoil";
 import { authModelState } from "../../../atoms/authModelState";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase/clientApp";
 
 const ResetPassword: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModelState);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    //await sendPasswordResetEmail(email);
+    setLoading(true)
+    await sendPasswordResetEmail(auth, email);
+    setLoading(false)
     setSuccess(true);
   };
+
   return (
     <Flex direction="column" alignItems="center" width="100%">
       <Icon as={BsBellFill} color="brand.100" fontSize={40} mb={2} />
-      <Text fontWeight={700} mb={2}>
+      { success ? 
+      <Text fontWeight={700} fontSize={{ base: "xs", sm: "sm", md: "sm"}} mb={2}>
+        お使いのメールアドレスまでパスワードアップデートリンクをお送りいたしました。
+      </Text> : <Text fontWeight={700} mb={2}>
         パスワードをリセットしますか？
-      </Text>
+      </Text> }
       {success ? (
-        <Text mb={4}>Check your email :)</Text>
+        <Text fontSize={'xs'} color="white" fontWeight={700} bg="red.400" p={3} borderRadius={3} mb={4}>お使いのメールアドレスをご確認ください。</Text>
       ) : (
         <>
           <Text color="red.500" fontSize="sm" textAlign="center" mb={2}>
@@ -90,7 +98,7 @@ const ResetPassword: React.FC = () => {
           }
           color="red.500"
         >
-          LOGIN
+          ログイン
         </Text>
         <Icon as={BsDot} />
         <Text
@@ -102,7 +110,7 @@ const ResetPassword: React.FC = () => {
           }
           color="red.500"
         >
-          SIGN UP
+          登録
         </Text>
       </Flex>
     </Flex>
