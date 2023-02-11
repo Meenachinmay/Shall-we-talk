@@ -54,13 +54,13 @@ const handleLogout = async () => {
 
   // useEffect to perform unload events in layout
   useEffect(() => {
-    window.addEventListener('beforeunload', alertUser)
-    window.addEventListener('unload', handleEndConcert)
-    return () => {
-      window.removeEventListener('beforeunload', alertUser)
-      window.removeEventListener('unload', handleEndConcert)
-      handleEndConcert()
-    }
+    // window.addEventListener('beforeunload', alertUser)
+    // window.addEventListener('unload', handleEndConcert)
+    // return () => {
+    //   window.removeEventListener('beforeunload', alertUser)
+    //   window.removeEventListener('unload', handleEndConcert)
+    //   handleEndConcert()
+    // }
   }, [])
 
   //
@@ -80,14 +80,7 @@ const handleLogout = async () => {
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
       >
         <Navbar />
-        <main
-          style={{
-            flexGrow: "1",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundImage: `url(${appBg})`,
-          }}
-        >
+        <main>
           {children}
         </main>
         <Footer />
@@ -97,3 +90,10 @@ const handleLogout = async () => {
 };
 
 export default Layout;
+
+// style={{
+//             flexGrow: "1",
+//             backgroundRepeat: "no-repeat",
+//             backgroundPosition: "center",
+//             backgroundImage: `url(${appBg})`,
+//           }}

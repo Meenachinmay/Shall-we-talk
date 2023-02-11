@@ -171,7 +171,7 @@ const SignUp: React.FC = () => {
         ユーザー登録
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>Already have an account?</Text>
+        <Text mr={1}>すでにご登録いただいた方?</Text>
         <Text
           onClick={() =>
             setAuthModelState((prev) => ({
