@@ -31,8 +31,8 @@ const SignUp: React.FC = () => {
     }
     if (password !== confirmPassword) {
       toast({
-        title: "Form Error",
-        description: "Password do not match with confirm password.",
+        title: "フォウムエラー",
+        description: "パスワードが一致しません。もう一度お確かめください。",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -58,8 +58,8 @@ const SignUp: React.FC = () => {
         navigate(`/create-profile`);
 
         toast({
-          title: "You signed up",
-          description: "Your email has registered with us.",
+          title: "新規登録終わり",
+          description: "ご利用のメールアドレスはデータベースに保存されました。",
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -70,8 +70,8 @@ const SignUp: React.FC = () => {
         setLoading(false);
         if (error.message === "Firebase: Error (auth/email-already-in-use).") {
           toast({
-            title: "Server Error",
-            description: "Somebody has already used this email address.",
+            title: "フォウムエラー",
+            description: "このメールアドレスは既に使用されています。",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -82,8 +82,8 @@ const SignUp: React.FC = () => {
           "Firebase: Password should be at least 6 characters (auth/weak-password)."
         ) {
           toast({
-            title: "Server Error",
-            description: "Password should be at least 6 characters.",
+            title: "フォウムエラー",
+            description: "パスワードは６文字以上に設定してください。",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -96,7 +96,7 @@ const SignUp: React.FC = () => {
     <form onSubmit={onSubmit}>
       <Input
         name="email"
-        placeholder="Email"
+        placeholder="Eメール"
         type="email"
         mb={2}
         mt={2}
@@ -115,7 +115,7 @@ const SignUp: React.FC = () => {
 
       <Input
         name="password"
-        placeholder="Password"
+        placeholder="パスワード"
         mb={2}
         type="password"
         onChange={(e) => setPassword(e.target.value)}
@@ -133,7 +133,7 @@ const SignUp: React.FC = () => {
 
       <Input
         name="confirmPassword"
-        placeholder="confirm password"
+        placeholder="パスワードを再入力"
         mb={2}
         type="password"
         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -171,7 +171,7 @@ const SignUp: React.FC = () => {
         ユーザー登録
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>すでにご登録いただいた方?</Text>
+        <Text mr={1}>既にアカウントをお持ちですか?</Text>
         <Text
           onClick={() =>
             setAuthModelState((prev) => ({

@@ -8,10 +8,10 @@ type Props = {
 
 const Message: React.FunctionComponent<Props> = ({ name, text }) => {
   return (
-    <Flex justifyItems="flex-start" w="full" maxH="xl" pb={3} flexDirection="column">
+    <Flex  w="full" pb={3} flexDirection="column" textOverflow={'hidden'}>
       <Box bg="gray.100" p={2} rounded="md">
         <Text fontSize="xs" fontWeight="semibold">{name}</Text>
-        <Text fontSize="sm" color="gray.500">{text}</Text>
+        <Text fontSize="sm" color="gray.500" textOverflow={'ellipsis'}>{text}</Text>
       </Box>
     </Flex>
   )

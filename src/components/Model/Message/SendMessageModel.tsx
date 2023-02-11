@@ -79,11 +79,14 @@ const SendMessageModel: React.FC<Props> = ({ id }) => {
             display="flex"
             flexDirection="column"
             alignItems="center"
+            overflowY={'scroll'}
             justifyContent="center"
             pb={6}
           >
             <Flex width="md" alignItems="center">
               <Textarea
+                resize={'vertical'}
+                maxLength={200}
                 fontSize="sm"
                 mr={2}
                 onChange={(e) => setMessage(e.target.value)}

@@ -6,9 +6,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Button,
   VStack,
-  Flex,
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { myMessagesModelState } from "../../../atoms/myMessagesModelState";
@@ -40,10 +38,11 @@ const ViewMessagesModel: React.FC = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
-            minH={"xl"}
-            maxH={"xl"}
+            minH={"lg"}
+            maxH={"lg"}
             display="flex"
             flexDirection="column"
+            overflowY={'scroll'}
           >
             {myMessages.messages.map((message) => (
               <Message

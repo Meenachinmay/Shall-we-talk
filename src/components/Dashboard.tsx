@@ -433,6 +433,7 @@ const Dashboard: React.FC = () => {
                         }}
                         size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                         p={1}
+                        width={'80px'}
                         style={{ fontSize: "9px" }}
                         onClick={() => handleSeeMessage()}
                       >
