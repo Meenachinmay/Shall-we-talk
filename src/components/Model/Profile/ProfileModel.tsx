@@ -118,7 +118,7 @@ const ProfileModel: React.FC = () => {
                             </HStack>
                             <HStack w="full" mt={6} justifyContent="start">
                               <Heading size="xs" fontSize="xs">
-                                業種または職業プロフィール
+                                職業プロフィール
                               </Heading>
                               <Text color="gray.500" fontSize="xs">
                                 {profileState.workProfile}
