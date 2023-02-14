@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../footer.css";
 import { FaLinkedin } from "react-icons/fa";
-import { Icon } from "@chakra-ui/react";
+import { Icon, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { privacyPolicyModelState } from "../../atoms/privacyPolicyModelState";
 import PrivacyPolicyModel from "../Model/Privacy Policy/PrivacyPolicyModel";
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
       <div className="footer-bottom">
         <p>copyright &copy;2023 SWT.</p>
         <PrivacyPolicyModel />
-        <p onClick={() => setPrivacyPolicyModelState({ open: true })} className="privacy__policy">Privacy Policy</p>
+        <Text textDecoration={'none'} onClick={() => setPrivacyPolicyModelState({ open: true })} className="privacy__policy">利用規約 & プライバシーポリシー</Text>
       </div>
     </footer>
   );

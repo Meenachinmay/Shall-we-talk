@@ -315,7 +315,7 @@ const ViewProfile: React.FC = () => {
                   </HStack>
                   <HStack w="full" mt={6} alignItems="center">
                     <Heading size="xs" minW={48} w={48}>
-                      業種または職業プロフィール
+                     職業プロフィール 
                     </Heading>
                     <Text color="gray.500" flex={1} fontSize="sm">
                       {userProfile.workProfile}
@@ -374,8 +374,7 @@ const ViewProfile: React.FC = () => {
                     </Button>
                   </Flex>
                 ) : (
-                  <HStack justifyContent="space-between" mt={4} w="sm">
-                    <>
+                    <Flex alignItems={'center'} justifyContent={'center'}>
                       <SendMessageModel id={id as string} />
                       <Button
                         _hover={{
@@ -391,14 +390,13 @@ const ViewProfile: React.FC = () => {
                         color="white"
                         variant="solid"
                         height="36px"
-                        width="100%"
+                        width="50%"
                         onClick={handleSendMessage}
                         className="my__button"
                       >
                         メッセージを送信する
                       </Button>
-                    </>
-                  </HStack>
+                    </Flex>
                 )}
               </Box>
             </Flex>
