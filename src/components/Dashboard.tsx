@@ -269,8 +269,6 @@ const Dashboard: React.FC = () => {
                   <User
                     highLightUser={highLightUserInMap.show}
                     userClicked={highLightUserInMap.userId}
-                    showX={user.userPosX}
-                    showY={user.userPosY}
                     key={user.id}
                     x={user.userPosX}
                     y={user.userPosY}

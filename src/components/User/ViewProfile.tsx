@@ -287,7 +287,7 @@ const ViewProfile: React.FC = () => {
                     borderWidth={4}
                   ></AvatarBadge>
                 </Avatar>
-               { renderEditButton()} 
+               { renderEditButton() } 
               </Flex>
               <Box w="full" h="full" mt={1}>
                 <VStack w="full" h="full" spacing={4} overflowY="auto">

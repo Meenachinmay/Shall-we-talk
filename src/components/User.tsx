@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
@@ -16,8 +16,6 @@ type UserProps = {
   status: string;
   companyName: string;
   highLightUser: boolean;
-  showX: number;
-  showY: number;
   profileImage: string;
   userName: string;
   userId: string;
@@ -27,8 +25,6 @@ type UserProps = {
 
 const User: React.FC<UserProps> = ({
   highLightUser,
-  showX,
-  showY,
   x,
   y,
   width,
@@ -50,7 +46,7 @@ const User: React.FC<UserProps> = ({
 
   const handleIconDragStart = async (e: KonvaEventObject<DragEvent>) => {
     setDragUser(true);
-    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() }); 
+    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
   };
 
   const handleIconDragEnd = async (e: KonvaEventObject<DragEvent>) => {

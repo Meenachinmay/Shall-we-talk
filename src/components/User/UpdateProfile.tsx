@@ -107,6 +107,7 @@ const UpdateProfile: React.FC = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setProfileImage(downloadURL);
             setUploadingImage(false);
+            setFile(null)
           });
         }
       );
@@ -144,6 +145,17 @@ const UpdateProfile: React.FC = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+      if (!file) { 
+        return
+      }
+      handleEditProfileImage()
+
+      return () => {
+        setFile(null)
+      }
+  }, [file])
 
   useEffect(() => {
     const profileQuery = query(
@@ -404,7 +416,6 @@ const UpdateProfile: React.FC = () => {
                     </HStack>
 
                     <Flex flexDirection="column" w="full" mt={3} justifyContent="start">
-                      <Text fontSize={{ base: '10px', sm: "10px", md: "xs", lg: "xs"}}>Please write about yourself in 200 characters only.</Text>
                       <Textarea
                         resize={'vertical'}
                         maxLength={200}
