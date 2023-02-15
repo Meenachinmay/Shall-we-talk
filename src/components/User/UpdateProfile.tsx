@@ -7,11 +7,10 @@ import {
   StatLabel,
   StatNumber,
   Container,
+  Input,
   Divider,
   Avatar,
   Button,
-  Input,
-  Text,
   Progress,
   Textarea,
 } from "@chakra-ui/react";
@@ -44,7 +43,6 @@ const UpdateProfile: React.FC = () => {
   const [pet, setPet] = useState("");
   const [pr, setPr] = useState("");
   const [profileImage, setProfileImage] = useState("");
-  const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
   const [updating, setUpdating] = useState(false);
   const [bytesCount, setBytesCount] = useState<number>(0);
   const [uploadingImage, setUploadingImage] = useState<Boolean>(false);
@@ -75,6 +73,7 @@ const UpdateProfile: React.FC = () => {
     profileImage: "",
   });
 
+  // method to handle user profile image udpate operations
   const handleEditProfileImage = async () => {
     try {
       if (!file) {
@@ -116,6 +115,7 @@ const UpdateProfile: React.FC = () => {
     }
   };
 
+  // method to handle update operations
   const handleUpdateProfile = async () => {
     try {
       setUpdating(true);
@@ -146,6 +146,7 @@ const UpdateProfile: React.FC = () => {
     }
   };
 
+  // updating user profile image
   useEffect(() => {
       if (!file) { 
         return
@@ -157,12 +158,14 @@ const UpdateProfile: React.FC = () => {
       }
   }, [file])
 
+  // fetching profile for a user
   useEffect(() => {
     const profileQuery = query(
       profileCol,
       where("userId", "==", `${id}`),
       limit(1)
     );
+
     const unsub = onSnapshot(profileQuery, (snapShot) => {
       snapShot.forEach((doc) => {
         setUserProfile({
@@ -243,7 +246,7 @@ const UpdateProfile: React.FC = () => {
                       <Input
                         name="name"
                         maxLength={50}
-                        placeholder="お名前"
+                        placeholder={userProfile.name}
                         type="text"
                         mb={2}
                         mt={2}
@@ -268,7 +271,7 @@ const UpdateProfile: React.FC = () => {
                       <Input
                         name="email"
                         maxLength={50}
-                        placeholder="メールアドレス"
+                        placeholder={userProfile.email}
                         type="email"
                         mb={2}
                         mt={2}
@@ -294,7 +297,7 @@ const UpdateProfile: React.FC = () => {
                         name="companyName"
                         maxLength={50}
                         onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder="所属（会社名・部署名等）"
+                        placeholder={userProfile.companyName}
                         type="text"
                         mb={2}
                         mt={2}
@@ -319,7 +322,7 @@ const UpdateProfile: React.FC = () => {
                         name="companyProfile"
                         maxLength={100}
                         onChange={(e) => setCompanyProfile(e.target.value)}
-                        placeholder="所属組織の紹介"
+                        placeholder={userProfile.companyProfile}
                         type="text"
                         mb={2}
                         mt={2}
@@ -344,7 +347,7 @@ const UpdateProfile: React.FC = () => {
                         name="workProfile"
                         maxLength={50}
                         onChange={(e) => setworkProfile(e.target.value)}
-                        placeholder="職業プロフィール"
+                        placeholder={userProfile.workProfile}
                         type="text"
                         mb={2}
                         mt={2}
@@ -369,7 +372,7 @@ const UpdateProfile: React.FC = () => {
                         name="hobbies"
                         maxLength={50}
                         onChange={(e) => setHobbies(e.target.value)}
-                        placeholder="趣味"
+                        placeholder={userProfile.hobbies}
                         type="text"
                         mb={2}
                         mt={2}
@@ -394,7 +397,7 @@ const UpdateProfile: React.FC = () => {
                         name="pet"
                         maxLength={50}
                         onChange={(e) => setPet(e.target.value)}
-                        placeholder="飼っているペットまたは好きなものについて"
+                        placeholder={userProfile.pet}
                         type="text"
                         mb={2}
                         mt={2}
@@ -421,7 +424,7 @@ const UpdateProfile: React.FC = () => {
                         maxLength={200}
                         name="pr"
                         onChange={(e) => setPr(e.target.value)}
-                        placeholder="自己紹介文"
+                        placeholder={userProfile.pr}
                         mb={2}
                         mt={2}
                         fontSize="10pt"
