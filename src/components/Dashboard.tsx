@@ -251,7 +251,7 @@ const Dashboard: React.FC = () => {
         <HStack
           w={{ lg: "lg", xl: "3xl" }}
           h="full"
-          maxH="2xl"
+          maxH="3xl"
           borderWidth={1}
           borderColor="gray.100"
           display={{ base: "none", sm: "none", md: "none", lg: "inherit" }}

@@ -1,30 +1,57 @@
 .container {
-    position: absolute;
-    width: 50.5%;
-    height: 56.5%;
-    overflow: scroll;
+  position: absolute;
+  width: 50.5%;
+  height: 56.5%;
+  overflow: scroll;
 }
 
 .vs-image {
- width: 100wh;
- height: 100vh;
- object-fit: conver;
+  width: 100wh;
+  height: 100vh;
+  object-fit: conver;
 }
 
 .user1 {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    background: yellow;
-    border-radius: 10px;
-  }
-  
-  .user2 {
-    position: relative;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    background: green;
-    border-radius: 10px;
-  }
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: yellow;
+  border-radius: 10px;
+}
+
+.user2 {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  background: green;
+  border-radius: 10px;
+}
+
+.item {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: yellow;
+  border-radius: 10px;
+}
+
+.item2 {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  background: green;
+  border-radius: 10px;
+}
+
+.item3 {
+  position: relative;
+  top: 20px;
+  left: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
