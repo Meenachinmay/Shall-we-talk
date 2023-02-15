@@ -21,7 +21,7 @@ const ViewMessagesModel: React.FC = () => {
       ...prev,
       open: false,
     }));
-  };
+  }; 
 
   return (
     <>

@@ -19,6 +19,7 @@ import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { userStatusModelState } from "../../../atoms/userStatusModelState";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 import StatusModel from "../../Model/Status/StatusModel";
+import { myMessagesModelState } from "../../../atoms/myMessagesModelState";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -26,22 +27,26 @@ const RightContent: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
-  const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
+  const [myMessages, setMyMessagesModelState] =
+    useRecoilState(myMessagesModelState);
+  const [userLogout, setCurrentUserLogoutState] = useRecoilState(
+    currentUserLogoutState
+  );
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) { 
+      if (user) {
         setCurrentUserLogoutState((prev) => ({
           ...prev,
-          currentUserLoggedOut: false
-        }))
-      } else { 
+          currentUserLoggedOut: false,
+        }));
+      } else {
         setCurrentUserLogoutState((prev) => ({
           ...prev,
-          currentUserLoggedOut: true
-        }))
+          currentUserLoggedOut: true,
+        }));
       }
     });
   }, [auth, firestore]);
@@ -71,11 +76,14 @@ const RightContent: React.FC = () => {
     }));
     setCurrentUserLogoutState((prev) => ({
       ...prev,
-      currentUserLoggedOut: true
-    }))
+      currentUserLoggedOut: true,
+    }));
+    
+    // delete all the messages here
+
     setLoading(false);
     signOut(auth);
-    localStorage.removeItem('recoil-persist')
+    localStorage.removeItem("recoil-persist");
   };
 
   const handleUserNameClick = () => {
@@ -100,7 +108,7 @@ const RightContent: React.FC = () => {
           </Tooltip>
         ) : null}
 
-        {!userLogout.currentUserLoggedOut ? <NotificationsDrawer /> : null }
+        {!userLogout.currentUserLoggedOut ? <NotificationsDrawer /> : null}
 
         {!userLogout.currentUserLoggedOut ? (
           <>
@@ -156,7 +164,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                 バーチャルスペース 
+                  バーチャルスペース
                 </MenuItem>
                 <MenuItem
                   size="xs"
@@ -175,7 +183,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                  {loading ? "ログアウト中" : "ログアウト" }
+                  {loading ? "ログアウト中" : "ログアウト"}
                 </MenuItem>
               </MenuList>
             </Menu>
