@@ -6,7 +6,7 @@ import AuthModelButtons from "./AuthModelButtons";
 import { auth, firestore } from "../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,6 @@ import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { userStatusModelState } from "../../../atoms/userStatusModelState";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 import StatusModel from "../../Model/Status/StatusModel";
-import { myMessagesModelState } from "../../../atoms/myMessagesModelState";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -27,11 +26,10 @@ const RightContent: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
-  const [myMessages, setMyMessagesModelState] =
-    useRecoilState(myMessagesModelState);
   const [userLogout, setCurrentUserLogoutState] = useRecoilState(
     currentUserLogoutState
   );
+  const messageCol = collection(firestore, "messages");
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
 
@@ -78,8 +76,13 @@ const RightContent: React.FC = () => {
       ...prev,
       currentUserLoggedOut: true,
     }));
-    
+
     // delete all the messages here
+    const mq = query(messageCol, where("to.id", "==", `${currentUser.id}`));
+    const querySnapshot = await getDocs(mq);
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
 
     setLoading(false);
     signOut(auth);

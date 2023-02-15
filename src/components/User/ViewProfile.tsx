@@ -20,6 +20,8 @@ import {
   limit,
   query,
   where,
+  deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -135,7 +137,9 @@ const ViewProfile: React.FC = () => {
   };
 
   const handleSeeMessage = () => {
+
     const mq = query(messageCol, where("to.id", "==", `${currentUser.id}`));
+
     try {
       setLoadingMessage(true);
       onSnapshot(mq, (snapShot) => {
@@ -349,7 +353,7 @@ const ViewProfile: React.FC = () => {
                 </VStack>
                 {currentUser.id === id ? (
                   <Flex alignItems='center' justifyContent='center'>
-                    <ViewMessages />{" "}
+                    <ViewMessages />
                     <Button
                       _hover={{
                         bg: "white",
@@ -365,7 +369,7 @@ const ViewProfile: React.FC = () => {
                       height="36px"
                       width="50%"
                       mt={3}
-                      onClick={handleSeeMessage}
+                      onClick={() => handleSeeMessage()}
                       isLoading={loadingMessage}
                       style={{ boxShadow: "5px 5px" }}
                       className="my__button"
@@ -391,7 +395,7 @@ const ViewProfile: React.FC = () => {
                         variant="solid"
                         height="36px"
                         width="50%"
-                        onClick={handleSendMessage}
+                        onClick={() => handleSendMessage()}
                         className="my__button"
                       >
                         メッセージを送信する
