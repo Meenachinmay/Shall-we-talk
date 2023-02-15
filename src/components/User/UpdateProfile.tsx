@@ -221,10 +221,7 @@ const UpdateProfile: React.FC = () => {
                       type="file"
                       id="file"
                       style={{ display: "none" }}
-                    />
-                    <Button size={"xs"} onClick={handleEditProfileImage}>
-                      アップロード
-                    </Button>
+                    /> 
                   </div>
                 </Flex>
                 <Box w="full" mt={1}>
