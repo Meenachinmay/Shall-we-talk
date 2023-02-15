@@ -18,11 +18,9 @@ import {
   AvatarBadge,
   HStack,
   Heading,
-  Button,
 } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
-import { currentUserState } from "../../../atoms/currentUserState";
 import { profileModelState } from "../../../atoms/userProfileModelState";
 import { userProfileState } from "../../../atoms/userProfileState";
 import LoadingSpinner from "../../customUIComponents/LoadingSpinner";
@@ -31,7 +29,6 @@ import "../../homepage.css";
 const ProfileModel: React.FC = () => {
   const [modelState, setModelState] = useRecoilState(profileModelState);
   const [profileState] = useRecoilState(userProfileState);
-  const [currentUser] = useRecoilState(currentUserState);
 
   const handleClose = () => {
     setModelState((prev) => ({
@@ -40,8 +37,6 @@ const ProfileModel: React.FC = () => {
       loadingProfileInModel: false,
     }));
   };
-
-  console.log(profileState.id);
 
   return (
     <>

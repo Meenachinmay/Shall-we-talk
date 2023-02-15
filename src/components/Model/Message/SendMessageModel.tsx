@@ -101,7 +101,7 @@ const SendMessageModel: React.FC<Props> = ({ id }) => {
                 aria-label="Send message"
                 variant="ghost"
                 icon={<IoSend />}
-                onClick={handleSendMessage}
+                onClick={() => handleSendMessage()}
                 isLoading={loading}
               />
             </Flex>

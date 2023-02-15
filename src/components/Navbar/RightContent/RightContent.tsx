@@ -6,7 +6,7 @@ import AuthModelButtons from "./AuthModelButtons";
 import { auth, firestore } from "../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from "react-router-dom";
@@ -26,22 +26,25 @@ const RightContent: React.FC = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
-  const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
+  const [userLogout, setCurrentUserLogoutState] = useRecoilState(
+    currentUserLogoutState
+  );
+  const messageCol = collection(firestore, "messages");
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) { 
+      if (user) {
         setCurrentUserLogoutState((prev) => ({
           ...prev,
-          currentUserLoggedOut: false
-        }))
-      } else { 
+          currentUserLoggedOut: false,
+        }));
+      } else {
         setCurrentUserLogoutState((prev) => ({
           ...prev,
-          currentUserLoggedOut: true
-        }))
+          currentUserLoggedOut: true,
+        }));
       }
     });
   }, [auth, firestore]);
@@ -71,11 +74,19 @@ const RightContent: React.FC = () => {
     }));
     setCurrentUserLogoutState((prev) => ({
       ...prev,
-      currentUserLoggedOut: true
-    }))
+      currentUserLoggedOut: true,
+    }));
+
+    // delete all the messages here
+    const mq = query(messageCol, where("to.id", "==", `${currentUser.id}`));
+    const querySnapshot = await getDocs(mq);
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+
     setLoading(false);
     signOut(auth);
-    localStorage.removeItem('recoil-persist')
+    localStorage.removeItem("recoil-persist");
   };
 
   const handleUserNameClick = () => {
@@ -100,7 +111,7 @@ const RightContent: React.FC = () => {
           </Tooltip>
         ) : null}
 
-        {!userLogout.currentUserLoggedOut ? <NotificationsDrawer /> : null }
+        {!userLogout.currentUserLoggedOut ? <NotificationsDrawer /> : null}
 
         {!userLogout.currentUserLoggedOut ? (
           <>
@@ -156,7 +167,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                 バーチャルスペース 
+                  バーチャルスペース
                 </MenuItem>
                 <MenuItem
                   size="xs"
@@ -175,7 +186,7 @@ const RightContent: React.FC = () => {
                   as={Button}
                   className="my__button"
                 >
-                  {loading ? "ログアウト中" : "ログアウト" }
+                  {loading ? "ログアウト中" : "ログアウト"}
                 </MenuItem>
               </MenuList>
             </Menu>

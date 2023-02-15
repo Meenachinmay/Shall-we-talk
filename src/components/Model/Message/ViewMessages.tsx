@@ -19,9 +19,10 @@ const ViewMessagesModel: React.FC = () => {
   const handleClose = () => {
     setMyMessagesModelState((prev) => ({
       ...prev,
+      messages: [],
       open: false,
     }));
-  };
+  }; 
 
   return (
     <>

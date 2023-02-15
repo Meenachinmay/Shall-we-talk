@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
@@ -16,8 +16,6 @@ type UserProps = {
   status: string;
   companyName: string;
   highLightUser: boolean;
-  showX: number;
-  showY: number;
   profileImage: string;
   userName: string;
   userId: string;
@@ -27,8 +25,6 @@ type UserProps = {
 
 const User: React.FC<UserProps> = ({
   highLightUser,
-  showX,
-  showY,
   x,
   y,
   width,
@@ -47,10 +43,11 @@ const User: React.FC<UserProps> = ({
     y: number;
   }>({ x: x, y: y });
   let [profileImg] = useImage(profileImage);
+  const [localHighlight, setLocalHighlight] = useState<boolean | null>(null);
 
   const handleIconDragStart = async (e: KonvaEventObject<DragEvent>) => {
     setDragUser(true);
-    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() }); 
+    //setCurrentUserPos({ x: e.target.x(), y: e.target.y() });
   };
 
   const handleIconDragEnd = async (e: KonvaEventObject<DragEvent>) => {
@@ -94,10 +91,47 @@ const User: React.FC<UserProps> = ({
         draggable={dragUser}
         onDragStart={(e) => handleIconDragStart(e)}
         onDragEnd={(e) => handleIconDragEnd(e)}
-        onClick={() => alert(status)}
+        onClick={() => setLocalHighlight(!localHighlight)}
         onMouseEnter={() => handleMouseEnter()}
       />
       {highLightUser && userId === userClicked ? (
+        <Html
+          divProps={{
+            style: {
+              position: "absolute",
+              top: `${y - 60}px`,
+              left: `${x + 30}px`,
+            },
+          }}
+        >
+          <div
+            style={{
+              color: "#1A202C",
+              borderRadius: "10px",
+              border: "4px solid",
+              borderColor: `${
+                status === "want_to_talk"
+                  ? "#38A169"
+                  : status === "do_not_want_to_talk"
+                  ? "#E53E3E"
+                  : "#63B3ED"
+              }`,
+              fontSize: "10px",
+              backgroundColor: "white",
+              padding: "10px",
+              width: "150px",
+              textAlign: "start",
+            }}
+          >
+            <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>{userName}</div>
+                <div>{companyName}</div>
+              </div>
+            </div>
+          </div>
+        </Html>
+      ) : localHighlight ? (
         <Html
           divProps={{
             style: {

@@ -11,6 +11,7 @@ import { currentUserProfileState } from "../../../atoms/currentUserProfileState"
 import "../../homepage.css";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 import { generateRandomPositions } from "../../../utilservices/ExternalMethods";
+import { myMessagesModelState } from "../../../atoms/myMessagesModelState";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,10 @@ const Login: React.FC = () => {
   );
   const [userLogout, setCurrentUserLogoutState] = useRecoilState(
     currentUserLogoutState
+  );
+
+  const [messages, setMyMessages] = useRecoilState(
+    myMessagesModelState
   );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +60,7 @@ const Login: React.FC = () => {
             pr: docSnap.data().pr,
             status: docSnap.data().status,
             hobbies: docSnap.data().hobbies,
-            workProfile: docSnap.data().workProfile
+            workProfile: docSnap.data().workProfile,
           }));
 
           // setting current user state (id, email, online, status)
@@ -91,6 +96,12 @@ const Login: React.FC = () => {
           ...prev,
           currentUserLoggedOut: false,
         }));
+
+        setMyMessages((prev) => ({
+          ...prev,
+          messages: [],
+          open: false
+        })) 
 
         setLoading(false);
 

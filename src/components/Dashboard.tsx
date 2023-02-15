@@ -251,7 +251,7 @@ const Dashboard: React.FC = () => {
         <HStack
           w={{ lg: "lg", xl: "3xl" }}
           h="full"
-          maxH="2xl"
+          maxH="3xl"
           borderWidth={1}
           borderColor="gray.100"
           display={{ base: "none", sm: "none", md: "none", lg: "inherit" }}
@@ -269,8 +269,6 @@ const Dashboard: React.FC = () => {
                   <User
                     highLightUser={highLightUserInMap.show}
                     userClicked={highLightUserInMap.userId}
-                    showX={user.userPosX}
-                    showY={user.userPosY}
                     key={user.id}
                     x={user.userPosX}
                     y={user.userPosY}
@@ -435,7 +433,7 @@ const Dashboard: React.FC = () => {
                         p={1}
                         width={'80px'}
                         style={{ fontSize: "9px" }}
-                        onClick={() => handleSeeMessage()}
+                        onClick={handleSeeMessage}
                       >
                         メッセージ
                       </Button>
