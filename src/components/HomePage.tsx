@@ -1,5 +1,5 @@
-import { Box, Image, VStack, Text, Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Image, VStack, Flex } from "@chakra-ui/react";
+import React from "react";
 import "../components/homepage.css";
 import Parrot from "../images/parrot.png";
 import Layer1 from "../images/layer1.png";

@@ -219,12 +219,7 @@ const Dashboard: React.FC = () => {
       w="full"
       h="100vh"
       alignItems="center"
-      p={6}
-      style={{
-        flexGrow: "1",
-        backgroundRepeat: "no-repeat",
-        backgroundImage: `url(${appBg})`,
-      }}
+      p={6} 
     >
       <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
         <InputLeftElement

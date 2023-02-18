@@ -15,7 +15,8 @@ const Navbar: React.FC = () => {
     <Flex
       bg="red.50"
       height="60px"
-      shadow="lg"
+      dropShadow={'md'}
+      shadow={'md'}
       padding="24px 12px"
       alignItems="center"
       justifyContent={'space-between'}

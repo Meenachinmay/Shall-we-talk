@@ -150,7 +150,7 @@ const Login: React.FC = () => {
     <form onSubmit={onSubmit}>
       <Input
         name="email"
-        placeholder="Email"
+        placeholder="Eメール"
         type="email"
         mb={2}
         mt={2}
@@ -169,7 +169,7 @@ const Login: React.FC = () => {
 
       <Input
         name="password"
-        placeholder="Password"
+        placeholder="パスワード"
         mb={2}
         type="password"
         onChange={(e) => setPassword(e.target.value)}
