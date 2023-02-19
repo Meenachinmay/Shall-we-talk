@@ -16,6 +16,7 @@ import Fonts from "./chakra/Fonts";
 import Testing from "./components/Testing";
 import Login from "./components/AuthComponents/Login";
 import Register from "./components/AuthComponents/Register";
+import RegisterSpace from "./components/CoWorkingSpaceRegistration/Register";
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
             <Route path="/*" element={<PageNotFound />} />
           </Route>
+          <Route path="/register-a-new-space" element={<RegisterSpace />} />
           <Route path="/login/:accessKey" element={<Login />} />
           <Route path="/register/:accessKey" element={<Register />} />
           <Route path="/" element={<HomePage />} />
