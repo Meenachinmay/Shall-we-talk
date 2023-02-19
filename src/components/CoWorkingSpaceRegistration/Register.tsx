@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex, Button, Input, FormControl,  Select } from '@chakra-ui/react'
+import { doc, setDoc } from 'firebase/firestore'
+import { firestore } from '../firebase/clientApp'
+import { GENERATE_ACCESS_KEY } from '../../keys/index'
 
 type RegisterASpaceProps = {
 
@@ -7,11 +10,28 @@ type RegisterASpaceProps = {
 
 const Register:React.FC<RegisterASpaceProps> = () => {     
     const [noOfPeople, setNoOfPeople] = useState<number>(0)
+    const [email, setEmail] = useState<string | null>(null)
+    const [imageURL, setImageURL] = useState<string | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        alert(noOfPeople)
+        setLoading(true)
+        await setDoc(doc(firestore, `co-workingSpaces`, `spaceId-${email}`), {
+            accessKey: `${email}/A-FEB-2023`,
+            emailId: email,
+            id: email,
+            imageUrl: imageURL,
+            keyActivated: false,
+            noOfPeople: noOfPeople,
+            virtualSpaceAlloted: false
+        })
+        setLoading(false)
     }
+
+    useEffect(() => {
+        setImageURL('http://picture.com/vs-image')
+    },[email])
 
     return (
       <Flex
@@ -30,6 +50,7 @@ const Register:React.FC<RegisterASpaceProps> = () => {
               mr={5}
               placeholder="Email for registration..."
               _placeholder={{ color: "white" }}
+              onChange={(event) => setEmail(event.target.value) }
             />
             <FormControl width={'120px'}>
               <Select onChange={(event) => setNoOfPeople(parseInt(event.target.value))} placeholder="no of people" fontSize={'xs'}>
@@ -40,7 +61,7 @@ const Register:React.FC<RegisterASpaceProps> = () => {
               </Select>
             </FormControl>
             <Button ml={5} type="submit">Image URL</Button>
-            <Button ml={5} type="submit">Register</Button>
+            <Button ml={5} isLoading={loading} loadingText={'Sending request'} type="submit">Register</Button>
           </Flex>
         </form>
       </Flex>
