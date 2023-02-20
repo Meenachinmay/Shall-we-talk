@@ -17,6 +17,7 @@ import Testing from "./components/Testing";
 import Login from "./components/AuthComponents/Login";
 import Register from "./components/AuthComponents/Register";
 import RegisterSpace from "./components/CoWorkingSpaceRegistration/Register";
+import GenerateAccessKey from "./components/GenerateAccessKeyForVS/GenerateAccessKey";
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/home/:userId" element={<Home />} />
+            <Route path="/generate-access-key" element={<GenerateAccessKey />} />
             <Route path="/chat" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/create-profile" element={<CreateProfile />} />

@@ -38,8 +38,6 @@ import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
 
-import appBg from "../images/bg2.jpg";
-
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
