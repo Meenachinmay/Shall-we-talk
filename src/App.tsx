@@ -27,7 +27,7 @@ const App: React.FC = () => {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/home/:userId" element={<Home />} />
-            <Route path="/generate-access-key" element={<GenerateAccessKey />} />
+            <Route path="/generate-access-key/:email" element={<GenerateAccessKey />} />
             <Route path="/chat" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/create-profile" element={<CreateProfile />} />
@@ -36,7 +36,7 @@ const App: React.FC = () => {
             <Route path="/*" element={<PageNotFound />} />
           </Route>
           <Route path="/register-a-new-space" element={<RegisterSpace />} />
-          <Route path="/login/:accessKey" element={<Login />} />
+          <Route path="/user-login/:email/:key" element={<Login />} />
           <Route path="/register/:accessKey" element={<Register />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/*" element={<PageNotFound />} />

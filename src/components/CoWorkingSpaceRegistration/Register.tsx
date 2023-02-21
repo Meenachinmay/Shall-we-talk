@@ -9,7 +9,6 @@ type RegisterASpaceProps = {};
 const Register: React.FC<RegisterASpaceProps> = () => {
   const [noOfPeople, setNoOfPeople] = useState<number>(0);
   const [email, setEmail] = useState<string | null>(null);
-  const [imageURL, setImageURL] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [vsImageUrl, setVsImageURL] = useState<string | "">("");
   const [file, setFile] = useState<File | null>(null);
@@ -58,10 +57,8 @@ const Register: React.FC<RegisterASpaceProps> = () => {
     event.preventDefault();
     setLoading(true);
     await setDoc(doc(firestore, `co-workingSpaces`, `spaceId-${email}`), {
-      accessKey: `${email}/A-FEB-2023`,
-      emailId: email,
-      id: email,
-      imageUrl: vsImageUrl,
+      email: email,
+      vsImage: vsImageUrl,
       keyActivated: false,
       noOfPeople: noOfPeople,
       virtualSpaceAlloted: false,

@@ -20,6 +20,7 @@
     "@types/react-dom": "^18.0.0",
     "firebase": "^9.10.0",
     "framer-motion": "^8.0.1",
+    "jsonwebtoken": "^9.0.0",
     "konva": "^8.3.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -60,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/react-query": "^1.2.9"
   }
 }
