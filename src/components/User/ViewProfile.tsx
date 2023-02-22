@@ -20,8 +20,6 @@ import {
   limit,
   query,
   where,
-  deleteDoc,
-  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";

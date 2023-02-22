@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
         </ul>
       </div>
       <div className="footer-bottom">
-        <p>copyright &copy;2023 SWT.</p>
+        <p>copyright &copy;2023 SWT 1.1</p>
         <PrivacyPolicyModel />
         <Text textDecoration={'none'} onClick={() => setPrivacyPolicyModelState({ open: true })} className="privacy__policy">利用規約 & プライバシーポリシー</Text>
       </div>

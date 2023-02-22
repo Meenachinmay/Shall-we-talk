@@ -45,7 +45,7 @@ const StatusModel: React.FC = () => {
       <Modal isOpen={modelState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign="center">
+          <ModalHeader>
             <VStack>
               <Text>トークステータスの変更</Text>
               <Text color="gray.400" fontSize="xs" textOverflow="hidden">

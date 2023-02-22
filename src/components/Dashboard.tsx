@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import {
   collection,
+  doc,
+  getDoc,
   limit,
   onSnapshot,
   query,
@@ -33,12 +35,10 @@ import User from "./User";
 import "../components/homepage.css";
 import { SearchIcon } from "@chakra-ui/icons";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
-
-import appBg from "../images/bg2.jpg";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -49,13 +49,26 @@ const Dashboard: React.FC = () => {
   const [onlineUsers, setOnlineUsers] = useState<UserData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const onlineUserCol = collection(firestore, "vs-users");
+  const requestsCol = collection(firestore, "co-workingSpaces");
   const [messageModel, setMyMessagesModelState] =
     useRecoilState(myMessagesModelState);
   const [searchText, setSearchText] = useState("");
-  const [bgimage] = useImage(
-    "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
-  );
+  const [spaceDetails, setSpaceDetails] = useState<{
+    email: string,
+    vsImage: string,
+    noOfPeople: number,
+    keyActivated: boolean,
+    virtualSpaceAlloted: boolean
+  }>({
+    email: "",
+    vsImage: "",
+    noOfPeople: 0,
+    keyActivated: false,
+    virtualSpaceAlloted: false
+  });
+  const [bgimage] = useImage(spaceDetails.vsImage);
   const navigate = useNavigate();
+  const { email, key } = useParams();
 
   const [currentUser] = useRecoilState(currentUserState);
 
@@ -104,12 +117,36 @@ const Dashboard: React.FC = () => {
       let data: UserData[] = [];
       if (snapshot.docChanges().length) {
         snapshot.forEach((doc) => {
-          data.push(doc.data() as UserData);
+          if (doc.data().spaceId === email) {
+            data.push(doc.data() as UserData);
+          } 
         });
         setOnlineUsers(data);
         setLoading(false);
       }
     });
+
+    async function fetchSpaceDetails() {
+      const docRef = doc(
+        firestore,
+        "co-workingSpaces",
+        `spaceId-${email}`
+      );
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setSpaceDetails({
+          email: docSnap.data().email,
+          vsImage: docSnap.data().vsImage,
+          noOfPeople: docSnap.data().noOfPeople,
+          keyActivated: docSnap.data().keyActivated,
+          virtualSpaceAlloted: docSnap.data().virtualSpaceAlloted
+        })
+      } else {
+        console.log("no such doc available");
+      }
+    }
+
+    fetchSpaceDetails();
 
     return () => {
       unsub2();
@@ -215,17 +252,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <VStack
-      w="full"
-      h="100vh"
-      alignItems="center"
-      p={6}
-      style={{
-        flexGrow: "1",
-        backgroundRepeat: "no-repeat",
-        backgroundImage: `url(${appBg})`,
-      }}
-    >
+    <VStack w="full" h="100vh" alignItems="center" p={6}>
       <InputGroup width={{ base: "xs", sm: "sm", md: "lg", lg: "2xl" }} mb={5}>
         <InputLeftElement
           pointerEvents="none"
@@ -431,7 +458,7 @@ const Dashboard: React.FC = () => {
                         }}
                         size={{ base: "xxs", sm: "xxs", md: "xs", lg: "xs" }}
                         p={1}
-                        width={'80px'}
+                        width={"80px"}
                         style={{ fontSize: "9px" }}
                         onClick={handleSeeMessage}
                       >
