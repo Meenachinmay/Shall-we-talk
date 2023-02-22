@@ -35,18 +35,10 @@ import User from "./User";
 import "../components/homepage.css";
 import { SearchIcon } from "@chakra-ui/icons";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
-
-type ISpaceDetails = {
-  email: string;
-  vsImage: string;
-  noOfPeople: number;
-  keyActivated: boolean;
-  virtualSpaceAlloted: boolean;
-};
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -61,14 +53,22 @@ const Dashboard: React.FC = () => {
   const [messageModel, setMyMessagesModelState] =
     useRecoilState(myMessagesModelState);
   const [searchText, setSearchText] = useState("");
-  const [spaceDetails, setSpaceDetails] = useState<ISpaceDetails | null>(null);
-  const [bgimage] = useImage(
-    "https://149356721.v2.pressablecdn.com/wp-content/uploads/2016/02/Sococo-Virtual-Office.png"
-  );
+  const [spaceDetails, setSpaceDetails] = useState<{
+    email: string,
+    vsImage: string,
+    noOfPeople: number,
+    keyActivated: boolean,
+    virtualSpaceAlloted: boolean
+  }>({
+    email: "",
+    vsImage: "",
+    noOfPeople: 0,
+    keyActivated: false,
+    virtualSpaceAlloted: false
+  });
+  const [bgimage] = useImage(spaceDetails.vsImage);
   const navigate = useNavigate();
-  const { state } = useLocation();
-
-  console.log("state from dashboard " + state.email);
+  const { email, key } = useParams();
 
   const [currentUser] = useRecoilState(currentUserState);
 
@@ -117,7 +117,9 @@ const Dashboard: React.FC = () => {
       let data: UserData[] = [];
       if (snapshot.docChanges().length) {
         snapshot.forEach((doc) => {
-          data.push(doc.data() as UserData);
+          if (doc.data().spaceId === email) {
+            data.push(doc.data() as UserData);
+          } 
         });
         setOnlineUsers(data);
         setLoading(false);
@@ -128,11 +130,10 @@ const Dashboard: React.FC = () => {
       const docRef = doc(
         firestore,
         "co-workingSpaces",
-        `spaceId-${state.email}`
+        `spaceId-${email}`
       );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log("document data", docSnap.data());
         setSpaceDetails({
           email: docSnap.data().email,
           vsImage: docSnap.data().vsImage,

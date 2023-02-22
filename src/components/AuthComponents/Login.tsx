@@ -1,12 +1,17 @@
-import React from "react";
-import { Flex, Button } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Flex, Input, Button } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { firestore } from "../firebase/clientApp";
 
 type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
-  const { email, key } = useParams();
-  const navigate = useNavigate()
+  const { email } = useParams();
+  const navigate = useNavigate();
+  const accessKeysCol = collection(firestore, "access-keys");
+  const [success, setSuccessOk] = useState<boolean>(false);
+  const [key, setAccessKey] = useState<string>("");
   //TODO:
   // use this access key to add a user in user space
   // user space's space id, spaceEmail, accessKey, noOfPeople, accesskeyActivated, virtualSpaceImage
@@ -16,17 +21,35 @@ const Login: React.FC<LoginProps> = () => {
   // user profile table -> id, name, email, profileImage, companyName, companyProfile, workProfile, hobbies, pet, pr, status
   // vs-user table -> id, name, email, companyName, status, profileImage
 
-  function handleLogin () {
-    navigate(
-      `/dashboard`,
-      {
-        state: {
-          email: email,
-          key: key
-        }
-      }
-    )
+  function handleLogin() {
+    if (success) {
+      navigate(`/dashboard/${email}/${key}`);
+    } else {
+      alert('wrong acceess key, please contact to your co-working space.')  
+    }
   }
+
+  useEffect(() => {
+    async function checkAccesskey() {
+      const q = query(
+        accessKeysCol,
+        where("spaceId", "==", `${email}`),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        if (doc.data().accessKey === key) {
+          setSuccessOk(true);
+        }
+      });
+    }
+
+    checkAccesskey()
+
+    console.log('rednering')
+
+    return () => {}
+  }, [email, accessKeysCol]);
 
   return (
     <>
@@ -38,8 +61,15 @@ const Login: React.FC<LoginProps> = () => {
         alignItems={"center"}
         justifyContent="center"
       >
-        <Flex flexDirection={'column'}>
-          <Button onClick={handleLogin}>Login to Dashboard</Button> 
+        <Flex flexDirection={"column"}>
+          <Input
+            required
+            onChange={(e) => setAccessKey(e.target.value)}
+            type="text"
+            mb={5}
+            placeholder="enter access key"
+          />
+          <Button onClick={handleLogin}>Login to Dashboard</Button>
         </Flex>
       </Flex>
     </>
