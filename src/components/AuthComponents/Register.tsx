@@ -1,11 +1,12 @@
 import { Button, Input, useToast } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { authModelState } from "../../atoms/authModelState";
 import { currentUserState } from "../../atoms/currentUserState";
-import { auth } from "../firebase/clientApp";
+import { auth, firestore } from "../firebase/clientApp";
 
 type RegisterProps = {};
 
@@ -21,6 +22,7 @@ const Register: React.FC<RegisterProps> = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [addingUserToUsers, setAddingUserToUsers] = useState<boolean>(false)
   const setCurrentUserState = useSetRecoilState(currentUserState);
 
   const toast = useToast();
@@ -55,6 +57,9 @@ const Register: React.FC<RegisterProps> = () => {
           id: userC.user.uid,
           email: userC.user.email!,
         }));
+
+        // add this user to users colection in firebase
+        addUserToUsers(userC)
 
         navigate(`/create-profile/${email}/${accessKey}`);
 
@@ -92,6 +97,20 @@ const Register: React.FC<RegisterProps> = () => {
         }
       });
   };
+
+  // method to add a User to Users collection in firebase at the time of
+  // registration
+  async function addUserToUsers(userC: UserCredential) {
+    setAddingUserToUsers(true)
+    await setDoc(doc(firestore, `users`, `userId-${userC.user.uid}`), {
+      id: userC.user.uid,
+      email: userC.user.email,
+      accessKey: accessKey,
+      spaceId: email
+    });
+    setAddingUserToUsers(false)
+  }
+
   return (
     <form onSubmit={onSubmit}>
       <Input
@@ -169,7 +188,7 @@ const Register: React.FC<RegisterProps> = () => {
         className="my__button"
       >
         ユーザー登録
-      </Button> 
+      </Button>
     </form>
   );
 };
