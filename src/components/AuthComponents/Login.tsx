@@ -16,7 +16,7 @@ type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
   const toast = useToast()
-  const { email } = useParams();
+  const { email, accessKey } = useParams();
   const [userEmail, setUserEmail] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
   const [key, setAccessKey] = useState<string>("");
@@ -57,7 +57,7 @@ const Login: React.FC<LoginProps> = () => {
 
         const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
+        if (docSnap.exists() && success) {
           // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
           setCurrentUserProfileState((prev) => ({
             ...prev,
@@ -88,6 +88,7 @@ const Login: React.FC<LoginProps> = () => {
               companyName: docSnap.data().companyName,
               id: userC.user.uid,
               accessKey: docSnap.data().accessKey,
+              spaceId: email,
               name: docSnap.data().name,
               online: true,
               status: "do_not_want_to_talk",
@@ -100,22 +101,27 @@ const Login: React.FC<LoginProps> = () => {
           }
         } else {
           // redirect user to create profile page
-          navigate(`/create-profile`);
+          navigate(`/create-profile/${email}/${accessKey}`);
         }
+
         setCurrentUserLogoutState((prev) => ({
           ...prev,
           currentUserLoggedOut: false,
         }));
+
         setMyMessages((prev) => ({
           ...prev,
           messages: [],
           open: false,
         }));
-        setLoading(false);
+
         setAuthModelState((prev) => ({
           ...prev,
           open: false,
         }));
+
+        setLoading(false);
+        navigate(`/dashboard/${email}/${accessKey}`);
 
         toast({
           title: "ログイン成功！",
@@ -124,7 +130,6 @@ const Login: React.FC<LoginProps> = () => {
           duration: 4000,
           isClosable: true,
         });
-        navigate("/dashboard");
       })
       .catch((error) => {
         setLoading(false);
@@ -163,7 +168,10 @@ const Login: React.FC<LoginProps> = () => {
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        if (doc.data().accessKey) {
+        // if accessKey from URL and accessKey in respective space are same
+        // then setSuccess True
+        if (doc.data().accessKey === accessKey) {
+          setSuccessOk(true)
           setAccessKey(doc.data().accessKey);
           setFetchingYourSpace(false);
         }
@@ -215,7 +223,7 @@ const Login: React.FC<LoginProps> = () => {
             mb={5}
             placeholder="enter access key"
           />
-          <Button size={"sm"} width={"xs"} onClick={handleLogin}>
+          <Button loadingText="Signing in..." isLoading={loading} size={"sm"} width={"xs"} onClick={handleLogin}>
             Login to Dashboard
           </Button>
         </Flex>

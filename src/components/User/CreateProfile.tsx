@@ -25,6 +25,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../homepage.css";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -104,8 +105,8 @@ const CreateProfile: React.FC = () => {
           spaceId: email,
           online: true,
           status: "do_not_want_to_talk",
-          userPosX: 150,
-          userPosY: 150,
+          userPosX: generateRandomPositions(100, 500).x,
+          userPosY: generateRandomPositions(100, 500).y,
           profileImage: putImage(),
         });
       } catch (error) {

@@ -60,6 +60,7 @@ const Register: React.FC<RegisterProps> = () => {
 
         // add this user to users colection in firebase
         addUserToUsers(userC)
+        setLoading(false)
 
         navigate(`/create-profile/${email}/${accessKey}`);
 
@@ -175,6 +176,7 @@ const Register: React.FC<RegisterProps> = () => {
           color: "red.500",
         }}
         isLoading={loading}
+        loadingText="Registering yourself..."
         type="submit"
         fontSize="10pt"
         fontWeight={700}
