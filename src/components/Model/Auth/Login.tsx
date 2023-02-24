@@ -104,7 +104,6 @@ const Login: React.FC = () => {
         })) 
 
         setLoading(false);
-
         setAuthModelState((prev) => ({
           ...prev,
           open: false,
@@ -117,7 +116,6 @@ const Login: React.FC = () => {
           duration: 4000,
           isClosable: true,
         });
-
         navigate("/dashboard");
       })
       .catch((error) => {

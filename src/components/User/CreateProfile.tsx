@@ -21,14 +21,14 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
 import { firestore, storage } from "../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../homepage.css";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
-  const [email, setEmail] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyProfile, setCompanyProfile] = useState("");
   const [workProfile, setworkProfile] = useState("");
@@ -43,6 +43,7 @@ const CreateProfile: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
   const navigate = useNavigate();
+  const { email, accessKey } = useParams()
 
   const setCurrentUserProfileState = useSetRecoilState(currentUserProfileState);
 
@@ -55,9 +56,10 @@ const CreateProfile: React.FC = () => {
   }
 
   const handleCreateProfile = async () => {
+
     try {
       setLoading(true);
-
+      // Here creating user profile
       await setDoc(
         doc(firestore, `userProfiles/userProfileId-${currentUser.id}`),
         {
@@ -71,13 +73,18 @@ const CreateProfile: React.FC = () => {
           pr: pr,
           profileImage: putImage() ,
           userId: currentUser.id,
+          accessKey: accessKey,
+          spaceId: email
         }
       );
 
+      // setting up current user profile in global state
       setCurrentUserProfileState((prev) => ({
         ...prev,
         id: currentUser.id,
         name: owner,
+        accessKey: accessKey,
+        spaceId: email,
         companyName: companyName,
         companyProfile: companyProfile,
         profileImage: profileImage,
@@ -94,10 +101,12 @@ const CreateProfile: React.FC = () => {
           companyName: companyName,
           id: currentUser.id,
           name: owner,
+          accessKey: accessKey,
+          spaceId: email,
           online: true,
           status: "do_not_want_to_talk",
-          userPosX: 150,
-          userPosY: 150,
+          userPosX: generateRandomPositions(100, 500).x,
+          userPosY: generateRandomPositions(100, 500).y,
           profileImage: putImage(),
         });
       } catch (error) {
@@ -115,7 +124,7 @@ const CreateProfile: React.FC = () => {
       });
 
       // add user to vs-users collection here
-      navigate(`/dashboard`);
+      navigate(`/dashboard/${email}/${accessKey}`);
     } catch (error) {
       console.error(error);
     }
@@ -236,7 +245,6 @@ const CreateProfile: React.FC = () => {
                       mb={2}
                       mt={2}
                       value={currentUser.email}
-                      onChange={(e) => setEmail(e.target.value)}
                       fontSize="10pt"
                       _placeholder={{ color: "gray.500" }}
                       _hover={{
