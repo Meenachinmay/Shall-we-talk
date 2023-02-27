@@ -18,6 +18,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "crypto-js": "^4.1.1",
     "firebase": "^9.10.0",
     "framer-motion": "^8.0.1",
     "jsonwebtoken": "^9.0.0",
@@ -61,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/react-query": "^1.2.9"
   }
