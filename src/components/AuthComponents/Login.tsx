@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Input, Button, useToast } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { collection, doc, getDoc, getDocs, limit, query, setDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { auth, firestore } from "../firebase/clientApp";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
@@ -15,7 +24,7 @@ import { authModelState } from "../../atoms/authModelState";
 type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
-  const toast = useToast()
+  const toast = useToast();
   const { email, accessKey } = useParams();
   const [userEmail, setUserEmail] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
@@ -32,7 +41,7 @@ const Login: React.FC<LoginProps> = () => {
   const [userLogout, setCurrentUserLogoutState] = useRecoilState(
     currentUserLogoutState
   );
-  const [loading, setLoading] = useState<boolean> (false)
+  const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMyMessages] = useRecoilState(myMessagesModelState);
   //TODO:
   // use this access key to add a user in user space
@@ -161,28 +170,23 @@ const Login: React.FC<LoginProps> = () => {
   useEffect(() => {
     async function checkAccesskey() {
       setFetchingYourSpace(true);
-      // take the space encrypted email and decrypt it and then check it hereo
-
-      // first checking the if space exists, if yes then checking for the 
-      // accessKey, if both cases are passed then let user login in the
-      // respective space.
       const q = query(
         accessKeysCol,
         where("spaceId", "==", `${email}`),
         limit(1)
       );
       const querySnapshot = await getDocs(q);
-      await querySnapshot.forEach((doc) => {
+      querySnapshot.forEach((doc) => {
         // if accessKey from URL and accessKey in respective space are same
         // then setSuccess True
         if (doc.data().accessKey === accessKey) {
-          setSuccessOk(true)
+          setSuccessOk(true);
           setAccessKey(doc.data().accessKey);
           setFetchingYourSpace(false);
         }
       });
     }
-    checkAccesskey()
+    checkAccesskey();
 
     return () => {};
   }, [email, accessKeysCol]);
@@ -229,7 +233,13 @@ const Login: React.FC<LoginProps> = () => {
             mb={5}
             placeholder="enter access key"
           />
-          <Button loadingText="Signing in..." isLoading={loading} size={"sm"} width={"xs"} onClick={handleLogin}>
+          <Button
+            loadingText="Signing in..."
+            isLoading={loading}
+            size={"sm"}
+            width={"xs"}
+            onClick={handleLogin}
+          >
             Login to Dashboard
           </Button>
         </Flex>

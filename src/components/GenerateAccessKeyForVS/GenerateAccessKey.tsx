@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { Input, Flex, Button } from "@chakra-ui/react";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import { firestore } from "../firebase/clientApp";
-import { useParams } from "react-router-dom";
-import { encryptData, filterEncryption } from "../../utilservices/Encryption";
-
-type GenerateAccessKeyForVSProps = {};
+import { decryptEmail, encryptEmail } from "../../utilservices/Encryption";
 
 type IVSRequests = {
   email: string;
@@ -24,7 +21,6 @@ const GenerateAccessKey: React.FC = () => {
   const [encryptedEmail, setEncryptedEmail] = useState<string> ("")
   const [emailToEncrypt, setEmailToEncrypt] = useState<string> ("")
   const [generatedUrl, setGeneratedUrl] = useState<string> ("")
-  const keys = new Map<string, string>() 
 
   // fetch requests from co-working space
   async function fetchRequests () {
@@ -47,6 +43,9 @@ const GenerateAccessKey: React.FC = () => {
       return
     }
     // encrypt an email here
+    // const tt = encryptEmail(emailToEncrypt)
+    // setEncryptedEmail(tt)
+    // console.log("encrypted " + tt)
     
     setLoading(true)
     await setDoc(doc(firestore, `access-keys`, `spaceId-${emailToEncrypt}`), {
@@ -54,7 +53,6 @@ const GenerateAccessKey: React.FC = () => {
         activated: false,
         spaceId: emailToEncrypt
     })
-
     // generate url here
     generateURL()
     setLoading(false)

@@ -39,6 +39,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
+import { decryptEmail } from "../utilservices/Encryption";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -69,6 +70,7 @@ const Dashboard: React.FC = () => {
   const [bgimage] = useImage(spaceDetails.vsImage);
   const navigate = useNavigate();
   const { email, key } = useParams();
+  const [decryptedEmail, setDecryptedEmail] = useState<string> ("")
 
   const [currentUser] = useRecoilState(currentUserState);
 
@@ -112,6 +114,8 @@ const Dashboard: React.FC = () => {
 
   // this use effect to load all the logged in users from the database
   useEffect(() => {
+    const tt = decryptEmail(email!)
+    setDecryptedEmail(tt)
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
       let data: UserData[] = [];

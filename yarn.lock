@@ -7864,6 +7864,11 @@ multicast-dns@^7.2.5:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
 
+n-krypta@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/n-krypta/-/n-krypta-1.0.6.tgz#562d049e61beb1cb629e3f808847baf7b12c3642"
+  integrity sha512-tEWwAauCs+DDhY7flCbwOZADh4YUz1zRSHnFuPSawMGJtRyyApUH4W2VQ4ouzMeMRMEA/1A84t7k2o7uuYvFtQ==
+
 nano-time@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/nano-time/-/nano-time-1.0.0.tgz#b0554f69ad89e22d0907f7a12b0993a5d96137ef"
