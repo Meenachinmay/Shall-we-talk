@@ -21,7 +21,7 @@ const Register: React.FC<RegisterASpaceProps> = () => {
         return;
       }
 
-      const storageRef = ref(storage, `vs-image-${email}`);
+      const storageRef = ref(storage, `virtual-space-images/vs-image-${email}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",

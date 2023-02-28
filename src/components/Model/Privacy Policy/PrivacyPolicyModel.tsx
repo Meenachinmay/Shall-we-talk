@@ -49,9 +49,7 @@ const PrivacyPolicyModel: React.FC = () => {
         <ModalContent bg={"red.50"}>
           <ModalHeader textAlign="center">
             <VStack>
-              <Text fontSize={"12pt"}>
-                Shall We Talkプライバシーポリシー
-              </Text>
+              <Text fontSize={"12pt"}>Shall We Talkプライバシーポリシー</Text>
               <Text color="gray.400" fontSize="xs" textOverflow="hidden"></Text>
             </VStack>
           </ModalHeader>
@@ -85,7 +83,7 @@ const PrivacyPolicyModel: React.FC = () => {
                         color: "red.500",
                       }}
                     >
-                      ゚ライバシーポリシー
+                      プライバシーポリシー
                     </Button>
                   </a>
                   <a href={url2} target="_blank" rel="noreferrer">

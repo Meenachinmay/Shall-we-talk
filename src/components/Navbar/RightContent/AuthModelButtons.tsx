@@ -3,9 +3,19 @@ import { Button } from "@chakra-ui/react";
 import { authModelState } from "../../../atoms/authModelState";
 import { useSetRecoilState } from "recoil";
 import "../../homepage.css";
+import { useNavigate } from "react-router-dom";
 
 const AuthModelButtons: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModelState);
+  const navigate = useNavigate()
+
+  function handleLoginButton () {
+    // navigate()
+  }
+
+  function handleRegisterButton () {
+    // navigate()
+  }
 
   return (
     <>
@@ -20,7 +30,7 @@ const AuthModelButtons: React.FC = () => {
         fontWeight={700}
         bg="red.500"
         color="white"
-        onClick={() => setAuthModelState({ open: true, view: "login" })}
+        onClick={() => handleLoginButton()}
         variant="outline"
         height="28px"
         display={{ base: "flex", sm: "flex" }}
@@ -43,7 +53,7 @@ const AuthModelButtons: React.FC = () => {
         border="1px solid"
         borderColor="red.500"
         color="white"
-        onClick={() => setAuthModelState({ open: true, view: "signup" })}
+        onClick={() => handleRegisterButton()}
         variant="outline"
         height="28px"
         display={{ base: "flex", sm: "flex" }}

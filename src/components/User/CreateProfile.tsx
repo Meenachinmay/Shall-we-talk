@@ -394,7 +394,6 @@ const CreateProfile: React.FC = () => {
                   </HStack>
 
                   <Flex flexDirection="column" w="full" mt={6}>
-                      <Text fontSize={{ base: '10px', sm: "10px", md: "xs", lg: "xs"}}>Please write about yourself in 200 characters only.</Text>
                     <Textarea
                       resize={'vertical'}
                       maxLength={200}

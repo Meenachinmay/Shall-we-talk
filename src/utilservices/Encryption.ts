@@ -1,5 +1,5 @@
 import { AES, enc } from "crypto-js";
-const secretKey = "Xhgrtredgdsljlksfsfdseproji43434";
+const secretKey = "hello world";
 
 export const encryptData = async (dataToEncrypt: string) => {
   const data = AES.encrypt(
@@ -9,7 +9,7 @@ export const encryptData = async (dataToEncrypt: string) => {
   return data;
 };
 
-export const decryptData = async (dataToDecrpyt: string) => {
+export const decryptData = (dataToDecrpyt: string) => {
   const bytes = CryptoJS.AES.decrypt(dataToDecrpyt, secretKey);
   const data = JSON.parse(bytes.toString(enc.Utf8));
   return data;
