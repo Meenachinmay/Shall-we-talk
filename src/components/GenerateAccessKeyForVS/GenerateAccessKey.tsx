@@ -23,6 +23,8 @@ const GenerateAccessKey: React.FC = () => {
   const [key, setKey] = useState<string>("")
   const [encryptedEmail, setEncryptedEmail] = useState<string> ("")
   const [emailToEncrypt, setEmailToEncrypt] = useState<string> ("")
+  const [generatedUrl, setGeneratedUrl] = useState<string> ("")
+  const keys = new Map<string, string>() 
 
   // fetch requests from co-working space
   async function fetchRequests () {
@@ -40,29 +42,28 @@ const GenerateAccessKey: React.FC = () => {
   // function to generate access key
   async function generateKey () {
 
+    if (!emailToEncrypt) {
+      alert('Please provide an space email to generate.')
+      return
+    }
     // encrypt an email here
-    await encryptData(emailToEncrypt)
-      .then(email => setEncryptedEmail(email))
-      .catch(error => console.log(error.message))
+    
+    setLoading(true)
+    await setDoc(doc(firestore, `access-keys`, `spaceId-${emailToEncrypt}`), {
+        accessKey: key,
+        activated: false,
+        spaceId: emailToEncrypt
+    })
 
-    setEncryptedEmail(filterEncryption(encryptedEmail))
-    console.log(generateURL())
-
-    // setLoading(true)
-    // await setDoc(doc(firestore, `access-keys`, `spaceId-${emailToEncrypt}`), {
-    //     accessKey: `SWT-AXAMET-2023`,
-    //     activated: false,
-    //     spaceId: emailToEncrypt
-    // })
-
-    setKey("SWT-AXAMET-2023")
+    // generate url here
+    generateURL()
     setLoading(false)
   }
 
   // generate a URL for user to login
   function generateURL() {
-    let URL = `http://localhost:3000/user-login/${encryptedEmail}/${key}`
-    return URL
+    let URL = `http://localhost:3000/user-login/${emailToEncrypt}/${key}`
+    setGeneratedUrl(URL)
   }
 
   return (
@@ -81,6 +82,9 @@ const GenerateAccessKey: React.FC = () => {
       ))}
 
       <Input onChange={(e) => setEmailToEncrypt(e.target.value)} width={'sm'} mb="3" type="email" placeholder="Put email to generate URL / key"/>
+      <Input onChange={(e) => setKey(e.target.value)} width={'sm'} mb="3" type="text" placeholder="Put Key to generate URL"/>
+
+      { generatedUrl ? <p>{generatedUrl}</p> : null }
 
       <Button isLoading={loading} loadingText="Generating access key..." onClick={generateKey}>Generate key</Button>
     </Flex>

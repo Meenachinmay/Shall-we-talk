@@ -161,13 +161,18 @@ const Login: React.FC<LoginProps> = () => {
   useEffect(() => {
     async function checkAccesskey() {
       setFetchingYourSpace(true);
+      // take the space encrypted email and decrypt it and then check it hereo
+
+      // first checking the if space exists, if yes then checking for the 
+      // accessKey, if both cases are passed then let user login in the
+      // respective space.
       const q = query(
         accessKeysCol,
         where("spaceId", "==", `${email}`),
         limit(1)
       );
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
+      await querySnapshot.forEach((doc) => {
         // if accessKey from URL and accessKey in respective space are same
         // then setSuccess True
         if (doc.data().accessKey === accessKey) {
@@ -177,7 +182,8 @@ const Login: React.FC<LoginProps> = () => {
         }
       });
     }
-    checkAccesskey();
+    checkAccesskey()
+
     return () => {};
   }, [email, accessKeysCol]);
 
