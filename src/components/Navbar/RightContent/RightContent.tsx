@@ -192,7 +192,8 @@ const RightContent: React.FC = () => {
             </Menu>
           </>
         ) : (
-         <AuthModelButtons /> 
+        //  <AuthModelButtons /> 
+        null
         ) }
       </Flex>
     </>
