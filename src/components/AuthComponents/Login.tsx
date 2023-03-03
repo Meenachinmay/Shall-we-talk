@@ -25,14 +25,14 @@ type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
   const toast = useToast();
-  const { email, accessKey } = useParams();
+  const { email } = useParams();
   const [userEmail, setUserEmail] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
   const [key, setAccessKey] = useState<string>("");
   const navigate = useNavigate();
   const accessKeysCol = collection(firestore, "access-keys");
-  const [success, setSuccessOk] = useState<boolean>(false);
-  const [fetchingYourSpace, setFetchingYourSpace] = useState<boolean>(false);
+  const [verifyingKey, setVerifyingKey] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
@@ -43,153 +43,171 @@ const Login: React.FC<LoginProps> = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMyMessages] = useRecoilState(myMessagesModelState);
-  //TODO:
-  // use this access key to add a user in user space
-  // user space's space id, spaceEmail, accessKey, noOfPeople, accesskeyActivated, virtualSpaceImage
-  // get a virtual space where spaceId == spaceA@gmail.com AND accessKey == spaceA@gmail.com/spaceA_FEB_2023
-  // vertual space table -> id, name, image, noOfPeople, accessKey, accessKeyActivated
-  // user in the space table -> id, name, email, password, createdAt, updatedAt
-  // user profile table -> id, name, email, profileImage, companyName, companyProfile, workProfile, hobbies, pet, pr, status
-  // vs-user table -> id, name, email, companyName, status, profileImage
 
-  function handleLogin() {
+  // this method handle login logic
+  async function handleLogin() {
+    setVerifyingKey(true);
+    const q = query(
+      accessKeysCol,
+      where("spaceId", "==", `${email}`),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // if accessKey from URL and accessKey in respective space are same
+      // then setSuccess True
+      if (doc.data().accessKey === key) {
+        setSuccess(true);
+        setVerifyingKey(false);
+      } else {
+        alert("please contact your space to get a correct space key.");
+        setSuccess(false);
+        setVerifyingKey(false);
+      }
+    });
+
     // set login logic here. if login success then
-    setLoading(true);
-    signInWithEmailAndPassword(auth, userEmail, userPassword)
-      .then(async (userC) => {
-        // here check for this user email address in profile collection
-        const docRef = doc(
-          firestore,
-          "userProfiles",
-          `userProfileId-${userC.user.uid}`
-        );
+    if (success) {
+      setLoading(true);
+      signInWithEmailAndPassword(auth, userEmail, userPassword)
+        .then(async (userC) => {
+          // here check for this user email address in profile collection
+          const docRef = doc(
+            firestore,
+            "userProfiles",
+            `userProfileId-${userC.user.uid}`
+          );
 
-        const docSnap = await getDoc(docRef);
+          const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists() && success) {
-          // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
-          setCurrentUserProfileState((prev) => ({
-            ...prev,
-            id: userC.user.uid,
-            name: docSnap.data().name,
-            companyName: docSnap.data().companyName,
-            companyProfile: docSnap.data().companyProfile,
-            profileImage: docSnap.data().profileImage,
-            pet: docSnap.data().pet,
-            pr: docSnap.data().pr,
-            status: docSnap.data().status,
-            hobbies: docSnap.data().hobbies,
-            workProfile: docSnap.data().workProfile,
-          }));
-
-          // setting current user state (id, email, online, status)
-          setCurrentUserState((prev) => ({
-            ...prev,
-            id: userC.user.uid,
-            email: userC.user.email!,
-            online: "true",
-            status: "do_not_want_to_talk",
-          }));
-
-          // here add user in vs-user's collection
-          try {
-            await setDoc(doc(firestore, `vs-users/userId-${userC.user.uid}`), {
-              companyName: docSnap.data().companyName,
+          if (docSnap.exists() && success) {
+            // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
+            setCurrentUserProfileState((prev) => ({
+              ...prev,
               id: userC.user.uid,
-              accessKey: docSnap.data().accessKey,
-              spaceId: email,
               name: docSnap.data().name,
-              online: true,
-              status: "do_not_want_to_talk",
-              userPosX: generateRandomPositions(100, 500).x,
-              userPosY: generateRandomPositions(100, 500).y,
+              companyName: docSnap.data().companyName,
+              companyProfile: docSnap.data().companyProfile,
               profileImage: docSnap.data().profileImage,
-            });
-          } catch (error) {
-            console.log(error);
+              pet: docSnap.data().pet,
+              pr: docSnap.data().pr,
+              status: docSnap.data().status,
+              hobbies: docSnap.data().hobbies,
+              workProfile: docSnap.data().workProfile,
+            }));
+
+            // setting current user state (id, email, online, status)
+            setCurrentUserState((prev) => ({
+              ...prev,
+              id: userC.user.uid,
+              email: userC.user.email!,
+              online: "true",
+              status: "do_not_want_to_talk",
+            }));
+
+            // here add user in vs-user's collection
+            try {
+              await setDoc(
+                doc(firestore, `vs-users/userId-${userC.user.uid}`),
+                {
+                  companyName: docSnap.data().companyName,
+                  id: userC.user.uid,
+                  accessKey: docSnap.data().accessKey,
+                  spaceId: email,
+                  name: docSnap.data().name,
+                  online: true,
+                  status: "do_not_want_to_talk",
+                  userPosX: generateRandomPositions(100, 500).x,
+                  userPosY: generateRandomPositions(100, 500).y,
+                  profileImage: docSnap.data().profileImage,
+                }
+              );
+            } catch (error) {
+              console.log(error);
+            }
+          } else {
+            // redirect user to create profile page
+            navigate(`/create-profile/${email}/${key}`);
           }
-        } else {
-          // redirect user to create profile page
-          navigate(`/create-profile/${email}/${accessKey}`);
-        }
 
-        setCurrentUserLogoutState((prev) => ({
-          ...prev,
-          currentUserLoggedOut: false,
-        }));
+          setCurrentUserLogoutState((prev) => ({
+            ...prev,
+            currentUserLoggedOut: false,
+          }));
 
-        setMyMessages((prev) => ({
-          ...prev,
-          messages: [],
-          open: false,
-        }));
+          setMyMessages((prev) => ({
+            ...prev,
+            messages: [],
+            open: false,
+          }));
 
-        setAuthModelState((prev) => ({
-          ...prev,
-          open: false,
-        }));
+          setAuthModelState((prev) => ({
+            ...prev,
+            open: false,
+          }));
 
-        setLoading(false);
-        navigate(`/dashboard/${email}/${accessKey}`);
+          setLoading(false);
+          navigate(`/dashboard/${email}/${key}`);
 
-        toast({
-          title: "ログイン成功！",
-          description: "SWTでの体験をお楽しみください",
-          status: "success",
-          duration: 4000,
-          isClosable: true,
+          toast({
+            title: "ログイン成功！",
+            description: "SWTでの体験をお楽しみください",
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+          });
+        })
+        .catch((error) => {
+          setLoading(false);
+          if (error.message === "Firebase: Error (auth/wrong-password).") {
+            toast({
+              title: "サーバーエラー",
+              description: "このメールアドレスは登録されていません",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+            return;
+          }
+
+          if ((error.message = "Firebase: Error (auth/user-not-found).")) {
+            toast({
+              title: "サーバーエラー",
+              description: "このメールアドレスは登録されていません",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+            return;
+          }
         });
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (error.message === "Firebase: Error (auth/wrong-password).") {
-          toast({
-            title: "サーバーエラー",
-            description: "このメールアドレスは登録されていません",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-          return;
-        }
-
-        if ((error.message = "Firebase: Error (auth/user-not-found).")) {
-          toast({
-            title: "サーバーエラー",
-            description: "このメールアドレスは登録されていません",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-          return;
-        }
-      });
+    }
   }
 
   // fetch space with email from params
-  useEffect(() => {
-    async function checkAccesskey() {
-      setFetchingYourSpace(true);
-      const q = query(
-        accessKeysCol,
-        where("spaceId", "==", `${email}`),
-        limit(1)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // if accessKey from URL and accessKey in respective space are same
-        // then setSuccess True
-        if (doc.data().accessKey === accessKey) {
-          setSuccessOk(true);
-          setAccessKey(doc.data().accessKey);
-          setFetchingYourSpace(false);
-        }
-      });
-    }
-    checkAccesskey();
+  // useEffect(() => {
+  //   async function checkAccesskey() {
+  //     setFetchingYourSpace(true);
+  //     const q = query(
+  //       accessKeysCol,
+  //       where("spaceId", "==", `${email}`),
+  //       limit(1)
+  //     );
+  //     const querySnapshot = await getDocs(q);
+  //     querySnapshot.forEach((doc) => {
+  //       // if accessKey from URL and accessKey in respective space are same
+  //       // then setSuccess True
+  //       if (doc.data().accessKey === accessKey) {
+  //         setSuccessOk(true);
+  //         setAccessKey(doc.data().accessKey);
+  //         setFetchingYourSpace(false);
+  //       }
+  //     });
+  //   }
+  //   checkAccesskey();
 
-    return () => {};
-  }, [email, accessKeysCol]);
+  //   return () => {};
+  // }, [email, accessKeysCol]);
 
   return (
     <>
@@ -234,8 +252,14 @@ const Login: React.FC<LoginProps> = () => {
             placeholder="enter access key"
           />
           <Button
-            loadingText="Signing in..."
-            isLoading={loading}
+            loadingText={`${
+              verifyingKey
+                ? "Access Key verifying"
+                : loading
+                ? "Signing in..."
+                : null
+            }`}
+            isLoading={loading || verifyingKey}
             size={"sm"}
             width={"xs"}
             onClick={handleLogin}
