@@ -2,10 +2,10 @@ import { Text, Box, Image, VStack, Flex, useMediaQuery } from "@chakra-ui/react"
 import React from "react";
 import "../components/homepage.css";
 import Parrot from "../images/parrot.png";
-import Layer1 from "../images/layer1.png";
-import Layer2 from "../images/layer2.png";
-import Layer3 from "../images/layer3.png";
-import Layer4 from "../images/layer4.png";
+import Layer1 from "../images/layer1.webp";
+import Layer2 from "../images/layer2.webp";
+import Layer3 from "../images/layer3.webp";
+import Layer4 from "../images/layer4.webp";
 
 const HomePage: React.FC = () => {
 
