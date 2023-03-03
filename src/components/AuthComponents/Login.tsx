@@ -44,6 +44,8 @@ const Login: React.FC<LoginProps> = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMyMessages] = useRecoilState(myMessagesModelState);
 
+  console.log(window.btoa("chinmayanand896@gmail.com"));
+
   // this method handle login logic
   async function handleLogin() {
     setVerifyingKey(true);
