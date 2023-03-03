@@ -107,7 +107,7 @@ const Register: React.FC<RegisterProps> = () => {
       id: userC.user.uid,
       email: userC.user.email,
       accessKey: accessKey,
-      spaceId: email
+      spaceId: email 
     });
     setAddingUserToUsers(false)
   }

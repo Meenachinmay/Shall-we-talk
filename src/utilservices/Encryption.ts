@@ -1,21 +1,11 @@
-import { AES, enc } from "crypto-js";
-const secretKey = "hello world";
+import { encrypt, decrypt, compare } from 'n-krypta'
 
-export const encryptData = async (dataToEncrypt: string) => {
-  const data = AES.encrypt(
-    JSON.stringify(dataToEncrypt),
-    secretKey
-  ).toString();
-  return data;
-};
+import { SECRET_KEY_FOR_EMAIL_ENCRYPTION as secretKey } from '../keys'
 
-export const decryptData = (dataToDecrpyt: string) => {
-  const bytes = CryptoJS.AES.decrypt(dataToDecrpyt, secretKey);
-  const data = JSON.parse(bytes.toString(enc.Utf8));
-  return data;
-};
+export function encryptEmail(email: string) {
+  return encrypt(email, secretKey) as string
+}
 
-export const filterEncryption = (dataToFilter: string) => {
-    const final = dataToFilter.replace('/', '')
-    return final as string
+export function decryptEmail(email: string) {
+  return decrypt(email, secretKey)
 }

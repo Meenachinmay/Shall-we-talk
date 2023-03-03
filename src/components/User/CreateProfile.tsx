@@ -16,7 +16,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
 import { firestore, storage } from "../firebase/clientApp";
