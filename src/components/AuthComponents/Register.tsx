@@ -11,12 +11,12 @@ import { auth, firestore } from "../firebase/clientApp";
 type RegisterProps = {};
 
 const Register: React.FC<RegisterProps> = () => {
-  const { email, accessKey } = useParams();
   const navigate = useNavigate();
   const setAuthModelState = useSetRecoilState(authModelState);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [accessKey, setAccesskey] = useState("");
   const [error, setError] = useState<{ type: string; message: string } | null>({
     type: "",
     message: "",
@@ -62,7 +62,7 @@ const Register: React.FC<RegisterProps> = () => {
         addUserToUsers(userC)
         setLoading(false)
 
-        navigate(`/create-profile/${email}/${accessKey}`);
+        navigate(`/create-profile/${accessKey}`);
 
         toast({
           title: "新規登録終わり",
@@ -157,6 +157,23 @@ const Register: React.FC<RegisterProps> = () => {
         mb={2}
         type="password"
         onChange={(e) => setConfirmPassword(e.target.value)}
+        fontSize="10pt"
+        _placeholder={{ color: "gray.500" }}
+        _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
+        _focus={{
+          outline: "none",
+          bg: "white",
+          border: "1px solid",
+          borderColor: "blue.500",
+        }}
+        bg="gray.50"
+      />
+      <Input
+        name="access key"
+        placeholder="Place your space's access key here"
+        mb={2}
+        type="password"
+        onChange={(e) => setAccesskey(e.target.value)}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}

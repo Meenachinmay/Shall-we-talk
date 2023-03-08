@@ -29,15 +29,15 @@ const App: React.FC = () => {
             <Route path="/home/:userId" element={<Home />} />
             <Route path="/chat" element={<Index />} />
             <Route path="/dashboard/:email/:accessKey" element={<Dashboard />} />
-            <Route path="/create-profile/:email/:accessKey" element={<CreateProfile />} />
+            <Route path="/create-profile/:accessKey" element={<CreateProfile />} />
             <Route path="/profile/:id" element={<ViewProfile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
             <Route path="/*" element={<PageNotFound />} />
           </Route>
           <Route path="/generate-access-key" element={<GenerateAccessKey />} />
           <Route path="/register-a-new-space" element={<RegisterSpace />} />
-          <Route path="/user-login/:email" element={<Login />} />
-          <Route path="/user-register/:email/:accessKey" element={<Register />} />
+          <Route path="/user-login" element={<Login />} />
+          <Route path="/user-register" element={<Register />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/testing" element={<Testing />} />

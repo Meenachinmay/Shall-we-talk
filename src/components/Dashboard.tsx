@@ -39,7 +39,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
-import { decryptEmail } from "../utilservices/Encryption";
 
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
@@ -55,22 +54,23 @@ const Dashboard: React.FC = () => {
     useRecoilState(myMessagesModelState);
   const [searchText, setSearchText] = useState("");
   const [spaceDetails, setSpaceDetails] = useState<{
-    email: string,
-    vsImage: string,
-    noOfPeople: number,
-    keyActivated: boolean,
-    virtualSpaceAlloted: boolean
+    email: string;
+    vsImage: string;
+    noOfPeople: number;
+    keyActivated: boolean;
+    virtualSpaceAlloted: boolean;
   }>({
     email: "",
     vsImage: "",
     noOfPeople: 0,
     keyActivated: false,
-    virtualSpaceAlloted: false
+    virtualSpaceAlloted: false,
   });
   const [bgimage] = useImage(spaceDetails.vsImage);
   const navigate = useNavigate();
-  const { email, key } = useParams();
-  const [decryptedEmail, setDecryptedEmail] = useState<string> ("")
+
+  // getting email and key from login page / create profile page
+  const { email } = useParams();
 
   const [currentUser] = useRecoilState(currentUserState);
 
@@ -114,28 +114,23 @@ const Dashboard: React.FC = () => {
 
   // this use effect to load all the logged in users from the database
   useEffect(() => {
-    const tt = decryptEmail(email!)
-    setDecryptedEmail(tt)
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
-      let data: UserData[] = [];
+      let data: UserData[] = []; 
       if (snapshot.docChanges().length) {
         snapshot.forEach((doc) => {
           if (doc.data().spaceId === email) {
             data.push(doc.data() as UserData);
-          } 
+          }
         });
         setOnlineUsers(data);
         setLoading(false);
-      }
+      } 
     });
 
+    // fetching details of a particular space
     async function fetchSpaceDetails() {
-      const docRef = doc(
-        firestore,
-        "co-workingSpaces",
-        `spaceId-${email}`
-      );
+      const docRef = doc(firestore, "co-workingSpaces", `spaceId-${email}`);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setSpaceDetails({
@@ -143,8 +138,8 @@ const Dashboard: React.FC = () => {
           vsImage: docSnap.data().vsImage,
           noOfPeople: docSnap.data().noOfPeople,
           keyActivated: docSnap.data().keyActivated,
-          virtualSpaceAlloted: docSnap.data().virtualSpaceAlloted
-        })
+          virtualSpaceAlloted: docSnap.data().virtualSpaceAlloted,
+        });
       } else {
         console.log("no such doc available");
       }
@@ -155,7 +150,7 @@ const Dashboard: React.FC = () => {
     return () => {
       unsub2();
     };
-  }, [setOnlineUsers]);
+  }, [firestore]);
 
   // creating a badge based upon the talk status of the user
   const badge = (user: UserData) => {
@@ -217,6 +212,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // see messages of logged in users
   const handleSeeMessage = () => {
     const mq = query(
       collection(firestore, "messages"),
@@ -239,12 +235,14 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // handle status of current logged in user
   const handleStatus = (user: UserData) => {
     if (currentUser.id === user.id) {
       setUserStatusModelState({ open: true });
     }
   };
 
+  // when a user click on a particular card on dashboard user card list
   const handleUserCardClick = (user: UserData) => {
     setHighlightUserInMap((prev) => ({
       ...prev,

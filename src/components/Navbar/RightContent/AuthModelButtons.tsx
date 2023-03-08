@@ -10,11 +10,11 @@ const AuthModelButtons: React.FC = () => {
   const navigate = useNavigate()
 
   function handleLoginButton () {
-    // navigate()
+    navigate('/user-login')
   }
 
   function handleRegisterButton () {
-    // navigate()
+    navigate('/user-register')
   }
 
   return (
