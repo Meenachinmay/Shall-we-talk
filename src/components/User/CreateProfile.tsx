@@ -1,31 +1,30 @@
 import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
   Flex,
   HStack,
-  VStack,
-  Box,
+  Input,
+  Progress,
   Stat,
   StatLabel,
   StatNumber,
-  Container,
-  Divider,
-  Avatar,
-  Button,
-  Input,
-  Text,
-  Progress,
   Textarea,
+  useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { currentUserState } from "../../atoms/currentUserState";
-import { firestore, storage } from "../firebase/clientApp";
-import { useToast } from "@chakra-ui/react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../homepage.css";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { currentUserState } from "../../atoms/currentUserState";
 import { generateRandomPositions } from "../../utilservices/ExternalMethods";
+import { firestore, storage } from "../firebase/clientApp";
+import "../homepage.css";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -43,20 +42,19 @@ const CreateProfile: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
   const navigate = useNavigate();
-  const { email, accessKey } = useParams()
+  const { email, accessKey } = useParams();
 
   const setCurrentUserProfileState = useSetRecoilState(currentUserProfileState);
 
   function putImage() {
     if (profileImage === "") {
-      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      return "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
     } else {
-      return profileImage
+      return profileImage;
     }
   }
 
   const handleCreateProfile = async () => {
-
     try {
       setLoading(true);
       // Here creating user profile
@@ -71,10 +69,10 @@ const CreateProfile: React.FC = () => {
           hobbies: hobbies,
           pet: pet,
           pr: pr,
-          profileImage: putImage() ,
+          profileImage: putImage(),
           userId: currentUser.id,
           accessKey: accessKey,
-          spaceId: email
+          spaceId: email,
         }
       );
 
@@ -365,7 +363,12 @@ const CreateProfile: React.FC = () => {
                       bg="gray.50"
                     />
                   </HStack>
-                  <HStack w="full" mt={6} justifyContent="start" overflowY="scroll">
+                  <HStack
+                    w="full"
+                    mt={6}
+                    justifyContent="start"
+                    overflowY="scroll"
+                  >
                     <Input
                       name="pet"
                       maxLength={50}
@@ -395,7 +398,7 @@ const CreateProfile: React.FC = () => {
 
                   <Flex flexDirection="column" w="full" mt={6}>
                     <Textarea
-                      resize={'vertical'}
+                      resize={"vertical"}
                       maxLength={200}
                       name="pr"
                       onChange={(e) => setPr(e.target.value)}

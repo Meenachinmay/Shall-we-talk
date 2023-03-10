@@ -36,8 +36,8 @@ const App: React.FC = () => {
           </Route>
           <Route path="/generate-access-key" element={<GenerateAccessKey />} />
           <Route path="/register-a-new-space" element={<RegisterSpace />} />
-          <Route path="/user-login/:email" element={<Login />} />
-          <Route path="/user-register/:email/:accessKey" element={<Register />} />
+          <Route path="/user-login" element={<Login />} />
+          <Route path="/user-register" element={<Register />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/testing" element={<Testing />} />
