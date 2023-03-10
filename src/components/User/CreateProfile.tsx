@@ -42,8 +42,7 @@ const CreateProfile: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
   const navigate = useNavigate();
-  const { accessKey } = useParams();
-  const [email, setEmail] = useState<string>("");
+  const { email, accessKey } = useParams();
 
   const setCurrentUserProfileState = useSetRecoilState(currentUserProfileState);
 
@@ -210,31 +209,6 @@ const CreateProfile: React.FC = () => {
               <Box w="full" mt={1}>
                 {uploadingImage ? <Progress value={bytesCount} mt={2} /> : null}
                 <VStack w="full" h="full" spacing={4} overflowY="scroll">
-                  <HStack w="full" mt={6} justifyContent="start">
-                    <Input
-                      name="spaceId"
-                      maxLength={50}
-                      placeholder="Place your spaceId here."
-                      type="text"
-                      mb={2}
-                      mt={2}
-                      onChange={(e) => setOwner(e.target.value)}
-                      fontSize="10pt"
-                      _placeholder={{ color: "gray.500" }}
-                      _hover={{
-                        bg: "white",
-                        border: "1px solid",
-                        borderColor: "blue.500",
-                      }}
-                      _focus={{
-                        outline: "none",
-                        bg: "white",
-                        border: "1px solid",
-                        borderColor: "blue.500",
-                      }}
-                      bg="gray.50"
-                    />
-                  </HStack>
                   <HStack w="full" mt={6} justifyContent="start">
                     <Input
                       name="name"

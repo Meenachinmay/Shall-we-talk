@@ -62,7 +62,7 @@ const GenerateAccessKey: React.FC = () => {
     setLoading(true);
     await setDoc(doc(firestore, `access-keys`, `spaceId-${emailToEncrypt}`), {
       accessKey: key,
-      activated: false,
+      activated: true,
       spaceId: emailToEncrypt,
     });
 
