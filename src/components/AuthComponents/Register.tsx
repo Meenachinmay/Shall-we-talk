@@ -1,4 +1,13 @@
-import { Button, Text, VStack , Input, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Text,
+  VStack,
+  Input,
+  useToast,
+  useMediaQuery,
+  Flex,
+  Center,
+} from "@chakra-ui/react";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import {
   collection,
@@ -10,7 +19,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { authModelState } from "../../atoms/authModelState";
 import { currentUserState } from "../../atoms/currentUserState";
@@ -35,9 +44,11 @@ const Register: React.FC<RegisterProps> = () => {
   const toast = useToast();
   const [email, setEmail] = useState<string>("");
   const [fetchingSpace, setFetchingSpace] = useState<boolean>(false);
+  const [test, setTest] = useState<boolean>(false);
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [isLessThan393] = useMediaQuery("(max-width: 393px)");
+
+  const onSubmit = () => {
     if (error) {
       setError(null);
     }
@@ -134,127 +145,153 @@ const Register: React.FC<RegisterProps> = () => {
       querySnapshot.forEach((doc) => {
         if (doc.exists()) {
           setEmail(doc.data().spaceId);
+          setTest(true);
           setFetchingSpace(false);
-          console.log("exists");
-        } else {
-          setFetchingSpace(false);
-          return;
         }
       });
     }
 
     _fetch();
     setFetchingSpace(false);
+    setTest(false);
 
     return () => {};
   }, [accessKey]);
 
   return (
-    <VStack style={{ minHeight: "100vh"}} spacing={5}>
-      <Text mt={5} fontSize={'3xl'}>新規登録</Text>
-      <form onSubmit={onSubmit}>
-        <Input
-          name="email"
-          placeholder="Eメール"
-          type="email"
-          mb={2}
-          mt={2}
-          onChange={(e) => setUserEmail(e.target.value)}
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-        />
+    <Center width={"full"} height={"full"}>
+      <Flex
+        flexDir={"column"}
+        style={{ minHeight: "100vh" }}
+        width={"lg"}
+        alignItems="center"
+        p={5}
+      >
+        <Text mt={5} fontSize={"3xl"}>
+          新規登録
+        </Text>
+          <Input
+            name="email"
+            placeholder="Eメール"
+            type="email"
+            mb={2}
+            mt={2}
+            onChange={(e) => setUserEmail(e.target.value)}
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            bg="gray.50"
+          />
+          <Input
+            name="password"
+            placeholder="パスワード"
+            mb={2}
+            type="password"
+            onChange={(e) => setUserPassword(e.target.value)}
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            bg="gray.50"
+          />
 
-        <Input
-          name="password"
-          placeholder="パスワード"
-          mb={2}
-          type="password"
-          onChange={(e) => setUserPassword(e.target.value)}
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-        />
-
-        <Input
-          name="confirmPassword"
-          placeholder="パスワードを再入力"
-          mb={2}
-          type="password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-        />
-        <Input
-          name="access key"
-          placeholder="Place your space's access key here"
-          mb={2}
-          type="password"
-          onChange={(e) => setAccesskey(e.target.value)}
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{ bg: "white", border: "1px solid", borderColor: "blue.500" }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-        />
-        <Button
-          _hover={{
-            bg: "white",
-            border: "1px solid",
-            borderColor: "red.500",
-            color: "red.500",
-          }}
-          isLoading={loading || fetchingSpace}
-          loadingText={
-            loading
-              ? "Registering yourself..."
-              : fetchingSpace
-              ? "Fetching space..."
-              : ""
-          }
-          type="submit"
-          fontSize="10pt"
-          fontWeight={700}
-          bg="red.500"
-          color="white"
-          variant="solid"
-          height="36px"
-          width="100%"
-          mt={2}
-          mb={2}
-          className="my__button"
-        >
-          ユーザー登録
-        </Button>
-      </form>
-    </VStack>
+          <Input
+            name="confirmPassword"
+            placeholder="パスワードを再入力"
+            mb={2}
+            type="password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            bg="gray.50"
+          />
+          <Input
+            name="access key"
+            placeholder="バーチャルスペースのアクセスキーを入力してください"
+            mb={2}
+            type="password"
+            onChange={(e) => setAccesskey(e.target.value)}
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            bg="gray.50"
+          />
+          <Text color={"red.500"} fontSize={"8px"}>
+            正しいアクセスキーを入力するとボタンがアクティブになります
+          </Text>
+          <Button
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "red.500",
+              color: "red.500",
+            }}
+            isLoading={loading || fetchingSpace}
+            loadingText={
+              loading
+                ? "Registering yourself..."
+                : fetchingSpace
+                ? "Fetching space..."
+                : ""
+            }
+            type="submit"
+            fontSize="10pt"
+            fontWeight={700}
+            bg="red.500"
+            color="white"
+            variant="solid"
+            height="36px"
+            width={isLessThan393 ? "80%" : "xs"}
+            mt={2}
+            mb={2}
+            className="my__button"
+            disabled={!test}
+            onClick={onSubmit}
+          >
+            ユーザー登録
+          </Button>
+      </Flex>
+    </Center>
   );
 };
 

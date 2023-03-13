@@ -9,8 +9,9 @@ import Layer4 from "../images/layer4.webp";
 
 const HomePage: React.FC = () => {
 
-  const [isLargerThan374] = useMediaQuery('(min-width: 374px)')
-  const [isLessThan280] = useMediaQuery('(max-width: 280px)')
+  const [isLessThan373] = useMediaQuery('(max-width: 373px)')
+  const [isLessThan350] = useMediaQuery('(max-width: 350px)')
+  const [isGreaterThan373] = useMediaQuery('(min-width: 373px)')
 
   return (
     <VStack alignItems={"center"} style={{ width: "100%", height: "100%" }}>
@@ -39,13 +40,13 @@ const HomePage: React.FC = () => {
         justifyItems={"center"}
         display={{ base: "inherit", sm: "none" }}
       >
-        <Flex alignItems={"center"} justifyItems={"center"}>
+        <Flex alignItems={"center"} flexGrow={1} justifyItems={"center"}>
           <Text
             mt={"30px"}
             bg="#FED7d7"
             color="#E53E3E"
             fontWeight={"bold"}
-            fontSize={isLessThan280 ? '7px' : isLargerThan374 ? '7pt' : '10px' }
+            fontSize={ isLessThan350 ? '8px' : isLessThan373 ? '9px' : isGreaterThan373 ? '9px' : '10px' }
             p={"10px"}
             borderTopLeftRadius="15px"
             borderBottomLeftRadius={"15px"}
@@ -57,7 +58,7 @@ const HomePage: React.FC = () => {
             bg="#FED7d7"
             color="#2D3748"
             fontWeight={"bold"}
-            fontSize={isLessThan280 ? '7px' : isLargerThan374 ? '7pt' : '10px' }
+            fontSize={ isLessThan350 ? '8px' : isLessThan373 ? '9px' : isGreaterThan373 ? '9px' : '10px' }
             p={"10px"} 
           >
             『直接会話』
@@ -67,7 +68,7 @@ const HomePage: React.FC = () => {
             bg="#FED7d7"
             color="#E53E3E"
             fontWeight={"bold"}
-            fontSize={isLessThan280 ? '7px' : isLargerThan374 ? '7pt' : '10px' }
+            fontSize={ isLessThan350 ? '8px' : isLessThan373 ? '9px' : isGreaterThan373 ? '9px' : '10px' }
             p={"10px"}
             borderTopRightRadius="15px"
             borderBottomRightRadius={"15px"}

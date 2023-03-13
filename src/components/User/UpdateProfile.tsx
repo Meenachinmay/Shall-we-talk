@@ -186,10 +186,6 @@ const UpdateProfile: React.FC = () => {
 
     handleEditProfileImage();
 
-    async function updateVsCollection() {}
-
-    updateVsCollection();
-
     return () => {
       setFile(null);
     };
