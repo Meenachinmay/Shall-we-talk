@@ -163,7 +163,7 @@ const RightContent: React.FC = () => {
                   fontWeight={700}
                   bg="red.500"
                   color="white"
-                  onClick={() => navigate("/dashboard")}
+                  onClick={() => navigate(`/dashboard/${currentUser.spaceId}`)}
                   as={Button}
                   className="my__button"
                 >

@@ -22,16 +22,18 @@ import {
   query,
   setDoc,
   where,
+  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { currentUserState } from "../../atoms/currentUserState";
 import { firestore, storage } from "../firebase/clientApp";
 import { useToast } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import "../homepage.css";
+import { useRecoilState } from "recoil";
+import { currentUserProfileState } from "../../atoms/currentUserProfileState";
+import { currentUserState } from "../../atoms/currentUserState";
 
 const UpdateProfile: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -50,6 +52,10 @@ const UpdateProfile: React.FC = () => {
   const { id } = useParams();
   const profileCol = collection(firestore, "userProfiles");
   const [file, setFile] = useState<File | null>(null);
+  const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
+    currentUserProfileState
+  );
+  const [currentUserSt, setCurrentUserSt] = useRecoilState(currentUserState);
 
   const [userProfile, setUserProfile] = useState<{
     name: string;
@@ -61,6 +67,7 @@ const UpdateProfile: React.FC = () => {
     pet: string;
     pr: string;
     profileImage: string;
+    spaceId: string;
   }>({
     name: "",
     email: "",
@@ -71,7 +78,11 @@ const UpdateProfile: React.FC = () => {
     pr: "",
     pet: "",
     profileImage: "",
+    spaceId: "",
   });
+
+  // store data for setting vs-user collection while updating the user profile
+  // because vs-users access data from user profile also
 
   // method to handle user profile image udpate operations
   const handleEditProfileImage = async () => {
@@ -106,7 +117,7 @@ const UpdateProfile: React.FC = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setProfileImage(downloadURL);
             setUploadingImage(false);
-            setFile(null)
+            setFile(null);
           });
         }
       );
@@ -130,7 +141,28 @@ const UpdateProfile: React.FC = () => {
         pr: pr || userProfile.pr,
         profileImage: profileImage || userProfile.profileImage,
         userId: id,
+        spaceId: userProfile.spaceId,
       });
+
+      // here update the user in vs-users collection also
+      await setDoc(doc(firestore, `vs-users/userId-${id}`), {
+        companyName: companyName || userProfile.companyName,
+        id: id,
+        spaceId: userProfile.spaceId,
+        name: userName || userProfile.name,
+        online: true,
+        status: currentUserSt.status,
+        userPosX: currentUserSt.userPosX,
+        userPosY: currentUserSt.userPosY,
+        profileImage: profileImage || userProfile.profileImage,
+      });
+
+      // updating global state here for current user profile
+      setCurrentUserProfileState((prev) => ({
+        ...prev,
+        name: userName || userProfile.name
+      }))
+
       setUpdating(false);
       setProfileImage("");
 
@@ -148,15 +180,20 @@ const UpdateProfile: React.FC = () => {
 
   // updating user profile image
   useEffect(() => {
-      if (!file) { 
-        return
-      }
-      handleEditProfileImage()
+    if (!file) {
+      return;
+    }
 
-      return () => {
-        setFile(null)
-      }
-  }, [file])
+    handleEditProfileImage();
+
+    async function updateVsCollection() {}
+
+    updateVsCollection();
+
+    return () => {
+      setFile(null);
+    };
+  }, [file]);
 
   // fetching profile for a user
   useEffect(() => {
@@ -178,13 +215,14 @@ const UpdateProfile: React.FC = () => {
           pet: doc.data().pet,
           workProfile: doc.data().workProfile,
           profileImage: doc.data().profileImage,
+          spaceId: doc.data().spaceId,
         });
       });
     });
 
     return () => unsub();
-  }, [firestore]);
- 
+  }, [firestore, profileCol]);
+
   return (
     <VStack h="full" spacing={0} justifyContent="start">
       <Container maxW="3xl">
@@ -221,7 +259,7 @@ const UpdateProfile: React.FC = () => {
                       type="file"
                       id="file"
                       style={{ display: "none" }}
-                    /> 
+                    />
                   </div>
                 </Flex>
                 <Box w="full" mt={1}>
@@ -415,9 +453,14 @@ const UpdateProfile: React.FC = () => {
                       />
                     </HStack>
 
-                    <Flex flexDirection="column" w="full" mt={3} justifyContent="start">
+                    <Flex
+                      flexDirection="column"
+                      w="full"
+                      mt={3}
+                      justifyContent="start"
+                    >
                       <Textarea
-                        resize={'vertical'}
+                        resize={"vertical"}
                         maxLength={200}
                         name="pr"
                         onChange={(e) => setPr(e.target.value)}

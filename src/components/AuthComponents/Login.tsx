@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Flex, VStack, Center, Text, Input, Button, useToast } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Flex,
+  VStack,
+  Center,
+  Text,
+  Input,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import {
   collection,
   doc,
@@ -60,6 +68,37 @@ const Login: React.FC<LoginProps> = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+          // here add user in vs-user's collection
+          const a = generateRandomPositions(100, 500).x;
+          const b = generateRandomPositions(100, 500).y;
+          try {
+            await setDoc(doc(firestore, `vs-users/userId-${userC.user.uid}`), {
+              companyName: docSnap.data().companyName,
+              id: userC.user.uid,
+              spaceId: email,
+              name: docSnap.data().name,
+              online: true,
+              status: "do_not_want_to_talk",
+              userPosX: a,
+              userPosY: b,
+              profileImage: docSnap.data().profileImage,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+
+          // setting current user state (id, email, online, status)
+          setCurrentUserState((prev) => ({
+            ...prev,
+            id: userC.user.uid,
+            email: userC.user.email!,
+            online: "true",
+            status: "do_not_want_to_talk",
+            userPosX: a,
+            userPosY: b,
+            spaceId: email
+          }));
+
           // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
           setCurrentUserProfileState((prev) => ({
             ...prev,
@@ -75,32 +114,6 @@ const Login: React.FC<LoginProps> = () => {
             workProfile: docSnap.data().workProfile,
           }));
 
-          // setting current user state (id, email, online, status)
-          setCurrentUserState((prev) => ({
-            ...prev,
-            id: userC.user.uid,
-            email: userC.user.email!,
-            online: "true",
-            status: "do_not_want_to_talk",
-          }));
-
-          // here add user in vs-user's collection
-          try {
-            await setDoc(doc(firestore, `vs-users/userId-${userC.user.uid}`), {
-              companyName: docSnap.data().companyName,
-              id: userC.user.uid,
-              accessKey: docSnap.data().accessKey,
-              spaceId: email,
-              name: docSnap.data().name,
-              online: true,
-              status: "do_not_want_to_talk",
-              userPosX: generateRandomPositions(100, 500).x,
-              userPosY: generateRandomPositions(100, 500).y,
-              profileImage: docSnap.data().profileImage,
-            });
-          } catch (error) {
-            console.log(error);
-          }
         } else {
           // redirect user to create profile page
           navigate(`/create-profile/${email}/${key}`);
@@ -117,13 +130,8 @@ const Login: React.FC<LoginProps> = () => {
           open: false,
         }));
 
-        setAuthModelState((prev) => ({
-          ...prev,
-          open: false,
-        }));
-
         setLoading(false);
-        navigate(`/dashboard/${email}/${key}`);
+        navigate(`/dashboard/${email}`);
 
         toast({
           title: "ログイン成功！",
@@ -138,7 +146,7 @@ const Login: React.FC<LoginProps> = () => {
         if (error.message === "Firebase: Error (auth/wrong-password).") {
           toast({
             title: "サーバーエラー",
-            description: "このメールアドレスは登録されていません",
+            description: "wrong password.",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -187,17 +195,17 @@ const Login: React.FC<LoginProps> = () => {
   const onSubmit = () => {};
 
   return (
-    <Center width={'full'} height={'full'}>
+    <Center width={"full"} height={"full"}>
       <Flex
         flexDir={"column"}
         style={{ minHeight: "100vh" }}
         width={"lg"}
-        alignItems='center'
+        alignItems="center"
       >
         <Text mt={5} mb={5} fontSize={"3xl"}>
           ログイン
         </Text>
-        <VStack width={'full'}>
+        <VStack width={"full"}>
           <Input
             required
             autoComplete="none"
