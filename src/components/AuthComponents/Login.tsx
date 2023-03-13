@@ -96,7 +96,7 @@ const Login: React.FC<LoginProps> = () => {
             status: "do_not_want_to_talk",
             userPosX: a,
             userPosY: b,
-            spaceId: email
+            spaceId: email,
           }));
 
           // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
@@ -113,7 +113,6 @@ const Login: React.FC<LoginProps> = () => {
             hobbies: docSnap.data().hobbies,
             workProfile: docSnap.data().workProfile,
           }));
-
         } else {
           // redirect user to create profile page
           navigate(`/create-profile/${email}/${key}`);
@@ -201,6 +200,7 @@ const Login: React.FC<LoginProps> = () => {
         style={{ minHeight: "100vh" }}
         width={"lg"}
         alignItems="center"
+        p={5}
       >
         <Text mt={5} mb={5} fontSize={"3xl"}>
           ログイン
@@ -212,7 +212,9 @@ const Login: React.FC<LoginProps> = () => {
             width={"full"}
             onChange={(e) => setUserEmail(e.target.value)}
             type="email"
-            placeholder="enter email"
+            placeholder="Eメール"
+            bg={"white"}
+            fontSize="10pt"
           />
           <Input
             required
@@ -221,7 +223,9 @@ const Login: React.FC<LoginProps> = () => {
             onChange={(e) => setUserPassword(e.target.value)}
             type="password"
             mb={5}
-            placeholder="enter password"
+            placeholder="パスワード"
+            bg={"white"}
+            fontSize="10pt"
           />
           <Input
             required
@@ -229,10 +233,12 @@ const Login: React.FC<LoginProps> = () => {
             autoComplete="none"
             onChange={(e) => setAccessKey(e.target.value)}
             mb={3}
-            placeholder="enter access key"
+            placeholder="パスワードを再入力"
+            bg={"white"}
+            fontSize="10pt"
           />
-          <Text color={"red.500"} fontSize={"xs"}>
-            If access key is not correct, login button will not get activated.
+          <Text color={"red.500"} fontSize={"8px"}>
+            正しいアクセスキーを入力するとボタンがアクティブになります
           </Text>
           <Button
             _hover={{

@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
@@ -122,7 +122,7 @@ const CreateProfile: React.FC = () => {
       });
 
       // add user to vs-users collection here
-      navigate(`/dashboard/${email}/${accessKey}`);
+      navigate(`/dashboard/${email}`);
     } catch (error) {
       console.error(error);
     }
@@ -169,6 +169,19 @@ const CreateProfile: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    handleCreateProfileImage()
+
+    return () => {
+      setFile(null)
+    }
+    
+  }, [file])
+
   return (
     <VStack h="full" spacing={0} justifyContent="start">
       <Container maxW="2xl">
@@ -200,10 +213,7 @@ const CreateProfile: React.FC = () => {
                     type="file"
                     id="file"
                     style={{ display: "none" }}
-                  />
-                  <Button size={"xs"} onClick={handleCreateProfileImage}>
-                    アップロード
-                  </Button>
+                  /> 
                 </div>
               </Flex>
               <Box w="full" mt={1}>
