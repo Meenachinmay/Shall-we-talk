@@ -7,14 +7,20 @@ export interface CurrentUserState {
   id: string,
   status: string,
   online: string,
-  email: string
+  email: string,
+  userPosX: number,
+  userPosY: number,
+  spaceId: string
 }
 
 const defaultState: CurrentUserState = {
   id: '',
   status: '',
   online: '',
-  email: ''
+  email: '',
+  userPosX: 0,
+  userPosY: 0,
+  spaceId: ''
 }
 
 export const currentUserState = atom<CurrentUserState>({

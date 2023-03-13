@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input, Flex, Button } from "@chakra-ui/react";
 import {
   collection,
@@ -9,7 +9,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/clientApp";
-import { decryptEmail, encryptEmail } from "../../utilservices/Encryption";
 
 type IVSRequests = {
   email: string;

@@ -116,7 +116,7 @@ const Login: React.FC = () => {
           duration: 4000,
           isClosable: true,
         });
-        navigate("/dashboard");
+        navigate(`/dashboard`);
       })
       .catch((error) => {
         setLoading(false);

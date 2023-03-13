@@ -28,7 +28,7 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path="/home/:userId" element={<Home />} />
             <Route path="/chat" element={<Index />} />
-            <Route path="/dashboard/:email/:accessKey" element={<Dashboard />} />
+            <Route path="/dashboard/:email" element={<Dashboard />} />
             <Route path="/create-profile/:email/:accessKey" element={<CreateProfile />} />
             <Route path="/profile/:id" element={<ViewProfile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
