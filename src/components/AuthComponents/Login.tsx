@@ -233,7 +233,7 @@ const Login: React.FC<LoginProps> = () => {
             autoComplete="none"
             onChange={(e) => setAccessKey(e.target.value)}
             mb={3}
-            placeholder="スペースのアクセスキーを入力してください"
+            placeholder="バーチャルスペースのアクセスキーを入力してください"
             bg={"white"}
             fontSize="10pt"
           />

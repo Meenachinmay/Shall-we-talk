@@ -22,7 +22,6 @@ import {
   query,
   setDoc,
   where,
-  getDocs,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { firestore, storage } from "../firebase/clientApp";

@@ -19,6 +19,8 @@ import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { userStatusModelState } from "../../../atoms/userStatusModelState";
 import { currentUserLogoutState } from "../../../atoms/currentUserLogoutState";
 import StatusModel from "../../Model/Status/StatusModel";
+import { loaderModelState } from "../../../atoms/loaderModelState";
+import LoaderModel from "../../Loader/Loader";
 
 const RightContent: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +34,7 @@ const RightContent: React.FC = () => {
   const messageCol = collection(firestore, "messages");
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
+  const [loaderModel, setLoaderModelState] = useRecoilState(loaderModelState)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -51,6 +54,7 @@ const RightContent: React.FC = () => {
 
   const handleLogout = async () => {
     setLoading(true);
+    setLoaderModelState({ open: true })
     await deleteDoc(doc(firestore, "vs-users", `userId-${currentUser.id}`));
     setCurrentUserState((prev) => ({
       ...prev,
@@ -87,6 +91,7 @@ const RightContent: React.FC = () => {
     setLoading(false);
     signOut(auth);
     localStorage.removeItem("recoil-persist");
+    setLoaderModelState({ open: false })
   };
 
   const handleUserNameClick = () => {
@@ -97,6 +102,7 @@ const RightContent: React.FC = () => {
     <>
       <AuthModel />
       <StatusModel />
+      <LoaderModel />
       <Flex justify="center" align="center">
         {!userLogout.currentUserLoggedOut ? (
           <Tooltip label="トークステータスの変更" placement="bottom">
