@@ -18,6 +18,7 @@ import Login from "./components/AuthComponents/Login";
 import Register from "./components/AuthComponents/Register";
 import RegisterSpace from "./components/CoWorkingSpaceRegistration/Register";
 import GenerateAccessKey from "./components/GenerateAccessKeyForVS/GenerateAccessKey";
+import ResetPassword from "./components/Model/Auth/ResetPassword";
 
 const App: React.FC = () => {
   return (
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           <Route path="/register-a-new-space" element={<RegisterSpace />} />
           <Route path="/user-login" element={<Login />} />
           <Route path="/user-register" element={<Register />} />
+          <Route path="/password-reset" element={<ResetPassword />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/testing" element={<Testing />} />

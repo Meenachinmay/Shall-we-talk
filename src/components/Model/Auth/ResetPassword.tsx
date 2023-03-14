@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { BsDot, BsBellFill } from "react-icons/bs";
-import { useSetRecoilState } from "recoil";
-import { authModelState } from "../../../atoms/authModelState";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase/clientApp";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword: React.FC = () => {
-  const setAuthModalState = useSetRecoilState(authModelState);
   const [email, setEmail] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,7 +21,7 @@ const ResetPassword: React.FC = () => {
   };
 
   return (
-    <Flex direction="column" alignItems="center" width="100%">
+    <Flex p={5} direction="column" alignItems="center" width="100%" height={"100vh"}>
       <Icon as={BsBellFill} color="brand.100" fontSize={40} mb={2} />
       { success ? 
       <Text fontWeight={700} fontSize={{ base: "xs", sm: "sm", md: "sm"}} mb={2}>
@@ -37,7 +36,7 @@ const ResetPassword: React.FC = () => {
           <Text color="red.500" fontSize="sm" textAlign="center" mb={2}>
             アカウントに登録されたメールアドレスをご入力ください。パスワードをリセットするためのリンクが送信されます。
           </Text>
-          <form onSubmit={onSubmit} style={{ width: "100%" }}>
+          <form onSubmit={onSubmit}>
             <Input
               required
               name="email"
@@ -91,10 +90,7 @@ const ResetPassword: React.FC = () => {
       >
         <Text
           onClick={() =>
-            setAuthModalState((prev) => ({
-              ...prev,
-              view: "login",
-            }))
+           navigate(`/user-login`) 
           }
           color="red.500"
         >
@@ -103,10 +99,7 @@ const ResetPassword: React.FC = () => {
         <Icon as={BsDot} />
         <Text
           onClick={() =>
-            setAuthModalState((prev) => ({
-              ...prev,
-              view: "signup",
-            }))
+           navigate(`/user-register`) 
           }
           color="red.500"
         >
