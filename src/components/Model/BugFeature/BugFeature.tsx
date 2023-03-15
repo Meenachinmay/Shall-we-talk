@@ -113,21 +113,18 @@ const BugFeatureModel: React.FC = () => {
 
   return (
     <>
-      <Modal isOpen={bugFeatureModel.open} onClose={handleClose}>
+      <Modal size={{ base: "xs", sm: "sm", md: "lg" }} isOpen={bugFeatureModel.open} onClose={handleClose}>
         <ModalOverlay />
-        <ModalContent bg={"red.50"}>
+        <ModalContent bg={"red.50"} height={'lg'}>
           <ModalHeader textAlign="center">
             <VStack>
               <Text>Report a Bug here!</Text>
-              <Text color="gray.400" fontSize="xs" textOverflow="hidden">
-                他のユーザーからの最新のメッセージが順に表示されます。
-              </Text>
             </VStack>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody
-            minH={"lg"}
-            maxH={"lg"}
+          <ModalBody 
+            width={'100%'}
+            height={'100%'}
             display="flex"
             flexDirection="column"
             overflowY={"scroll"}
@@ -187,13 +184,13 @@ const BugFeatureModel: React.FC = () => {
                 </Flex>
                 <Box
                   mt={2}
-                  width="full"
-                  boxSize={"sm"}
+                  width="100%"
+                  height="100%"
+                  boxSize={{ base: "xs", sm: "sm", md: "lg"}}
                   overflow="scroll"
                 >
                   <Image
                     src={downloadURL}
-                    alt="bug-feature"
                   />
                 </Box>
               </Flex>
