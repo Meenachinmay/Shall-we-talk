@@ -7,4 +7,5 @@ export type UserData = {
   userPosX: number,
   userPosY: number,
   profileImage: string
+  mobileUser: boolean
 }

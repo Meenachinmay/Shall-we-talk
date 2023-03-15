@@ -40,8 +40,6 @@ import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
 
-import { isDesktop, isMobile } from "react-device-detect";
-
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
@@ -295,9 +293,11 @@ const Dashboard: React.FC = () => {
           >
             <Stage className="stage" width={900} height={600}>
               <Layer>
+                {/* this image tag is rendering BG image in the virtual space */}
                 <Image image={bgimage} width={900} height={600} />
                 {onlineUsers!.map((user) => (
                   <User
+                    mobileUser={user.mobileUser}
                     highLightUser={highLightUserInMap.show}
                     userClicked={highLightUserInMap.userId}
                     key={user.id}

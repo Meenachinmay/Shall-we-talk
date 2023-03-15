@@ -3,12 +3,14 @@ import { Image } from "react-konva";
 import { KonvaEventObject } from "konva/lib/Node";
 import useImage from "use-image";
 import { Html } from "react-konva-utils";
+import { Flex } from "@chakra-ui/react";
 
 import "../components/messagePopUp.css";
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "./firebase/clientApp";
 
 type UserProps = {
+  mobileUser: boolean;
   x: number;
   y: number;
   width: number;
@@ -24,6 +26,7 @@ type UserProps = {
 };
 
 const User: React.FC<UserProps> = ({
+  mobileUser,
   highLightUser,
   x,
   y,
@@ -72,103 +75,106 @@ const User: React.FC<UserProps> = ({
   }
 
   return (
-    <>
-      <Image
-        x={x}
-        y={y}
-        stroke={`${
-          status === "want_to_talk"
-            ? "#38A169"
-            : status === "do_not_want_to_talk"
-            ? "#E53E3E"
-            : "#63B3ED"
-        }`}
-        strokeWidth={8}
-        lineJoin="round"
-        image={profileImg}
-        width={width}
-        height={height}
-        draggable={dragUser}
-        onDragStart={(e) => handleIconDragStart(e)}
-        onDragEnd={(e) => handleIconDragEnd(e)}
-        onClick={() => setLocalHighlight(!localHighlight)}
-        onMouseEnter={() => handleMouseEnter()}
-      />
-      {highLightUser && userId === userClicked ? (
-        <Html
-          divProps={{
-            style: {
-              position: "absolute",
-              top: `${y - 60}px`,
-              left: `${x + 30}px`,
-            },
-          }}
-        >
-          <div
-            style={{
-              color: "#1A202C",
-              borderRadius: "10px",
-              border: "4px solid",
-              borderColor: `${
-                status === "want_to_talk"
-                  ? "#38A169"
-                  : status === "do_not_want_to_talk"
-                  ? "#E53E3E"
-                  : "#63B3ED"
-              }`,
-              fontSize: "10px",
-              backgroundColor: "white",
-              padding: "10px",
-              width: "150px",
-              textAlign: "start",
+    <> 
+    { !mobileUser ? 
+      <Flex>
+        <Image
+          x={x}
+          y={y}
+          stroke={`${
+            status === "want_to_talk"
+              ? "#38A169"
+              : status === "do_not_want_to_talk"
+              ? "#E53E3E"
+              : "#63B3ED"
+          }`}
+          strokeWidth={8}
+          lineJoin="round"
+          image={profileImg}
+          width={width}
+          height={height}
+          draggable={dragUser}
+          onDragStart={(e) => handleIconDragStart(e)}
+          onDragEnd={(e) => handleIconDragEnd(e)}
+          onClick={() => setLocalHighlight(!localHighlight)}
+          onMouseEnter={() => handleMouseEnter()}
+        />
+        {highLightUser && userId === userClicked ? (
+          <Html
+            divProps={{
+              style: {
+                position: "absolute",
+                top: `${y - 60}px`,
+                left: `${x + 30}px`,
+              },
             }}
           >
-            <div style={{ display: "flex" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div>{userName}</div>
-                <div>{companyName}</div>
+            <div
+              style={{
+                color: "#1A202C",
+                borderRadius: "10px",
+                border: "4px solid",
+                borderColor: `${
+                  status === "want_to_talk"
+                    ? "#38A169"
+                    : status === "do_not_want_to_talk"
+                    ? "#E53E3E"
+                    : "#63B3ED"
+                }`,
+                fontSize: "10px",
+                backgroundColor: "white",
+                padding: "10px",
+                width: "150px",
+                textAlign: "start",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div>{userName}</div>
+                  <div>{companyName}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </Html>
-      ) : localHighlight ? (
-        <Html
-          divProps={{
-            style: {
-              position: "absolute",
-              top: `${y - 60}px`,
-              left: `${x + 30}px`,
-            },
-          }}
-        >
-          <div
-            style={{
-              color: "#1A202C",
-              borderRadius: "10px",
-              border: "4px solid",
-              borderColor: `${
-                status === "want_to_talk"
-                  ? "#38A169"
-                  : status === "do_not_want_to_talk"
-                  ? "#E53E3E"
-                  : "#63B3ED"
-              }`,
-              fontSize: "10px",
-              backgroundColor: "white",
-              padding: "10px",
-              width: "150px",
-              textAlign: "start",
+          </Html>
+        ) : localHighlight ? (
+          <Html
+            divProps={{
+              style: {
+                position: "absolute",
+                top: `${y - 60}px`,
+                left: `${x + 30}px`,
+              },
             }}
           >
-            <div style={{ display: "flex" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div>{userName}</div>
-                <div>{companyName}</div>
+            <div
+              style={{
+                color: "#1A202C",
+                borderRadius: "10px",
+                border: "4px solid",
+                borderColor: `${
+                  status === "want_to_talk"
+                    ? "#38A169"
+                    : status === "do_not_want_to_talk"
+                    ? "#E53E3E"
+                    : "#63B3ED"
+                }`,
+                fontSize: "10px",
+                backgroundColor: "white",
+                padding: "10px",
+                width: "150px",
+                textAlign: "start",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div>{userName}</div>
+                  <div>{companyName}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </Html>
-      ) : null}
+          </Html>
+        ) : null}
+      </Flex> : null }
     </>
   );
 };
