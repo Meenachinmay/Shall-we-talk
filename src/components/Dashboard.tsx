@@ -40,6 +40,8 @@ import { myMessagesModelState } from "../atoms/myMessagesModelState";
 import { Message } from "../types/Message";
 import ViewMessagesModel from "./Model/Message/ViewMessages";
 
+import { isMobile } from "react-device-detect";
+
 const Dashboard: React.FC = () => {
   const setProfileModelState = useSetRecoilState(profileModelState);
   const setUserProfileState = useSetRecoilState(userProfileState);
@@ -116,7 +118,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
-      let data: UserData[] = []; 
+      let data: UserData[] = [];
       if (snapshot.docChanges().length) {
         snapshot.forEach((doc) => {
           if (doc.data().spaceId === email) {
@@ -125,7 +127,7 @@ const Dashboard: React.FC = () => {
         });
         setOnlineUsers(data);
         setLoading(false);
-      } 
+      }
     });
 
     // fetching details of a particular space
@@ -277,44 +279,46 @@ const Dashboard: React.FC = () => {
         />
       </InputGroup>
       <HStack>
-        <HStack
-          w={{ lg: "lg", xl: "3xl" }}
-          h="full"
-          maxH="3xl"
-          borderWidth={1}
-          borderColor="gray.100"
-          display={{ base: "none", sm: "none", md: "none", lg: "inherit" }}
-        >
-          <Flex
-            style={{
-              overflow: "scroll",
-            }}
-            flexDirection={"column"}
+        {!isMobile ? (
+          <HStack
+            w={{ lg: "lg", xl: "3xl" }}
+            h="full"
+            maxH="3xl"
+            borderWidth={1}
+            borderColor="gray.100"
+            display={{ base: "none", sm: "none", md: "none", lg: "inherit" }}
           >
-            <Stage className="stage" width={900} height={600}>
-              <Layer>
-                <Image image={bgimage} width={900} height={600} />
-                {onlineUsers!.map((user) => (
-                  <User
-                    highLightUser={highLightUserInMap.show}
-                    userClicked={highLightUserInMap.userId}
-                    key={user.id}
-                    x={user.userPosX}
-                    y={user.userPosY}
-                    width={50}
-                    height={50}
-                    status={user.status}
-                    companyName={user.companyName}
-                    profileImage={user.profileImage}
-                    userName={user.name}
-                    userId={user.id}
-                    currentLoggedInUser={currentUser.id}
-                  />
-                ))}
-              </Layer>
-            </Stage>
-          </Flex>
-        </HStack>
+            <Flex
+              style={{
+                overflow: "scroll",
+              }}
+              flexDirection={"column"}
+            >
+              <Stage className="stage" width={900} height={600}>
+                <Layer>
+                  <Image image={bgimage} width={900} height={600} />
+                  {onlineUsers!.map((user) => (
+                    <User
+                      highLightUser={highLightUserInMap.show}
+                      userClicked={highLightUserInMap.userId}
+                      key={user.id}
+                      x={user.userPosX}
+                      y={user.userPosY}
+                      width={50}
+                      height={50}
+                      status={user.status}
+                      companyName={user.companyName}
+                      profileImage={user.profileImage}
+                      userName={user.name}
+                      userId={user.id}
+                      currentLoggedInUser={currentUser.id}
+                    />
+                  ))}
+                </Layer>
+              </Stage>
+            </Flex>
+          </HStack>
+        ) : null}
 
         <Flex
           flexDirection="column"
