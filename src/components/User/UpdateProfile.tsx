@@ -34,6 +34,8 @@ import { useRecoilState } from "recoil";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
 import { currentUserState } from "../../atoms/currentUserState";
 
+import { isMobile } from "react-device-detect";
+
 const UpdateProfile: React.FC = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,6 +53,7 @@ const UpdateProfile: React.FC = () => {
   const { id } = useParams();
   const profileCol = collection(firestore, "userProfiles");
   const [file, setFile] = useState<File | null>(null);
+  const [mobile, setMobile] = useState<boolean>(false)
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
@@ -154,6 +157,7 @@ const UpdateProfile: React.FC = () => {
         userPosX: currentUserSt.userPosX,
         userPosY: currentUserSt.userPosY,
         profileImage: profileImage || userProfile.profileImage,
+        mobileUser: mobile ? true : false
       });
 
       // updating global state here for current user profile
@@ -192,6 +196,11 @@ const UpdateProfile: React.FC = () => {
 
   // fetching profile for a user
   useEffect(() => {
+    
+    if (isMobile) {
+      setMobile(true)
+    }
+
     const profileQuery = query(
       profileCol,
       where("userId", "==", `${id}`),
