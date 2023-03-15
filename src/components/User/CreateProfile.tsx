@@ -25,6 +25,7 @@ import { currentUserState } from "../../atoms/currentUserState";
 import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 import { firestore, storage } from "../firebase/clientApp";
 import "../homepage.css";
+import { isMobile } from 'react-device-detect'
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -40,6 +41,7 @@ const CreateProfile: React.FC = () => {
   const [uploadingImage, setuploadingImage] = useState<Boolean>(false);
   const [bytesCount, setBytesCount] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
+  const [mobile, setMobile] = useState<boolean>(false)
   const toast = useToast();
   const navigate = useNavigate();
   const { email, accessKey } = useParams();
@@ -106,6 +108,7 @@ const CreateProfile: React.FC = () => {
           userPosX: generateRandomPositions(100, 500).x,
           userPosY: generateRandomPositions(100, 500).y,
           profileImage: putImage(),
+          mobileUser: mobile ? true : false
         });
       } catch (error) {
         console.log(error);
@@ -170,6 +173,11 @@ const CreateProfile: React.FC = () => {
   };
 
   useEffect(() => {
+
+    if (isMobile) {
+      setMobile(true)
+    }
+
     if (!file) {
       return;
     }

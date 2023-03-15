@@ -115,10 +115,7 @@ const Dashboard: React.FC = () => {
   };
 
   // this use effect to load all the logged in users from the database
-  useEffect(() => {
-    if (isMobile) {
-      alert('mobile')
-    }
+  useEffect(() => { 
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
       let data: UserData[] = []; 
