@@ -28,7 +28,7 @@ import { myMessagesModelState } from "../../atoms/myMessagesModelState";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 import { authModelState } from "../../atoms/authModelState";
-import { isMobile } from 'react-device-detect'
+import { isMobile } from "react-device-detect";
 
 type LoginProps = {};
 
@@ -52,7 +52,7 @@ const Login: React.FC<LoginProps> = () => {
   const [email, setEmail] = useState<string>("");
   const [fetchingSpace, setFetchingSpace] = useState<boolean>(false);
   const [test, setTest] = useState<boolean>(false);
-  const [mobile, setMobile] = useState<boolean>(false)
+  const [mobile, setMobile] = useState<boolean>(false);
 
   // this method handle login logic
   async function handleLogin() {
@@ -84,7 +84,7 @@ const Login: React.FC<LoginProps> = () => {
               userPosX: a,
               userPosY: b,
               profileImage: docSnap.data().profileImage,
-              mobileUser: mobile ? true : false
+              mobileUser: mobile ? true : false,
             });
           } catch (error) {
             console.log(error);
@@ -171,9 +171,8 @@ const Login: React.FC<LoginProps> = () => {
 
   // get space id with the access-key provided by the user
   useEffect(() => {
-
     if (isMobile) {
-     setMobile(true) 
+      setMobile(true);
     }
 
     async function _fetch() {
@@ -198,8 +197,6 @@ const Login: React.FC<LoginProps> = () => {
 
     return () => {};
   }, [key]);
-
-  const onSubmit = () => {};
 
   return (
     <Center width={"full"} height={"full"}>
@@ -274,8 +271,17 @@ const Login: React.FC<LoginProps> = () => {
             variant="solid"
             height="36px"
           >
-            Login to Dashboard
+           ダッシュボードにログイン 
           </Button>
+          <Text
+            onClick={() => navigate("/password-reset", { replace: false })}
+            fontSize={"xs"}
+            color="red.500"
+            cursor={"pointer"}
+            _hover={{ color: "red.600", fontsize: "sm" }}
+          >
+            パスワードを変更する
+          </Text>
         </VStack>
       </Flex>
     </Center>
