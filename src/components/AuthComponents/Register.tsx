@@ -170,126 +170,135 @@ const Register: React.FC<RegisterProps> = () => {
         <Text mt={5} fontSize={"3xl"}>
           新規登録
         </Text>
-          <Input
-            name="email"
-            placeholder="Eメール"
-            type="email"
-            mb={2}
-            mt={2}
-            onChange={(e) => setUserEmail(e.target.value)}
-            fontSize="10pt"
-            _placeholder={{ color: "gray.500" }}
-            _hover={{
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            _focus={{
-              outline: "none",
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            bg="gray.50"
-          />
-          <Input
-            name="password"
-            placeholder="パスワード"
-            mb={2}
-            type="password"
-            onChange={(e) => setUserPassword(e.target.value)}
-            fontSize="10pt"
-            _placeholder={{ color: "gray.500" }}
-            _hover={{
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            _focus={{
-              outline: "none",
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            bg="gray.50"
-          />
+        <Input
+          name="email"
+          placeholder="Eメール"
+          type="email"
+          mb={2}
+          mt={2}
+          onChange={(e) => setUserEmail(e.target.value)}
+          fontSize="10pt"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
+        <Input
+          name="password"
+          placeholder="パスワード"
+          mb={2}
+          type="password"
+          onChange={(e) => setUserPassword(e.target.value)}
+          fontSize="10pt"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
 
-          <Input
-            name="confirmPassword"
-            placeholder="パスワードを再入力"
-            mb={2}
-            type="password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            fontSize="10pt"
-            _placeholder={{ color: "gray.500" }}
-            _hover={{
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            _focus={{
-              outline: "none",
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            bg="gray.50"
-          />
-          <Input
-            name="access key"
-            placeholder="バーチャルスペースのアクセスキーを入力してください"
-            mb={2}
-            type="password"
-            onChange={(e) => setAccesskey(e.target.value)}
-            fontSize="10pt"
-            _placeholder={{ color: "gray.500" }}
-            _hover={{
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            _focus={{
-              outline: "none",
-              bg: "white",
-              border: "1px solid",
-              borderColor: "blue.500",
-            }}
-            bg="gray.50"
-          />
-          <Text color={"red.500"} fontSize={"8px"}>
-            正しいアクセスキーを入力するとボタンがアクティブになります
-          </Text>
-          <Button
-            _hover={{
-              bg: "white",
-              border: "1px solid",
-              borderColor: "red.500",
-              color: "red.500",
-            }}
-            isLoading={loading || fetchingSpace}
-            loadingText={
-              loading
-                ? "Registering yourself..."
-                : fetchingSpace
-                ? "Fetching space..."
-                : ""
-            }
-            type="submit"
-            fontSize="10pt"
-            fontWeight={700}
-            bg="red.500"
-            color="white"
-            variant="solid"
-            height="36px"
-            width={isLessThan393 ? "80%" : "xs"}
-            mt={2}
-            mb={2}
-            className="my__button"
-            disabled={!test}
-            onClick={onSubmit}
-          >
-            ユーザー登録
-          </Button>
+        <Input
+          name="confirmPassword"
+          placeholder="パスワードを再入力"
+          mb={2}
+          type="password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          fontSize="10pt"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
+        <Input
+          name="access key"
+          placeholder="バーチャルスペースのアクセスキーを入力してください"
+          mb={2}
+          type="password"
+          onChange={(e) => setAccesskey(e.target.value)}
+          fontSize="10pt"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+        />
+        <Text color={"red.500"} fontSize={"8px"}>
+          正しいアクセスキーを入力するとボタンがアクティブになります
+        </Text>
+        <Button
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "red.500",
+            color: "red.500",
+          }}
+          isLoading={loading || fetchingSpace}
+          loadingText={
+            loading
+              ? "Registering yourself..."
+              : fetchingSpace
+              ? "Fetching space..."
+              : ""
+          }
+          type="submit"
+          fontSize="10pt"
+          fontWeight={700}
+          bg="red.500"
+          color="white"
+          variant="solid"
+          height="36px"
+          width={isLessThan393 ? "80%" : "xs"}
+          mt={2}
+          mb={2}
+          className="my__button"
+          disabled={!test}
+          onClick={onSubmit}
+        >
+          ユーザー登録
+        </Button>
+        <Text
+          onClick={() => navigate("/user-login", { replace: false })}
+          fontSize={"xs"}
+          color="red.500"
+          cursor={"pointer"}
+          _hover={{ color: "red.600", fontsize: "sm" }}
+        >
+          既にアカウントをお持ちの場合はこちら
+        </Text>
       </Flex>
     </Center>
   );
