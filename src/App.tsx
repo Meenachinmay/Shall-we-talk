@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import Home from "./components/Home";
 import Layout from "./components/Layout";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -19,6 +19,7 @@ import Register from "./components/AuthComponents/Register";
 import RegisterSpace from "./components/CoWorkingSpaceRegistration/Register";
 import GenerateAccessKey from "./components/GenerateAccessKeyForVS/GenerateAccessKey";
 import ResetPassword from "./components/Model/Auth/ResetPassword";
+import LandingPage from "./components/LandingPage";
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Route path="/user-register" element={<Register />} />
           <Route path="/password-reset" element={<ResetPassword />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/landing-page" element={<LandingPage />} />
           <Route path="/*" element={<PageNotFound />} />
           <Route path="/testing" element={<Testing />} />
         </Routes>
