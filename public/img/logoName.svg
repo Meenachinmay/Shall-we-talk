@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 100 800 300">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 112.5px;
+        font-family: Krungthep;
+      }
+
+      .cls-2 {
+        fill: #ff0303;
+      }
+
+      .cls-3 {
+        fill: red;
+      }
+    </style>
+  </defs>
+  <text id="Shall_We_Talk" data-name="Shall We Talk" class="cls-1" x="6.969" y="271.506">Shall We<tspan class="cls-2"> <tspan class="cls-3">Talk</tspan></tspan></text>
+</svg>
