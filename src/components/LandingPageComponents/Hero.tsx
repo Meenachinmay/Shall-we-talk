@@ -32,24 +32,14 @@ const Right = styled.div`
 
 const Title = styled.h1`
   font-size: 74px;
-`;
-
-const WhatWeDo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const Line = styled.img`
-  height: 5px;
-`;
-
-const Subtitle = styled.h2`
-  color: white;
+  /* border: "1px solid red";
+  border-width: 1px;
+  text-align: center;
+  border-radius: 5px; */
 `;
 
 const Desc = styled.p`
-  font-size: 24px;
+  font-size: 20px;
   color: lightgray;
 `;
 
@@ -62,6 +52,11 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
+&:hover {
+    background-color: white;
+    color: #9B2C2C;
+  }
 `;
 
 const Img = styled.img`
@@ -89,12 +84,11 @@ const Hero: React.FC = () => {
       <Navbar />
       <Container>
         <Left>
-          <Title>Shall. We. Talk</Title>
-          <WhatWeDo>
-            <Line src="./img/line.png" />
-            <Subtitle>What we do</Subtitle>
-          </WhatWeDo>
-          <Desc>A hesitation free talking environment for everyone.</Desc>
+          <Title>Shall. We. Talk</Title> 
+          <Desc>A hesitation free talking environment 
+            for everyone. We provide you a hassle free space where
+            you can talk to anybody you know or do not know with
+            a relevant interest.</Desc>
           <Button>Learn more</Button>
         </Left>
         <Right>
