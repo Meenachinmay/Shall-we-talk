@@ -45,7 +45,7 @@ const Line = styled.img`
 `;
 
 const Subtitle = styled.h2`
-  color: #da4ea2;
+  color: white;
 `;
 
 const Desc = styled.p`
@@ -54,7 +54,7 @@ const Desc = styled.p`
 `;
 
 const Button = styled.button`
-  background-color: #da4ea2;
+  background-color: #9B2C2C;
   color: white;
   font-weight: 500;
   width: 150px;

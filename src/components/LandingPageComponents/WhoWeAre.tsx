@@ -17,7 +17,10 @@ const Container = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 1; 
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Right = styled.div`
@@ -63,11 +66,20 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const Img = styled.img `
+   width: 600px;
+   height: 400px;
+   object-fit: cover;
+   background-blend-mode: lighten;
+   background-repeat: no-repeat, repeat;
+`
+
 const WhoWeAre: React.FC = () => {
   return (
     <Section>
       <Container>
         <Left>
+            <Img src="./img/space1.jpg" />
         </Left>
         <Right>
           <Title>A unreal but real space for you.</Title>
