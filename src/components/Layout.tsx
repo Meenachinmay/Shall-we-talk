@@ -57,7 +57,7 @@ const handleLogout = async () => {
   // useEffect to perform unload events in layout
   useEffect(() => {
     setUrl(window.location.href)
-    if (url === "http://localhost:3000/landing-page") {
+    if (url === "http://localhost:3000/landing-page" || url === "https://shall-we-talk.vercel.app/landing-page") {
         setRender(false)
     }
     // window.addEventListener('beforeunload', alertUser)
