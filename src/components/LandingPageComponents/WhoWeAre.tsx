@@ -84,7 +84,7 @@ const Img = styled.img `
 
 const WhoWeAre: React.FC = () => {
   return (
-    <Section>
+    <Section id="whoweare">
       <Container>
         <Left>
             <Img src="./img/space1.jpg" />

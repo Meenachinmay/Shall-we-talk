@@ -72,7 +72,7 @@ const ListItem = styled.li<IListItem>`
 
 const OurWorks: React.FC = () => {
   return (
-    <Section>
+    <Section id="ourworks">
       <Container>
         <Left>
           <List>

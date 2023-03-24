@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 
@@ -32,6 +31,9 @@ const Right = styled.div`
 
 const Title = styled.h1`
   font-size: 74px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
   /* border: "1px solid red";
   border-width: 1px;
   text-align: center;
@@ -44,7 +46,7 @@ const Desc = styled.p`
 `;
 
 const Button = styled.button`
-  background-color: #9B2C2C;
+  background-color: #9b2c2c;
   color: white;
   font-weight: 500;
   width: 150px;
@@ -53,9 +55,9 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
 
-&:hover {
+  &:hover {
     background-color: white;
-    color: #9B2C2C;
+    color: #9b2c2c;
   }
 `;
 
@@ -74,23 +76,36 @@ const Img = styled.img`
 
   @keyframes animate {
     to {
-      transform: translateY(20px);
+      transform: translateY(20px) rotateZ(5deg);
     }
   }
 `;
 
+const ShallWe = styled.p`
+  margin-right: 5px;
+  color: black;
+  text-decoration: underline;
+`;
+
+const Talk = styled.p`
+  text-decoration: underline;
+  color: #C53030;
+`;
+
 const Hero: React.FC = () => {
-   
   return (
-    <Section>
+    <Section id="hero">
       <Navbar />
       <Container>
         <Left>
-          <Title>Shall. We. Talk</Title> 
-          <Desc>A hesitation free talking environment 
-            for everyone. We provide you a hassle free space where
-            you can talk to anybody you know or do not know with
-            a relevant interest.</Desc>
+          <Title>
+            <ShallWe>Shall We</ShallWe> <Talk style={{}}>Talk</Talk>
+          </Title>
+          <Desc>
+            A hesitation free talking environment for everyone. We provide you a
+            hassle free space where you can talk to anybody you know or do not
+            know with a relevant interest.
+          </Desc>
           <Button>Learn more</Button>
         </Left>
         <Right>

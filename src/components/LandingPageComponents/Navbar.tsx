@@ -4,6 +4,10 @@ import styled from "styled-components";
 const Section = styled.div`
   display: flex;
   justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
 `;
 
 const Container = styled.div`
@@ -21,37 +25,23 @@ const Links = styled.div`
 `;
 
 const Icons = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
 `;
 
 const Logo = styled.img`
-    height: 50px;
+  height: 50px;
 `;
 
 const List = styled.ul`
-    display: flex;
-    gap: 20px;
-    list-style: none;
+  display: flex;
+  gap: 20px;
+  list-style: none;
 `;
 
 const ListItem = styled.li`
-    cursor: pointer;
-`;
-
-const Icon = styled.img`
-    width: 20px;
-    cursor: pointer;
-`;
-
-const Button = styled.button`
-    width: 100px;
-    padding: 10px;
-    background-color:#9B2C2C;
-    color: white;
-    border-radius: 5px;
-    border: none;
+  cursor: pointer;
 `;
 
 const Navbar: React.FC = () => {
@@ -59,17 +49,23 @@ const Navbar: React.FC = () => {
     <Section>
       <Container>
         <Links>
-          <Logo src="./img/parrot.png" />
+          <a href="#hero"><Logo src="./img/parrot.png" /></a>
           <List>
-            <ListItem>Home</ListItem>
-            <ListItem>Who are are</ListItem>
-            <ListItem>What we do</ListItem>
-            <ListItem>Contact us</ListItem>
+            <ListItem>
+              <a href="#hero">Home</a>
+            </ListItem>
+            <ListItem>
+              <a href="#whoweare">Who are are</a>
+            </ListItem>
+            <ListItem>
+              <a href="#ourworks">Our works</a>
+            </ListItem>
+            <ListItem>
+              <a href="#contactus">Contact us</a>
+            </ListItem>
           </List>
         </Links>
-        <Icons>
-          
-        </Icons>
+        <Icons></Icons>
       </Container>
     </Section>
   );

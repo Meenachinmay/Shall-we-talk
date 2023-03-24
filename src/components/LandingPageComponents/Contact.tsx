@@ -79,7 +79,7 @@ const ContactSVG = styled.img`
 
 const Contact: React.FC = () => {
   return (
-    <Section>
+    <Section id="contactus">
       <Container>
         <Left>
           <Form>
