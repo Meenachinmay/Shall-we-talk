@@ -128,7 +128,7 @@ const RightContent: React.FC = () => {
 
         {!userLogout.currentUserLoggedOut ? (
           <>
-            <Menu>
+            {/* <Menu>
               <MenuButton
                 bg="red.500"
                 border="1px solid"
@@ -202,7 +202,7 @@ const RightContent: React.FC = () => {
                   {loading ? "ログアウト中" : "ログアウト"}
                 </MenuItem>
               </MenuList>
-            </Menu>
+            </Menu> */}
           </>
         ) : (
           <AuthModelButtons />
