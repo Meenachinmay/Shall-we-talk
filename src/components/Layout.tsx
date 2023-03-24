@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer/Footer";
 import Navbar from "./Navbar";
-import appBg from "../images/bg2.png";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../atoms/currentUserState";
 import { currentUserProfileState } from "../atoms/currentUserProfileState";
@@ -21,6 +20,9 @@ const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
   currentUserProfileState
 );
 const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
+
+const [url, setUrl] = useState<string>("")
+const [render, setRender] = useState<boolean>(false)
 
 const handleLogout = async () => {
     await deleteDoc(doc(firestore, "vs-users", `userId-${currentUser.id}`));
@@ -54,6 +56,10 @@ const handleLogout = async () => {
 
   // useEffect to perform unload events in layout
   useEffect(() => {
+    setUrl(window.location.href)
+    if (url === "http://localhost:3000/landing-page") {
+        setRender(false)
+    }
     // window.addEventListener('beforeunload', alertUser)
     // window.addEventListener('unload', handleEndConcert)
     // return () => {
@@ -61,7 +67,12 @@ const handleLogout = async () => {
     //   window.removeEventListener('unload', handleEndConcert)
     //   handleEndConcert()
     // }
-  }, [])
+
+    return () => {
+      setUrl("")
+      setRender(true)
+    }
+  }, [url])
 
   //
   const alertUser = (event: BeforeUnloadEvent) => {
@@ -79,7 +90,7 @@ const handleLogout = async () => {
       <div
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
       >
-        <Navbar />
+        {render ? <Navbar /> : null }
         <main>
           {children}
         </main>

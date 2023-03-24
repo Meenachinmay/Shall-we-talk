@@ -68,8 +68,7 @@ const Navbar: React.FC = () => {
           </List>
         </Links>
         <Icons>
-          <Icon src="./img/search.png" />
-          <Button>Hire us</Button>
+          
         </Icons>
       </Container>
     </Section>
