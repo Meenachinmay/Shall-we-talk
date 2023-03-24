@@ -6,7 +6,14 @@ import AuthModelButtons from "./AuthModelButtons";
 import { auth, firestore } from "../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { currentUserState } from "../../../atoms/currentUserState";
 import { currentUserProfileState } from "../../../atoms/currentUserProfileState";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +41,7 @@ const RightContent: React.FC = () => {
   const messageCol = collection(firestore, "messages");
   const navigate = useNavigate();
   const setUserStatusModelState = useSetRecoilState(userStatusModelState);
-  const [loaderModel, setLoaderModelState] = useRecoilState(loaderModelState)
+  const [loaderModel, setLoaderModelState] = useRecoilState(loaderModelState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -54,7 +61,7 @@ const RightContent: React.FC = () => {
 
   const handleLogout = async () => {
     setLoading(true);
-    setLoaderModelState({ open: true })
+    setLoaderModelState({ open: true });
     await deleteDoc(doc(firestore, "vs-users", `userId-${currentUser.id}`));
     setCurrentUserState((prev) => ({
       ...prev,
@@ -91,7 +98,7 @@ const RightContent: React.FC = () => {
     setLoading(false);
     signOut(auth);
     localStorage.removeItem("recoil-persist");
-    setLoaderModelState({ open: false })
+    setLoaderModelState({ open: false });
   };
 
   const handleUserNameClick = () => {
@@ -198,8 +205,8 @@ const RightContent: React.FC = () => {
             </Menu>
           </>
         ) : (
-          <AuthModelButtons /> 
-        ) }
+          <AuthModelButtons />
+        )}
       </Flex>
     </>
   );

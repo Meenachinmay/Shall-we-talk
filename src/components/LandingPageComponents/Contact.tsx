@@ -79,15 +79,15 @@ const ContactSVG = styled.img`
 
 const Contact: React.FC = () => {
   return (
-    <Section>
+    <Section id="contactus">
       <Container>
         <Left>
           <Form>
-            <Title>Contact us</Title>
-            <Input placeholder="Name" />
-            <Input placeholder="Email" />
-            <TextArea rows={10} placeholder="Write your query here..." />
-            <Button>Send your query</Button>
+            <Title>お問い合わせ</Title>
+            <Input placeholder="お名前" />
+            <Input placeholder="メールアドレス" />
+            <TextArea rows={10} placeholder="お問い合わせ内容" />
+            <Button>ご送信</Button>
           </Form>
         </Left>
         <Right>

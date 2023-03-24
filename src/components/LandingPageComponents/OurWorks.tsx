@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+
+import "swiper/css";
+import "swiper/css/effect-coverflow";
 
 interface IListItem {
   text: string;
@@ -21,13 +24,16 @@ const Container = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 1;
+  flex: 2;
   display: flex;
   align-items: center;
 `;
 
 const Right = styled.div`
-  flex: 1;
+  flex: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const List = styled.ul`
@@ -38,7 +44,7 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li<IListItem>`
-  font-size: 70px;
+  font-size: 50px;
   cursor: pointer;
   color: transparent;
   -webkit-text-stroke: 1px white;
@@ -70,20 +76,45 @@ const ListItem = styled.li<IListItem>`
   }
 `;
 
+const SwipeImage = styled.img`
+  height: 300px;
+  border: 1px solid white;
+  border-radius: 5px;
+animation: animate 2s infinite ease alternate;
+
+  @keyframes animate {
+    to {
+      transform: translateY(20px) rotateZ(5deg);
+    }
+  }
+`;
+
 const OurWorks: React.FC = () => {
+  const [work, setWork] = useState<string>("Real to Virtual Space");
+
+  function renderImage() {
+    if (work === "Real to Virtual Space") {
+      return <SwipeImage src="./img/layer2.webp" />;
+    } else if (work === "Talk Status") {
+      return <SwipeImage src="./img/layer3.webp" />;
+    } else {
+      return <SwipeImage src="./img/layer4.webp" />;
+    }
+  }
+
   return (
-    <Section>
+    <Section id="ourworks">
       <Container>
         <Left>
           <List>
             {data.map((data) => (
-              <ListItem key={data} text={data}>
+              <ListItem key={data} text={data} onClick={() => setWork(data)}>
                 {data}
               </ListItem>
             ))}
           </List>
         </Left>
-        <Right></Right>
+        <Right> {renderImage()} </Right>
       </Container>
     </Section>
   );
