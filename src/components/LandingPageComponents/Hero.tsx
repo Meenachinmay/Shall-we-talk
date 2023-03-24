@@ -1,3 +1,6 @@
+import { MeshDistortMaterial, OrbitControls } from "@react-three/drei";
+import { Sphere } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 
@@ -62,7 +65,7 @@ const Button = styled.button`
 `;
 
 const Img = styled.img`
-  height: 600px;
+  height: 450px;
   object-fit: contain;
   position: absolute;
   border: 5px solid white;
@@ -89,7 +92,7 @@ const ShallWe = styled.p`
 
 const Talk = styled.p`
   text-decoration: underline;
-  color: #C53030;
+  color: #fed7d7;
 `;
 
 const Hero: React.FC = () => {
@@ -99,7 +102,7 @@ const Hero: React.FC = () => {
       <Container>
         <Left>
           <Title>
-            <ShallWe>Shall We</ShallWe> <Talk style={{}}>Talk</Talk>
+            <ShallWe>Shall We</ShallWe> <Talk>Talk</Talk>
           </Title>
           <Desc>
             A hesitation free talking environment for everyone. We provide you a
@@ -109,6 +112,19 @@ const Hero: React.FC = () => {
           <Button>Learn more</Button>
         </Left>
         <Right>
+          <Canvas>
+            <OrbitControls enableZoom={false} autoRotate />
+            <ambientLight intensity={1} />
+            <directionalLight position={[3, 2, 1]} />
+            <Sphere args={[1, 100, 200]} scale={2.3}>
+              <MeshDistortMaterial
+                color="#dd7481"
+                attach="material"
+                distort={0.5}
+                speed={2}
+              />
+            </Sphere>
+          </Canvas>
           <Img src="./img/layer1-officeImage.jpg" />
         </Right>
       </Container>

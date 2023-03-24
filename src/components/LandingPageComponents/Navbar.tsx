@@ -3,10 +3,7 @@ import styled from "styled-components";
 
 const Section = styled.div`
   display: flex;
-  justify-content: center;
-  position: fixed;
-  left: 0;
-  top: 0;
+  justify-content: center; 
   width: 100%;
 `;
 

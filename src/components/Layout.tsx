@@ -21,9 +21,6 @@ const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
 );
 const [userLogout, setCurrentUserLogoutState] = useRecoilState(currentUserLogoutState)
 
-const [url, setUrl] = useState<string>("")
-const [render, setRender] = useState<boolean>(false)
-
 const handleLogout = async () => {
     await deleteDoc(doc(firestore, "vs-users", `userId-${currentUser.id}`));
     setCurrentUserState((prev) => ({
@@ -56,10 +53,7 @@ const handleLogout = async () => {
 
   // useEffect to perform unload events in layout
   useEffect(() => {
-    setUrl(window.location.href)
-    if (url === "http://localhost:3000/landing-page" || url === "https://shall-we-talk.vercel.app/landing-page") {
-        setRender(false)
-    }
+    
     // window.addEventListener('beforeunload', alertUser)
     // window.addEventListener('unload', handleEndConcert)
     // return () => {
@@ -67,12 +61,8 @@ const handleLogout = async () => {
     //   window.removeEventListener('unload', handleEndConcert)
     //   handleEndConcert()
     // }
-
-    return () => {
-      setUrl("")
-      setRender(true)
-    }
-  }, [url])
+    
+  }, [])
 
   //
   const alertUser = (event: BeforeUnloadEvent) => {
@@ -90,7 +80,7 @@ const handleLogout = async () => {
       <div
         style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
       >
-        {render ? <Navbar /> : null }
+        <Navbar /> 
         <main>
           {children}
         </main>
