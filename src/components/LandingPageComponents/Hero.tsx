@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 
@@ -60,10 +60,11 @@ const Button = styled.button`
 `;
 
 const Img = styled.img`
-  width: 800px;
   height: 600px;
   object-fit: contain;
   position: absolute;
+  border: 5px solid white;
+  border-radius: 10px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -79,6 +80,7 @@ const Img = styled.img`
 `;
 
 const Hero: React.FC = () => {
+   
   return (
     <Section>
       <Navbar />
@@ -92,7 +94,7 @@ const Hero: React.FC = () => {
           <Button>Learn more</Button>
         </Left>
         <Right>
-          <Img src="./img/3dfloor.png" />
+          <Img src="./img/layer1-officeImage.jpg" />
         </Right>
       </Container>
     </Section>

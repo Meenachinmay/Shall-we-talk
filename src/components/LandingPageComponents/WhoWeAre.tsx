@@ -79,7 +79,7 @@ const Img = styled.img `
    background-blend-mode: lighten;
    background-repeat: no-repeat, repeat;
    border: 5px solid white;
-   border-radius: 0px;
+   border-radius: 10px;
 `
 
 const WhoWeAre: React.FC = () => {
