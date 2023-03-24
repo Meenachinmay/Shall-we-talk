@@ -22,7 +22,7 @@ const LoaderModel: React.FC = () => {
 
   return (
     <>
-      <Modal isOpen={loaderModel.open} onClose={handleClose}>
+      <Modal size={{ base: "xs", sm: "sm", md: "md"}} isOpen={loaderModel.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent bg={"red.50"}>
           <ModalHeader textAlign="center">Loader</ModalHeader>

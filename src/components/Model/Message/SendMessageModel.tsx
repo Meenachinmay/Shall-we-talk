@@ -63,7 +63,7 @@ const SendMessageModel: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal size="lg" isOpen={modelState.open} onClose={handleClose}>
+      <Modal size={{ base: 'sm', sm: "sm", md: "lg"}} isOpen={modelState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent bg={'red.50'}>
           <ModalHeader textAlign="center">
