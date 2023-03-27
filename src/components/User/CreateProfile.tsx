@@ -138,7 +138,7 @@ const CreateProfile: React.FC = () => {
         return;
       }
 
-      const storageRef = ref(storage, `userProfileImage-${file.name}`);
+      const storageRef = ref(storage, `user-profile-images/userProfileImage-${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       setuploadingImage(true);
       uploadTask.on(
