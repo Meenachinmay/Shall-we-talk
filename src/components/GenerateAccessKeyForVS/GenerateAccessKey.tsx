@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Flex, Button } from "@chakra-ui/react";
+import { Input, Text, Flex, Button } from "@chakra-ui/react";
 import {
   collection,
   doc,
@@ -68,6 +68,8 @@ const GenerateAccessKey: React.FC = () => {
     // generate url here
     generateURL();
     setLoading(false);
+    setEmailToEncrypt("")
+    setKey("")
   }
 
   // generate a URL for user to login
@@ -81,29 +83,53 @@ const GenerateAccessKey: React.FC = () => {
       width={"full"}
       flexGrow={1}
       height={"100vh"}
-      bg="red.600"
       alignItems={"center"}
       justifyContent="center"
       flexDir={"column"}
+      className="generate-access-key"
     >
       <Button
         loadingText="Fetching..."
         isLoading={fetchingSpaces}
         mb={3}
         onClick={fetchRequests}
+        color="white"
+        bg="red.500"
+        _hover={{
+          color: "red.500",
+          bg: "white",
+          border: "1px solid",
+          borderColor: "red.500",
+        }}
+        transition="1s"
       >
-        Fetch
+        Fetch Spaces
       </Button>
       {requests?.map((req) => (
-        <p key={req.email}>{req.email}</p>
+        <Text
+          bg="white"
+          p={3}
+          mb={3}
+          _hover={{ bg: "gray.100" }}
+          cursor="pointer"
+          width="50%"
+          borderRadius={"lg"}
+          key={req.email}
+          onClick={() => setEmailToEncrypt(req.email)}
+        >
+          {req.email}
+        </Text>
       ))}
 
       <Input
         onChange={(e) => setEmailToEncrypt(e.target.value)}
+        value={emailToEncrypt || ""}
         width={"sm"}
         mb="3"
         type="email"
         placeholder="Put email to generate URL / key"
+        bg={"white"}
+        required
       />
       <Input
         onChange={(e) => setKey(e.target.value)}
@@ -111,14 +137,23 @@ const GenerateAccessKey: React.FC = () => {
         mb="3"
         type="text"
         placeholder="Put Key to generate URL"
+        bg={"white"}
+        required
       />
-
-      {generatedUrl ? <p>{generatedUrl}</p> : null}
 
       <Button
         isLoading={loading}
         loadingText="Generating access key..."
         onClick={generateKey}
+        color="white"
+        bg="red.500"
+        _hover={{
+          color: "red.500",
+          bg: "white",
+          border: "1px solid",
+          borderColor: "red.500",
+        }}
+        transition="1s"
       >
         Generate key
       </Button>
