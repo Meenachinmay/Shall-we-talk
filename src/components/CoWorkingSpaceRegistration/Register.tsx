@@ -97,7 +97,7 @@ const Register: React.FC<RegisterASpaceProps> = () => {
               type={'text'}
               onChange={(event) => setEmail(event.target.value)}
             />
-            <FormControl width={"250px"}>
+            {/* <FormControl width={"250px"}>
               <Select
                 onChange={(event) =>
                   setNoOfPeople(parseInt(event.target.value))
@@ -111,7 +111,7 @@ const Register: React.FC<RegisterASpaceProps> = () => {
                 <option>15</option>
                 <option>20</option>
               </Select>
-            </FormControl>
+            </FormControl> */}
             <label className="image__upload" style={{ width: '200px'}} htmlFor="file">
               イメージ選択
             </label>
