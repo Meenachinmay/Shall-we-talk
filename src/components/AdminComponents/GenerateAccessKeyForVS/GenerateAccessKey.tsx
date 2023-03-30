@@ -8,7 +8,7 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
-import { firestore } from "../firebase/clientApp";
+import { firestore } from "../../firebase/clientApp";
 
 type IVSRequests = {
   email: string;
@@ -68,8 +68,8 @@ const GenerateAccessKey: React.FC = () => {
     // generate url here
     generateURL();
     setLoading(false);
-    setEmailToEncrypt("")
-    setKey("")
+    setEmailToEncrypt("");
+    setKey("");
   }
 
   // generate a URL for user to login

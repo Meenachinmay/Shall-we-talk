@@ -1,7 +1,6 @@
 import { Button, Flex, HStack, Image, Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import NotificationsDrawer from "../../Drawers/NotificationsDrawer";
-import AuthModel from "../../Model/Auth/AuthModel";
 import AuthModelButtons from "./AuthModelButtons";
 import { auth, firestore } from "../../firebase/clientApp";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -107,7 +106,6 @@ const RightContent: React.FC = () => {
 
   return (
     <>
-      <AuthModel />
       <StatusModel />
       <LoaderModel />
       <Flex justify="center" align="center">
