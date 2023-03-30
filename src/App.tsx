@@ -20,7 +20,6 @@ const App: React.FC = () => {
         <Routes>
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/*" element={<PageNotFound />} />
           </Route>
 
           <Route path="/generate-access-key" element={<GenerateAccessKey />} />
