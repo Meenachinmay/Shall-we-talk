@@ -34,7 +34,6 @@ const App: React.FC = () => {
             <Route path="/create-profile/:email/:accessKey" element={<CreateProfile />} />
             <Route path="/profile/:id" element={<ViewProfile />} />
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
-            <Route path="/*" element={<PageNotFound />} />
           </Route>
           <Route path="/generate-access-key" element={<GenerateAccessKey />} />
           <Route path="/register-a-new-space" element={<RegisterSpace />} />

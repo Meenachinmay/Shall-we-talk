@@ -1,21 +1,25 @@
-import React from 'react'
-import { Text, Center, Flex, Link } from '@chakra-ui/react'
+import React from "react";
+import { Text, Flex, Link, Image } from "@chakra-ui/react";
+import FourZeroFour from "../images/404.svg";
 
 const PageNotFound: React.FC = () => {
   return (
     <div>
-      <Flex flexDirection="column" alignItems="center">
-        <Text fontSize="xl" color="red.500">
-          Page does not exists.
-        </Text>
+      <Flex
+        height={"100vh"}
+        justifyContent="center"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Image src={FourZeroFour} width="fit-content" height={"fit-content"} />
         <Text fontSize="md" color="gray.700">
-          <Link href="/">
-            Click here to go to home page.
+          <Link href="/" style={{ textDecoration: "none"}}>
+            <Text fontSize={'xl'} fontWeight='bold' color="red.500">ホームページへ戻ろう</Text>
           </Link>
         </Text>
       </Flex>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
-export default PageNotFound
+export default PageNotFound;
