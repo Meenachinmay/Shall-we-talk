@@ -14,6 +14,8 @@ import {
   Textarea,
   useToast,
   VStack,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -227,7 +229,15 @@ const CreateProfile: React.FC = () => {
               <Box w="full" mt={1}>
                 {uploadingImage ? <Progress value={bytesCount} mt={2} /> : null}
                 <VStack w="full" h="full" spacing={4} overflowY="scroll">
-                  <HStack w="full" mt={6} justifyContent="start">
+                  <Stack
+                    w="full"
+                    direction={"column"}
+                    mt={6}
+                    justifyContent="start"
+                  >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Name*
+                    </Text>
                     <Input
                       name="name"
                       maxLength={50}
@@ -251,8 +261,16 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  </Stack>
+                  <Stack
+                    w="full"
+                    direction={"column"}
+                    mt={6}
+                    justifyContent="start"
+                  >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Email*
+                    </Text>
                     <Input
                       name="email"
                       maxLength={50}
@@ -276,8 +294,16 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  </Stack>
+                  <Stack
+                    w="full"
+                    mt={6}
+                    direction={"column"}
+                    justifyContent="start"
+                  >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Company Name*
+                    </Text>
                     <Input
                       name="companyName"
                       maxLength={50}
@@ -302,8 +328,16 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  </Stack>
+                  <Stack
+                    w="full"
+                    mt={6}
+                    direction={"column"}
+                    justifyContent="start"
+                  >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Company Profile*
+                    </Text>
                     <Input
                       name="companyProfile"
                       maxLength={100}
@@ -328,8 +362,16 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  </Stack>
+                  <Stack
+                    w="full"
+                    mt={6}
+                    direction={"column"}
+                    justifyContent="start"
+                  >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Company Name*
+                    </Text>
                     <Input
                       name="workProfile"
                       maxLength={50}
@@ -354,8 +396,11 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack w="full" mt={6} justifyContent="start">
+                  </Stack>
+                  <Stack w="full" mt={6} justifyContent="start">
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Hobbies*
+                    </Text>
                     <Input
                       name="hobbies"
                       maxLength={50}
@@ -380,13 +425,17 @@ const CreateProfile: React.FC = () => {
                       }}
                       bg="gray.50"
                     />
-                  </HStack>
-                  <HStack
+                  </Stack>
+                  <Stack
                     w="full"
                     mt={6}
+                    direction={"column"}
                     justifyContent="start"
                     overflowY="scroll"
                   >
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Pet*
+                    </Text>
                     <Input
                       name="pet"
                       maxLength={50}
@@ -412,9 +461,12 @@ const CreateProfile: React.FC = () => {
                       bg="gray.50"
                       textOverflow="clip"
                     />
-                  </HStack>
+                  </Stack>
 
                   <Flex flexDirection="column" w="full" mt={6}>
+                    <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
+                      Pr*
+                    </Text>
                     <Textarea
                       resize={"vertical"}
                       maxLength={200}

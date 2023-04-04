@@ -13,6 +13,8 @@ import {
   Button,
   Progress,
   Textarea,
+  Text,
+  Stack
 } from "@chakra-ui/react";
 import {
   collection,
@@ -281,7 +283,8 @@ const UpdateProfile: React.FC = () => {
                     overflowY="auto"
                     alignItems={"center"}
                   >
-                    <HStack w="full" mt={3} justifyContent="start">
+                    <Stack direction={'column'} w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Name*</Text>
                       <Input
                         name="name"
                         maxLength={50}
@@ -305,8 +308,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Email*</Text>
                       <Input
                         name="email"
                         maxLength={50}
@@ -330,8 +334,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Company Name*</Text>
                       <Input
                         name="companyName"
                         maxLength={50}
@@ -355,8 +360,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Company Profile*</Text>
                       <Input
                         name="companyProfile"
                         maxLength={100}
@@ -380,8 +386,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Work Profile*</Text>
                       <Input
                         name="workProfile"
                         maxLength={50}
@@ -405,8 +412,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Hobbies*</Text>
                       <Input
                         name="hobbies"
                         maxLength={50}
@@ -430,8 +438,9 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-                    <HStack w="full" mt={3} justifyContent="start">
+                    </Stack>
+                    <Stack w="full" mt={3} justifyContent="start">
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Pet*</Text>
                       <Input
                         name="pet"
                         maxLength={50}
@@ -455,14 +464,14 @@ const UpdateProfile: React.FC = () => {
                         }}
                         bg="gray.50"
                       />
-                    </HStack>
-
+                    </Stack>
                     <Flex
                       flexDirection="column"
                       w="full"
                       mt={3}
                       justifyContent="start"
                     >
+                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>PR*</Text>
                       <Textarea
                         resize={"vertical"}
                         maxLength={200}
