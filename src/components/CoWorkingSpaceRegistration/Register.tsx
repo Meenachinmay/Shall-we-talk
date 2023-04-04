@@ -1,4 +1,4 @@
-import { Button, Flex, FormControl, Select } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useState } from "react";
@@ -8,7 +8,6 @@ import { firestore, storage } from "../firebase/clientApp";
 type RegisterASpaceProps = {};
 
 const Register: React.FC<RegisterASpaceProps> = () => {
-  const [noOfPeople, setNoOfPeople] = useState<number>(0);
   const [email, setEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [vsImageUrl, setVsImageURL] = useState<string | "">("");
@@ -61,7 +60,6 @@ const Register: React.FC<RegisterASpaceProps> = () => {
       email: email,
       vsImage: vsImageUrl,
       keyActivated: false,
-      noOfPeople: noOfPeople,
       virtualSpaceAlloted: false,
     });
     setLoading(false);
@@ -96,22 +94,7 @@ const Register: React.FC<RegisterASpaceProps> = () => {
               placeholder="Email for registration..."
               type={'text'}
               onChange={(event) => setEmail(event.target.value)}
-            />
-            {/* <FormControl width={"250px"}>
-              <Select
-                onChange={(event) =>
-                  setNoOfPeople(parseInt(event.target.value))
-                }
-                placeholder="no of people"
-                fontSize={"xs"}
-                color='white'
-              >
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-                <option>20</option>
-              </Select>
-            </FormControl> */}
+            /> 
             <label className="image__upload" style={{ width: '200px'}} htmlFor="file">
               イメージ選択
             </label>

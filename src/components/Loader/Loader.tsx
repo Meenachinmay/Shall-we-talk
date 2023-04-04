@@ -22,12 +22,12 @@ const LoaderModel: React.FC = () => {
 
   return (
     <>
-      <Modal size={{ base: "xs", sm: "sm", md: "md"}} isOpen={loaderModel.open} onClose={handleClose}>
+      <Modal size={{ base: "xs", sm: "sm", md: "sm"}} isOpen={loaderModel.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent bg={"red.50"}>
-          <ModalHeader textAlign="center">Loader</ModalHeader>
+          <ModalHeader textAlign="center">ログアウト中</ModalHeader>
           <ModalCloseButton />
-          <ModalBody minH={"sm"} maxH={"sm"}>
+          <ModalBody minH={"xs"} maxH={"xs"}>
             <Center justifyContent={'center'} alignItems="center" className={"ExampleOfUsage"}>
               <LoadingSpin />
             </Center>

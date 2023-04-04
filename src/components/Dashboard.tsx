@@ -113,24 +113,28 @@ const Dashboard: React.FC = () => {
   };
 
   // this use effect to load all the logged in users from the database
-  useEffect(() => { 
+  useEffect(() => {
     setLoading(true);
     const unsub2 = onSnapshot(onlineUserCol, (snapshot) => {
-      let data: UserData[] = []; 
+      let data: UserData[] = [];
       if (snapshot.docChanges().length) {
         snapshot.forEach((doc) => {
-          if (doc.data().spaceId === email) {
+          if (doc.data().spaceId === window.atob(email!)){
             data.push(doc.data() as UserData);
           }
         });
         setOnlineUsers(data);
         setLoading(false);
-      } 
+      }
     });
 
     // fetching details of a particular space
     async function fetchSpaceDetails() {
-      const docRef = doc(firestore, "co-workingSpaces", `spaceId-${email}`);
+      const docRef = doc(
+        firestore,
+        "co-workingSpaces",
+        `spaceId-${window.atob(email!)}`
+      );
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setSpaceDetails({

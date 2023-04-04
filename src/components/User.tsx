@@ -130,7 +130,7 @@ const User: React.FC<UserProps> = ({
             >
               <div style={{ display: "flex" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div>{userName}</div>
+                  <div style={{ fontWeight: "bolder"}}>{userName}</div>
                   <div>{companyName}</div>
                 </div>
               </div>
@@ -167,7 +167,7 @@ const User: React.FC<UserProps> = ({
             >
               <div style={{ display: "flex" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div>{userName}</div>
+                  <div style={{ fontWeight: 'bolder'}}>{userName}</div>
                   <div>{companyName}</div>
                 </div>
               </div>
