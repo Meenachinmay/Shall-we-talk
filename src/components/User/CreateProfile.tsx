@@ -25,7 +25,7 @@ import { currentUserState } from "../../atoms/currentUserState";
 import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 import { firestore, storage } from "../firebase/clientApp";
 import "../homepage.css";
-import { isMobile } from 'react-device-detect'
+import { isMobile } from "react-device-detect";
 
 const CreateProfile: React.FC = () => {
   const [owner, setOwner] = useState("");
@@ -41,7 +41,7 @@ const CreateProfile: React.FC = () => {
   const [uploadingImage, setuploadingImage] = useState<Boolean>(false);
   const [bytesCount, setBytesCount] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
-  const [mobile, setMobile] = useState<boolean>(false)
+  const [mobile, setMobile] = useState<boolean>(false);
   const toast = useToast();
   const navigate = useNavigate();
   const { email, accessKey } = useParams();
@@ -74,7 +74,7 @@ const CreateProfile: React.FC = () => {
           profileImage: putImage(),
           userId: currentUser.id,
           accessKey: accessKey,
-          spaceId: email,
+          spaceId: window.atob(email!),
         }
       );
 
@@ -84,7 +84,7 @@ const CreateProfile: React.FC = () => {
         id: currentUser.id,
         name: owner,
         accessKey: accessKey,
-        spaceId: email,
+        spaceId: window.atob(email!),
         companyName: companyName,
         companyProfile: companyProfile,
         profileImage: profileImage,
@@ -102,13 +102,13 @@ const CreateProfile: React.FC = () => {
           id: currentUser.id,
           name: owner,
           accessKey: accessKey,
-          spaceId: email,
+          spaceId: window.atob(email!),
           online: true,
           status: "do_not_want_to_talk",
           userPosX: generateRandomPositions(100, 500).x,
           userPosY: generateRandomPositions(100, 500).y,
           profileImage: putImage(),
-          mobileUser: mobile ? true : false
+          mobileUser: mobile ? true : false,
         });
       } catch (error) {
         console.log(error);
@@ -124,7 +124,6 @@ const CreateProfile: React.FC = () => {
         isClosable: true,
       });
 
-      // add user to vs-users collection here
       navigate(`/dashboard/${email}`);
     } catch (error) {
       console.error(error);
@@ -138,7 +137,10 @@ const CreateProfile: React.FC = () => {
         return;
       }
 
-      const storageRef = ref(storage, `user-profile-images/userProfileImage-${file.name}`);
+      const storageRef = ref(
+        storage,
+        `user-profile-images/userProfileImage-${file.name}`
+      );
       const uploadTask = uploadBytesResumable(storageRef, file);
       setuploadingImage(true);
       uploadTask.on(
@@ -173,22 +175,20 @@ const CreateProfile: React.FC = () => {
   };
 
   useEffect(() => {
-
     if (isMobile) {
-      setMobile(true)
+      setMobile(true);
     }
 
     if (!file) {
       return;
     }
 
-    handleCreateProfileImage()
+    handleCreateProfileImage();
 
     return () => {
-      setFile(null)
-    }
-    
-  }, [file])
+      setFile(null);
+    };
+  }, [file]);
 
   return (
     <VStack h="full" spacing={0} justifyContent="start">
@@ -221,7 +221,7 @@ const CreateProfile: React.FC = () => {
                     type="file"
                     id="file"
                     style={{ display: "none" }}
-                  /> 
+                  />
                 </div>
               </Flex>
               <Box w="full" mt={1}>

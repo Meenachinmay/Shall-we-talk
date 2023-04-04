@@ -1,12 +1,5 @@
 import {
-  Button,
-  Text,
-  VStack,
-  Input,
-  useToast,
-  useMediaQuery,
-  Flex,
-  Center,
+  Button, Center, Flex, Input, Text, useMediaQuery, useToast
 } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import {
@@ -16,7 +9,7 @@ import {
   limit,
   query,
   setDoc,
-  where,
+  where
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -127,7 +120,7 @@ const Register: React.FC<RegisterProps> = () => {
       id: userC.user.uid,
       email: userC.user.email,
       accessKey: accessKey,
-      spaceId: email,
+      spaceId: window.atob(email),
     });
     setAddingUserToUsers(false);
   }
@@ -144,7 +137,7 @@ const Register: React.FC<RegisterProps> = () => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         if (doc.exists()) {
-          setEmail(doc.data().spaceId);
+          setEmail(window.btoa(doc.data().spaceId));
           setTest(true);
           setFetchingSpace(false);
         }

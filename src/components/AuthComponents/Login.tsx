@@ -36,7 +36,7 @@ const Login: React.FC<LoginProps> = () => {
   const toast = useToast();
   const [userEmail, setUserEmail] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
-  const [key, setAccessKey] = useState<string>("");
+  const [accessKey, setAccessKey] = useState<string>("");
   const navigate = useNavigate();
   const [currentUser, setCurrentUserState] = useRecoilState(currentUserState);
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
@@ -77,7 +77,7 @@ const Login: React.FC<LoginProps> = () => {
             await setDoc(doc(firestore, `vs-users/userId-${userC.user.uid}`), {
               companyName: docSnap.data().companyName,
               id: userC.user.uid,
-              spaceId: email,
+              spaceId: window.atob(email),
               name: docSnap.data().name,
               online: true,
               status: "do_not_want_to_talk",
@@ -99,7 +99,7 @@ const Login: React.FC<LoginProps> = () => {
             status: "do_not_want_to_talk",
             userPosX: a,
             userPosY: b,
-            spaceId: email,
+            spaceId: window.atob(email),
           }));
 
           // setting current user profile (id, name, companyName, companyProfile, workProfile, profileImage, hobbies, pet, pr)
@@ -118,7 +118,7 @@ const Login: React.FC<LoginProps> = () => {
           }));
         } else {
           // redirect user to create profile page
-          navigate(`/create-profile/${email}/${key}`);
+          navigate(`/create-profile/${email}/${accessKey}`);
         }
 
         setCurrentUserLogoutState((prev) => ({
@@ -179,13 +179,13 @@ const Login: React.FC<LoginProps> = () => {
       setFetchingSpace(true);
       const q = query(
         collection(firestore, "access-keys"),
-        where("accessKey", "==", `${key}`),
+        where("accessKey", "==", `${accessKey}`),
         limit(1)
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         if (doc.exists()) {
-          setEmail(doc.data().spaceId);
+          setEmail(window.btoa(doc.data().spaceId));
           setTest(true);
           setFetchingSpace(false);
         }
@@ -196,7 +196,7 @@ const Login: React.FC<LoginProps> = () => {
     setTest(false);
 
     return () => {};
-  }, [key]);
+  }, [accessKey]);
 
   return (
     <Center width={"full"} height={"full"}>
