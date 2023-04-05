@@ -31,13 +31,13 @@ const PrivacyPolicyModel: React.FC = () => {
   };
 
   useEffect(() => {
-    getDownloadURL(
-      ref(storage, "Shall We Talkプライバシーポリシー.pdf")
-    ).then((url) => {
-      setURL1(url);
-    });
+    getDownloadURL(ref(storage, "swtプライバシーポリシー.pdf")).then(
+      (url) => {
+        setURL1(url);
+      }
+    );
 
-    getDownloadURL(ref(storage, "Shall We Talk利用規約.pdf")).then((url) => {
+    getDownloadURL(ref(storage, "swt利用規約.pdf")).then((url) => {
       setURL2(url);
     });
   });

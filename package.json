@@ -26,6 +26,7 @@
     "framer-motion": "^8.0.1",
     "gltf-loader-ts": "^0.3.1",
     "install": "^0.13.0",
+    "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
     "konva": "^8.3.12",
     "react": "^18.2.0",
@@ -72,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/joi": "^17.2.3",
     "@types/react-query": "^1.2.9",
     "@types/styled-components": "^5.1.26",
     "@types/swiper": "^6.0.0",

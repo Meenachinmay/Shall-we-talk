@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
 import {
-  Flex,
-  VStack,
-  Center,
-  Text,
-  Input,
-  Button,
-  useToast,
+  Button, Center, Flex, Input, Text, useToast, VStack
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   collection,
   doc,
@@ -17,18 +10,18 @@ import {
   limit,
   query,
   setDoc,
-  where,
+  where
 } from "firebase/firestore";
-import { auth, firestore } from "../firebase/clientApp";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { currentUserState } from "../../atoms/currentUserState";
-import { currentUserProfileState } from "../../atoms/currentUserProfileState";
-import { currentUserLogoutState } from "../../atoms/currentUserLogoutState";
-import { myMessagesModelState } from "../../atoms/myMessagesModelState";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { generateRandomPositions } from "../../utilservices/ExternalMethods";
-import { authModelState } from "../../atoms/authModelState";
+import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { currentUserLogoutState } from "../../atoms/currentUserLogoutState";
+import { currentUserProfileState } from "../../atoms/currentUserProfileState";
+import { currentUserState } from "../../atoms/currentUserState";
+import { myMessagesModelState } from "../../atoms/myMessagesModelState";
+import { generateRandomPositions } from "../../utilservices/ExternalMethods";
+import { auth, firestore } from "../firebase/clientApp";
 
 type LoginProps = {};
 
@@ -42,7 +35,6 @@ const Login: React.FC<LoginProps> = () => {
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
-  const setAuthModelState = useSetRecoilState(authModelState);
   const [userLogout, setCurrentUserLogoutState] = useRecoilState(
     currentUserLogoutState
   );
@@ -56,6 +48,12 @@ const Login: React.FC<LoginProps> = () => {
 
   // this method handle login logic
   async function handleLogin() {
+   
+    if (!userEmail || !userPassword || !accessKey) {
+      alert('please fill all the fields to login')
+      return
+    }
+
     // set login logic here. if login success then
     setLoading(true);
     signInWithEmailAndPassword(auth, userEmail, userPassword)
@@ -271,7 +269,7 @@ const Login: React.FC<LoginProps> = () => {
             variant="solid"
             height="36px"
           >
-           ダッシュボードにログイン 
+            ダッシュボードにログイン
           </Button>
           <Text
             onClick={() => navigate("/password-reset", { replace: false })}
