@@ -1,11 +1,13 @@
-import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Input, Text, Flex, Button } from "@chakra-ui/react";
 import {
   collection,
-  doc, getDocs,
+  doc,
+  getDoc,
+  getDocs,
   query,
-  setDoc
+  setDoc,
 } from "firebase/firestore";
-import React, { useState } from "react";
 import { firestore } from "../firebase/clientApp";
 
 type IVSRequests = {

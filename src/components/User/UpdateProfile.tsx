@@ -297,7 +297,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Name*
+                          お名前*
                         </Text>
                         <Input
                           name="name"
@@ -330,7 +330,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Email*
+                          メールアドレス*
                         </Text>
                         <Input
                           name="email"
@@ -363,7 +363,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Company Name*
+                          所属（会社名・部署名等）*
                         </Text>
                         <Input
                           name="companyName"
@@ -396,7 +396,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Company Profile*
+                          所属組織の紹介*
                         </Text>
                         <Input
                           name="companyProfile"
@@ -429,7 +429,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Work Profile*
+                          職業プロフィール*
                         </Text>
                         <Input
                           name="workProfile"
@@ -462,7 +462,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Hobbies*
+                          趣味*
                         </Text>
                         <Input
                           name="hobbies"
@@ -495,7 +495,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          Pet*
+                          ペット*
                         </Text>
                         <Input
                           name="pet"
@@ -533,7 +533,7 @@ const UpdateProfile: React.FC = () => {
                           color="red.600"
                           fontWeight={"bold"}
                         >
-                          PR*
+                          自己紹介文*
                         </Text>
                         <Textarea
                           resize={"vertical"}

@@ -238,7 +238,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Name*
+                        お名前*
                       </Text>
                       <Input
                         name="name"
@@ -272,7 +272,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Email*
+                        メールアドレス*
                       </Text>
                       <Input
                         name="email"
@@ -306,7 +306,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Company Name*
+                        所属（会社名・部署名等）*
                       </Text>
                       <Input
                         name="companyName"
@@ -341,7 +341,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Company Profile*
+                        所属組織の紹介*
                       </Text>
                       <Input
                         name="companyProfile"
@@ -376,7 +376,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Work Profile*
+                        職業プロフィール*
                       </Text>
                       <Input
                         name="workProfile"
@@ -406,7 +406,7 @@ const CreateProfile: React.FC = () => {
                     </Stack>
                     <Stack w="full" mt={6} justifyContent="start">
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Hobbies*
+                        趣味*
                       </Text>
                       <Input
                         name="hobbies"
@@ -442,7 +442,7 @@ const CreateProfile: React.FC = () => {
                       overflowY="scroll"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Pet*
+                        ペット*
                       </Text>
                       <Input
                         name="pet"
@@ -474,7 +474,7 @@ const CreateProfile: React.FC = () => {
 
                     <Flex flexDirection="column" w="full" mt={6}>
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Pr*
+                        自己紹介文*
                       </Text>
                       <Textarea
                         resize={"vertical"}
