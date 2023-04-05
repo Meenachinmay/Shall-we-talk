@@ -262,9 +262,9 @@ const Register: React.FC<RegisterProps> = () => {
           isLoading={loading || fetchingSpace}
           loadingText={
             loading
-              ? "Registering yourself..."
+              ? "新規登録中"
               : fetchingSpace
-              ? "Fetching space..."
+              ? "スペース詳細を取り込み中"
               : ""
           }
           type="submit"

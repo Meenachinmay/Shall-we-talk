@@ -14,7 +14,7 @@ import {
   Progress,
   Textarea,
   Text,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
 import {
   collection,
@@ -55,7 +55,7 @@ const UpdateProfile: React.FC = () => {
   const { id } = useParams();
   const profileCol = collection(firestore, "userProfiles");
   const [file, setFile] = useState<File | null>(null);
-  const [mobile, setMobile] = useState<boolean>(false)
+  const [mobile, setMobile] = useState<boolean>(false);
   const [currentUserProfile, setCurrentUserProfileState] = useRecoilState(
     currentUserProfileState
   );
@@ -96,7 +96,10 @@ const UpdateProfile: React.FC = () => {
         return;
       }
 
-      const storageRef = ref(storage, `user-profile-images/userProfileImage-${file.name}`);
+      const storageRef = ref(
+        storage,
+        `user-profile-images/userProfileImage-${file.name}`
+      );
       const uploadTask = uploadBytesResumable(storageRef, file);
       setUploadingImage(true);
       uploadTask.on(
@@ -159,14 +162,14 @@ const UpdateProfile: React.FC = () => {
         userPosX: currentUserSt.userPosX,
         userPosY: currentUserSt.userPosY,
         profileImage: profileImage || userProfile.profileImage,
-        mobileUser: mobile ? true : false
+        mobileUser: mobile ? true : false,
       });
 
       // updating global state here for current user profile
       setCurrentUserProfileState((prev) => ({
         ...prev,
-        name: userName || userProfile.name
-      }))
+        name: userName || userProfile.name,
+      }));
 
       setUpdating(false);
       setProfileImage("");
@@ -198,9 +201,8 @@ const UpdateProfile: React.FC = () => {
 
   // fetching profile for a user
   useEffect(() => {
-    
     if (isMobile) {
-      setMobile(true)
+      setMobile(true);
     }
 
     const profileQuery = query(
@@ -282,242 +284,304 @@ const UpdateProfile: React.FC = () => {
                     flexDirection={"column"}
                     overflowY="auto"
                     alignItems={"center"}
+                    justifyContent={"center"}
                   >
-                    <Stack direction={'column'} w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Name*</Text>
-                      <Input
-                        name="name"
-                        maxLength={50}
-                        placeholder={userProfile.name}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        onChange={(e) => setUserName(e.target.value)}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
+                      <Stack
+                        direction={"column"}
+                        w="full"
+                        mt={3}
+                        justifyContent="center"
+                      >
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Name*
+                        </Text>
+                        <Input
+                          name="name"
+                          required
+                          maxLength={50}
+                          placeholder={userProfile.name}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          onChange={(e) => setUserName(e.target.value)}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Email*
+                        </Text>
+                        <Input
+                          name="email"
+                          required
+                          maxLength={50}
+                          placeholder={userProfile.email}
+                          type="email"
+                          mb={2}
+                          mt={2}
+                          onChange={(e) => setEmail(e.target.value)}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Company Name*
+                        </Text>
+                        <Input
+                          name="companyName"
+                          required
+                          maxLength={50}
+                          onChange={(e) => setCompanyName(e.target.value)}
+                          placeholder={userProfile.companyName}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Company Profile*
+                        </Text>
+                        <Input
+                          name="companyProfile"
+                          required
+                          maxLength={100}
+                          onChange={(e) => setCompanyProfile(e.target.value)}
+                          placeholder={userProfile.companyProfile}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Work Profile*
+                        </Text>
+                        <Input
+                          name="workProfile"
+                          required
+                          maxLength={50}
+                          onChange={(e) => setworkProfile(e.target.value)}
+                          placeholder={userProfile.workProfile}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Hobbies*
+                        </Text>
+                        <Input
+                          name="hobbies"
+                          required
+                          maxLength={50}
+                          onChange={(e) => setHobbies(e.target.value)}
+                          placeholder={userProfile.hobbies}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Stack w="full" mt={3} justifyContent="start">
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          Pet*
+                        </Text>
+                        <Input
+                          name="pet"
+                          required
+                          maxLength={50}
+                          onChange={(e) => setPet(e.target.value)}
+                          placeholder={userProfile.pet}
+                          type="text"
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Stack>
+                      <Flex
+                        flexDirection="column"
+                        w="full"
+                        mt={3}
+                        justifyContent="start"
+                      >
+                        <Text
+                          fontSize={"xs"}
+                          color="red.600"
+                          fontWeight={"bold"}
+                        >
+                          PR*
+                        </Text>
+                        <Textarea
+                          resize={"vertical"}
+                          required
+                          maxLength={200}
+                          name="pr"
+                          onChange={(e) => setPr(e.target.value)}
+                          placeholder={userProfile.pr}
+                          mb={2}
+                          mt={2}
+                          fontSize="10pt"
+                          _placeholder={{ color: "gray.500" }}
+                          _hover={{
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          _focus={{
+                            outline: "none",
+                            bg: "white",
+                            border: "1px solid",
+                            borderColor: "blue.500",
+                          }}
+                          bg="gray.50"
+                        />
+                      </Flex>
+                      <Button
+                        mt={5}
+                        isLoading={updating}
+                        loadingText={"アップデート中"}
                         _hover={{
                           bg: "white",
                           border: "1px solid",
-                          borderColor: "blue.500",
+                          borderColor: "red.500",
+                          color: "red.500",
                         }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Email*</Text>
-                      <Input
-                        name="email"
-                        maxLength={50}
-                        placeholder={userProfile.email}
-                        type="email"
-                        mb={2}
-                        mt={2}
-                        onChange={(e) => setEmail(e.target.value)}
                         fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Company Name*</Text>
-                      <Input
-                        name="companyName"
-                        maxLength={50}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder={userProfile.companyName}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Company Profile*</Text>
-                      <Input
-                        name="companyProfile"
-                        maxLength={100}
-                        onChange={(e) => setCompanyProfile(e.target.value)}
-                        placeholder={userProfile.companyProfile}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Work Profile*</Text>
-                      <Input
-                        name="workProfile"
-                        maxLength={50}
-                        onChange={(e) => setworkProfile(e.target.value)}
-                        placeholder={userProfile.workProfile}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Hobbies*</Text>
-                      <Input
-                        name="hobbies"
-                        maxLength={50}
-                        onChange={(e) => setHobbies(e.target.value)}
-                        placeholder={userProfile.hobbies}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Stack w="full" mt={3} justifyContent="start">
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>Pet*</Text>
-                      <Input
-                        name="pet"
-                        maxLength={50}
-                        onChange={(e) => setPet(e.target.value)}
-                        placeholder={userProfile.pet}
-                        type="text"
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Stack>
-                    <Flex
-                      flexDirection="column"
-                      w="full"
-                      mt={3}
-                      justifyContent="start"
-                    >
-                      <Text fontSize={'xs'} color="red.600" fontWeight={'bold'}>PR*</Text>
-                      <Textarea
-                        resize={"vertical"}
-                        maxLength={200}
-                        name="pr"
-                        onChange={(e) => setPr(e.target.value)}
-                        placeholder={userProfile.pr}
-                        mb={2}
-                        mt={2}
-                        fontSize="10pt"
-                        _placeholder={{ color: "gray.500" }}
-                        _hover={{
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        _focus={{
-                          outline: "none",
-                          bg: "white",
-                          border: "1px solid",
-                          borderColor: "blue.500",
-                        }}
-                        bg="gray.50"
-                      />
-                    </Flex>
-                    <Button
-                      mt={5}
-                      isLoading={updating}
-                      loadingText={"Updating..."}
-                      _hover={{
-                        bg: "white",
-                        border: "1px solid",
-                        borderColor: "red.500",
-                        color: "red.500",
-                      }}
-                      onClick={handleUpdateProfile}
-                      fontSize="10pt"
-                      fontWeight={700}
-                      bg="red.500"
-                      color="white"
-                      variant="solid"
-                      height="36px"
-                      width={{ base: "80%", lg: "100%" }}
-                      className="my__button"
-                    >
-                      実行
-                    </Button>
+                        fontWeight={700}
+                        bg="red.500"
+                        color="white"
+                        variant="solid"
+                        height="36px"
+                        width={{ base: "80%", lg: "100%" }}
+                        className="my__button"
+                        onClick={handleUpdateProfile}
+                      >
+                        実行
+                      </Button>
                   </Flex>
                 </Box>
               </Flex>
