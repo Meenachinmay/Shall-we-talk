@@ -286,7 +286,6 @@ const UpdateProfile: React.FC = () => {
                     alignItems={"center"}
                     justifyContent={"center"}
                   >
-                    <form onSubmit={handleUpdateProfile} style={{ width: "100%" }}>
                       <Stack
                         direction={"column"}
                         w="full"
@@ -564,7 +563,7 @@ const UpdateProfile: React.FC = () => {
                       <Button
                         mt={5}
                         isLoading={updating}
-                        loadingText={"Updating..."}
+                        loadingText={"アップデート中"}
                         _hover={{
                           bg: "white",
                           border: "1px solid",
@@ -579,11 +578,10 @@ const UpdateProfile: React.FC = () => {
                         height="36px"
                         width={{ base: "80%", lg: "100%" }}
                         className="my__button"
-                        type="submit"
+                        onClick={handleUpdateProfile}
                       >
                         実行
                       </Button>
-                    </form>
                   </Flex>
                 </Box>
               </Flex>

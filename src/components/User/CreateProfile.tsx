@@ -237,7 +237,6 @@ const CreateProfile: React.FC = () => {
                   spacing={4}
                   overflowY="scroll"
                 >
-                  <form style={{ width: "100%"}} onSubmit={handleCreateProfile}>
                     <Stack
                       w="full"
                       direction={"column"}
@@ -383,7 +382,7 @@ const CreateProfile: React.FC = () => {
                       justifyContent="start"
                     >
                       <Text fontSize={"xs"} color="red.600" fontWeight={"bold"}>
-                        Company Name*
+                        Work Profile*
                       </Text>
                       <Input
                         name="workProfile"
@@ -511,7 +510,7 @@ const CreateProfile: React.FC = () => {
                     </Flex>
                     <Button
                       isLoading={loading}
-                      loadingText={"please wait"}
+                      loadingText={"作成中"}
                       _hover={{
                         bg: "white",
                         border: "1px solid",
@@ -519,8 +518,8 @@ const CreateProfile: React.FC = () => {
                         color: "red.500",
                       }}
                       fontSize="10pt"
-                      type="submit"
                       fontWeight={700}
+                      onClick={handleCreateProfile}
                       bg="red.500"
                       color="white"
                       variant="solid"
@@ -530,7 +529,6 @@ const CreateProfile: React.FC = () => {
                     >
                       プロフィール作成
                     </Button>
-                  </form>
                 </Stack>
               </Box>
             </Flex>

@@ -254,9 +254,9 @@ const Login: React.FC<LoginProps> = () => {
             }}
             loadingText={
               loading
-                ? "Signing in..."
+                ? "サインイン中"
                 : fetchingSpace
-                ? "fetching space..."
+                ? "スペース詳細を取り込み中"
                 : ""
             }
             isLoading={loading || fetchingSpace}
