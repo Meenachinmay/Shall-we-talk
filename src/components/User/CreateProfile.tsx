@@ -4,22 +4,17 @@ import {
   Button,
   Container,
   Divider,
-  Flex,
-  HStack,
-  Input,
-  Progress,
-  Stat,
+  Flex, Input,
+  Progress, Stack, Stat,
   StatLabel,
-  StatNumber,
-  Textarea,
+  StatNumber, Text, Textarea,
   useToast,
-  VStack,
-  Stack,
-  Text,
+  VStack
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
@@ -27,10 +22,9 @@ import { currentUserState } from "../../atoms/currentUserState";
 import { generateRandomPositions } from "../../utilservices/ExternalMethods";
 import { firestore, storage } from "../firebase/clientApp";
 import "../homepage.css";
-import { isMobile } from "react-device-detect";
 
 const CreateProfile: React.FC = () => {
-  const [owner, setOwner] = useState("");
+  const [userName, setUserName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyProfile, setCompanyProfile] = useState("");
   const [workProfile, setworkProfile] = useState("");
@@ -65,7 +59,7 @@ const CreateProfile: React.FC = () => {
       await setDoc(
         doc(firestore, `userProfiles/userProfileId-${currentUser.id}`),
         {
-          name: owner,
+          name: userName,
           email: currentUser.email,
           companyName: companyName,
           companyProfile: companyProfile,
@@ -84,7 +78,7 @@ const CreateProfile: React.FC = () => {
       setCurrentUserProfileState((prev) => ({
         ...prev,
         id: currentUser.id,
-        name: owner,
+        name: userName,
         accessKey: accessKey,
         spaceId: window.atob(email!),
         companyName: companyName,
@@ -102,7 +96,7 @@ const CreateProfile: React.FC = () => {
         await setDoc(doc(firestore, `vs-users/userId-${currentUser.id}`), {
           companyName: companyName,
           id: currentUser.id,
-          name: owner,
+          name: userName,
           accessKey: accessKey,
           spaceId: window.atob(email!),
           online: true,
@@ -205,14 +199,14 @@ const CreateProfile: React.FC = () => {
           <Box p={6} w="full" h="full" overflow="auto">
             <Stat mt={6}>
               <StatLabel color="gray.500">Creating Profile of</StatLabel>
-              <StatNumber>{owner}</StatNumber>
+              <StatNumber>{userName}</StatNumber>
             </Stat>
             <Box w="full">
               <Divider color="gray.100" />
             </Box>
             <Flex py={3} flexDirection="column" justifyContent="flex-start">
               <Flex alignItems={"center"}>
-                <Avatar name={owner} size="xl" src={profileImage}></Avatar>
+                <Avatar name={userName} size="xl" src={profileImage}></Avatar>
                 <div>
                   <label className="image__upload" htmlFor="file">
                     イメージ選択
@@ -254,7 +248,7 @@ const CreateProfile: React.FC = () => {
                         type="text"
                         mb={2}
                         mt={2}
-                        onChange={(e) => setOwner(e.target.value)}
+                        onChange={(e) => setUserName(e.target.value)}
                         fontSize="10pt"
                         _placeholder={{ color: "gray.500" }}
                         _hover={{

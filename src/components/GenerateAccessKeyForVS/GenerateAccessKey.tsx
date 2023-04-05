@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import { Input, Text, Flex, Button } from "@chakra-ui/react";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import {
   collection,
-  doc,
-  getDoc,
-  getDocs,
+  doc, getDocs,
   query,
-  setDoc,
+  setDoc
 } from "firebase/firestore";
+import React, { useState } from "react";
 import { firestore } from "../firebase/clientApp";
 
 type IVSRequests = {
@@ -24,9 +22,7 @@ const GenerateAccessKey: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [fetchingSpaces, setFetchingSpaces] = useState<boolean>(false);
   const [key, setKey] = useState<string>("");
-  const [encryptedEmail, setEncryptedEmail] = useState<string>("");
   const [emailToEncrypt, setEmailToEncrypt] = useState<string>("");
-  const [generatedUrl, setGeneratedUrl] = useState<string>("");
 
   // fetch requests from co-working space
   async function fetchRequests() {
@@ -49,13 +45,13 @@ const GenerateAccessKey: React.FC = () => {
     }
 
     // Getting encoded email
-    const docRef = doc(firestore, "keys", `spaceId-${emailToEncrypt}`);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setEncryptedEmail(docSnap.data().key);
-    } else {
-      console.log("No such data is avaiable");
-    }
+    // const docRef = doc(firestore, "keys", `spaceId-${emailToEncrypt}`);
+    // const docSnap = await getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   setEncryptedEmail(docSnap.data().key);
+    // } else {
+    //   console.log("No such data is avaiable");
+    // }
 
     // saving this key in database
     setLoading(true);
@@ -66,18 +62,12 @@ const GenerateAccessKey: React.FC = () => {
     });
 
     // generate url here
-    generateURL();
     setLoading(false);
     setEmailToEncrypt("")
     setKey("")
   }
 
-  // generate a URL for user to login
-  function generateURL() {
-    let URL = `http://localhost:3000/user-login/${encryptedEmail}/${key}`;
-    setGeneratedUrl(URL);
-  }
-
+  
   return (
     <Flex
       width={"full"}

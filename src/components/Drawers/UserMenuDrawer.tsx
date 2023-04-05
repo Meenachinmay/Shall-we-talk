@@ -14,12 +14,11 @@ import {
 import { useRef, useState } from "react";
 import { HiUser } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { currentUserLogoutState } from "../../atoms/currentUserLogoutState";
 import { currentUserProfileState } from "../../atoms/currentUserProfileState";
 import { currentUserState } from "../../atoms/currentUserState";
 import { loaderModelState } from "../../atoms/loaderModelState";
-import { userStatusModelState } from "../../atoms/userStatusModelState";
 import { auth, firestore } from "../firebase/clientApp";
 
 const UserMenuDrawer = () => {
@@ -37,6 +36,7 @@ const UserMenuDrawer = () => {
   const navigate = useNavigate();
   const [loaderModel, setLoaderModelState] = useRecoilState(loaderModelState);
 
+  // method to handle - when we click on logout button logout current logged in user
   const handleLogout = async () => {
     setLoading(true);
     setLoaderModelState({ open: true });
@@ -73,19 +73,21 @@ const UserMenuDrawer = () => {
       deleteDoc(doc.ref);
     });
 
+    onClose()
     setLoading(false);
     signOut(auth);
     localStorage.removeItem("recoil-persist");
     setLoaderModelState({ open: false });
   };
 
+  // method to handle - when we click on logged in user name
   const handleUserNameClick = () => {
     navigate(`/profile/${currentUser.id}`);
   };
 
   return (
     <>
-      <Tooltip label="User options" placement="bottom">
+      <Tooltip label="ユーザー選択" placement="bottom">
         <IconButton
           ref={btnRef}
           onClick={onOpen}
@@ -104,7 +106,7 @@ const UserMenuDrawer = () => {
         placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
-        size="md"
+        size="sm"
       >
         <DrawerOverlay />
         <DrawerContent>
