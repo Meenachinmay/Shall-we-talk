@@ -1,15 +1,15 @@
 import {
-    Button, Drawer,
-    DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader,
-    DrawerOverlay, Flex, IconButton, Tooltip, useDisclosure
+  Button, Drawer,
+  DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader,
+  DrawerOverlay, Flex, IconButton, Tooltip, useDisclosure
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import {
-    collection,
-    deleteDoc,
-    doc,
-    getDocs, query,
-    where
+  collection,
+  deleteDoc,
+  doc,
+  getDocs, query,
+  where
 } from "firebase/firestore";
 import { useRef, useState } from "react";
 import { HiUser } from "react-icons/hi";
@@ -35,7 +35,6 @@ const UserMenuDrawer = () => {
   );
   const messageCol = collection(firestore, "messages");
   const navigate = useNavigate();
-  const setUserStatusModelState = useSetRecoilState(userStatusModelState);
   const [loaderModel, setLoaderModelState] = useRecoilState(loaderModelState);
 
   const handleLogout = async () => {
@@ -131,7 +130,7 @@ const UserMenuDrawer = () => {
                   プロフィールへ
                 </Button>
                 <Button
-                  onClick={() => navigate(`/dashboard/${currentUser.spaceId}`)}
+                  onClick={() => navigate(`/dashboard/${window.btoa(currentUser.spaceId)}`)}
                   bg="red.500"
                   color="white"
                   _hover={{
