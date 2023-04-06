@@ -1,40 +1,28 @@
 import {
-  Flex,
-  Text,
-  HStack,
-  VStack,
-  Box,
-  Stat,
-  StatLabel,
-  StatNumber,
-  Container,
-  Divider,
   Avatar,
-  AvatarBadge,
-  Heading,
-  Button,
+  AvatarBadge, Box, Button, Container,
+  Divider, Flex, Heading, HStack, Stat,
+  StatLabel,
+  StatNumber, Text, VStack
 } from "@chakra-ui/react";
 import {
-  onSnapshot,
   collection,
-  limit,
-  query,
-  where,
+  limit, onSnapshot, query,
+  where
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../atoms/currentUserState";
-import { firestore } from "../firebase/clientApp";
-import { useParams } from "react-router-dom";
-import SendMessageModel from "../Model/Message/SendMessageModel";
+import { myMessagesModelState } from "../../atoms/myMessagesModelState";
 import { sendMessageModelState } from "../../atoms/sendMessageModelState";
 import { Message } from "../../types/Message";
-import { myMessagesModelState } from "../../atoms/myMessagesModelState";
+import { firestore } from "../firebase/clientApp";
+import SendMessageModel from "../Model/Message/SendMessageModel";
 import ViewMessages from "../Model/Message/ViewMessages";
-import { useNavigate } from "react-router-dom";
 
-import "../homepage.css";
 import { imageViewModelState } from "../../atoms/imageViewModelState";
+import "../homepage.css";
 import ImageViewModel from "../Model/Images/ImageViewModel";
 
 type Connection = {
