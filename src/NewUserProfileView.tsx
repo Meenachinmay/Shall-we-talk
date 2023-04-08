@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text, Stack, Image, Button, VStack } from "@chakra-ui/react";
+import { Flex, Text, Stack, Image, Button } from "@chakra-ui/react";
 
 const NewUserProfileView: React.FC = () => {
   return (
@@ -14,34 +14,55 @@ const NewUserProfileView: React.FC = () => {
         padding={0}
       >
         <Stack
-          direction={"row"}
-          justifyContent="space-between"
-          width={"70%"}
-          height={"700px"}
+          direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          width={{ base: "90%", md: "80%", lg: "80%"}}
+          height={{ base: "700px", sm: "700px", md: "700px", lg: "700px" }}
           borderRadius="20px"
           padding={"25px"}
           border="1px solid"
           borderColor={"gray.200"}
+          bg="red.50"
+          overflow={"scroll"}
         >
           <Flex
             alignItems="center"
             justifyContent="center"
             padding={"20px"}
-            width={"40%"}
+            width={{ base: "full", sm: "full", md: "40%", lg: "40%" }}
           >
-            <VStack
-              spacing={20}
+            <Flex
+              flexDirection={"column"}
+              gap={10}
               alignItems={"center"}
               justifyContent={"center"}
+              width="full"
             >
               <Image
                 rounded={"full"}
-                border=".5px solid"
-                h="300px"
-                w="300px"
+                border="5px solid"
+                borderColor={'blue.500'}
+                h={{ base: "200px", sm: "250px", md: "full", lg: "300px" }}
+                w={{ base: "200px", sm: "250px", md: "full", lg: "300px" }}
                 src="https://avatars.githubusercontent.com/u/16211217?v=4"
                 alt="User profile picutre"
               />
+              <Button
+                size={"sm"}
+                rounded="full"
+                variant={"outline"}
+                bg="red.500"
+                color="white"
+                _hover={{
+                  bg: "white",
+                  color: "red.500",
+                  borderColor: "red.500",
+                }}
+                fontSize="xs"
+              >
+                update profile image
+              </Button>
               <Button
                 width={"full"}
                 bg="red.500"
@@ -56,13 +77,13 @@ const NewUserProfileView: React.FC = () => {
               >
                 Send message
               </Button>
-            </VStack>
+            </Flex>
           </Flex>
           <Flex
             padding={"20px"}
             alignItems="start"
             justifyContent="start"
-            width={"60%"}
+            width={{ base: "full", sm: "full", md: "60%", lg: "60%"}}
             border="1px solid"
             borderColor="gray.200"
             borderRadius="20px"
@@ -74,33 +95,33 @@ const NewUserProfileView: React.FC = () => {
               height={"full"}
             >
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"3xl"} fontWeight="bold" color="gray.800">
+                <Text fontSize={{base: "2xl", md: "3xl"}} fontWeight="bold" color="gray.800">
                   Chinmay anand
                 </Text>
               </Stack>
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   所属名:
                 </Text>
-                <Text fontSize={"md"} fontWeight="light" color="gray.600">
+                <Text fontSize={{ base: "sm", md: "md", lg: "md"}} fontWeight="light" color="gray.600">
                   RCI
                 </Text>
               </Stack>
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   所属組織の紹介:
                 </Text>
-                <Text fontSize={"md"} fontWeight="light" color="gray.600">
+                <Text fontSize={{ base: "sm", md: "md", lg: "md"}} fontWeight="light" color="gray.600">
                   IT
                 </Text>
               </Stack>
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   職業プロフィール:
                 </Text>
                 <Text
                   width={"full"}
-                  fontSize={"md"}
+                  fontSize={{ base: "sm", md: "md", lg: "md"}}
                   fontWeight="light"
                   color="gray.600"
                 >
@@ -108,12 +129,12 @@ const NewUserProfileView: React.FC = () => {
                 </Text>
               </Stack>
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   趣味:
                 </Text>
                 <Text
                   width={"full"}
-                  fontSize={"md"}
+                  fontSize={{ base: "sm", md: "md", lg: "md"}}
                   fontWeight="light"
                   color="gray.600"
                 >
@@ -121,12 +142,12 @@ const NewUserProfileView: React.FC = () => {
                 </Text>
               </Stack>
               <Stack spacing={0} alignItems={"start"}>
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   飼っているペット:
                 </Text>
                 <Text
                   width={"full"}
-                  fontSize={"md"}
+                  fontSize={{ base: "sm", md: "md", lg: "md"}}
                   fontWeight="light"
                   color="gray.600"
                 >
@@ -139,12 +160,12 @@ const NewUserProfileView: React.FC = () => {
                 maxHeight={"150px"}
                 overflowY="scroll"
               >
-                <Text fontSize={"xl"} fontWeight="bold">
+                <Text fontSize={{ base: "md", md: "xl", lg: "xl"}} fontWeight="bold">
                   自己紹介文:
                 </Text>
                 <Text
                   width={"full"}
-                  fontSize={"md"}
+                  fontSize={{ base: "sm", md: "md", lg: "md"}}
                   fontWeight="light"
                   color="gray.600"
                 >
